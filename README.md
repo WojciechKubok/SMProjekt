@@ -1,2 +1,2 @@
 # SMProjekt
-CHUJ PIZDA SZCZUR
+No dzień dobry
