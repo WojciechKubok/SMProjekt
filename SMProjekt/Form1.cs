@@ -28,6 +28,9 @@ namespace SMProjekt
         bool stopRecord = true;
         private TimeSpan timer;
         private TimeSpan timeRecorded;
+        private string pathtoFile;
+        private bool endoffile = false;
+
         public Form1()
         {
             InitializeComponent();
@@ -44,24 +47,12 @@ namespace SMProjekt
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 Stop();
-
                 //open the selected file
-                ISampleSource source = CodecFactory.Instance.GetCodec(openFileDialog.FileName).ToSampleSource();
-
-                SetupSampleSource(source);
-
-                
-                //play the audio
-                _soundOut = new WasapiOut();
-                _soundOut.Initialize(_source);
-                _soundOut.Play();
-                timer1.Start();
-
-                
+                pathtoFile = openFileDialog.FileName;
             }
+            PlayFileAudio();
         }
 
-        
 
         //nagraj button
         private void button1_Click(object sender, EventArgs e)
@@ -101,35 +92,43 @@ namespace SMProjekt
                 timer2.Start();
             }
         }
+
         //stop odtwórz button
         private void stopButton_Click(object sender, EventArgs e)
         {
             Stop();
-
+            endoffile = true;
         }
 
         private void pauzePlayButton_Click(object sender, EventArgs e)
         {
-            if (_soundOut != null)
+            if (endoffile == true)
             {
-                if (stop)
+                PlayFileAudio();
+                endoffile = false;
+            }
+            else
+            {
+                if (_soundOut != null)
                 {
-                    pauzePlayButton.Text = "Start odtwarzania";
-                    timer1.Stop();
-                    _soundOut.Stop();
-                    stop = false;
-                    return;
-                }
-                if (!stop)
-                {
-                    pauzePlayButton.Text = "Pauza odtwarzania";
-                    timer1.Start();
-                    _soundOut.Play();
-                    stop = true;
-                    return;
+
+                        if (stop)
+                        {
+                            timer1.Stop();
+                            _soundOut.Stop();
+                            stop = false;
+                            return;
+                        }
+                        if (!stop)
+                        {
+                            timer1.Start();
+                            _soundOut.Play();
+                            stop = true;
+                            return;
+                        }
+                    
                 }
             }
-
         }
 
         /// <summary>
@@ -168,13 +167,6 @@ namespace SMProjekt
         //stop nagrywania button
         private void button1_Click_1(object sender, EventArgs e)
         {
-            /*
-            if (_soundIn != null)
-            {
-                timer2.Stop();
-                _soundIn.Stop();
-                _soundIn.Dispose();
-            }*/
             timer2.Stop();
             timeRecorded = TimeSpan.Zero;
             writer.Dispose();
@@ -213,8 +205,6 @@ namespace SMProjekt
         private void Stop()
         {
             timer1.Stop();
-            
-
             if (_soundOut != null)
             {
                 _soundOut.Stop();
@@ -233,9 +223,7 @@ namespace SMProjekt
                 _source.Dispose();
                 _source = null;
             }
-            
-
-            timerLabel.Text = "00:00:00";
+            timerLabel2.Text = "00:00:00";
 
         }
 
@@ -245,34 +233,51 @@ namespace SMProjekt
             
             timer = _source.GetPosition();
             string timerString = timer.ToString();
-            timerLabel.Text = timerString;
-            GenerateLineSpectrum();
+            timerLabel2.Text = timerString;
+
+            GenerateLineSpectrum(pictureBox2);
+            trackBar1.Value = (int)timer.TotalMilliseconds;
 
             if(timer == _source.GetLength())
             {
                 Stop();
+                endoffile = true;
             }
         }
 
         //timer nagrywania
         private void timer2_Tick(object sender, EventArgs e)
         {
-            GenerateLineSpectrum();
-
+            GenerateLineSpectrum(pictureBox1);
             timeRecorded = timeRecorded.Add(TimeSpan.FromMilliseconds(10));
-            timerLabel.Text = timeRecorded.ToString();
+            timerLabel1.Text = timeRecorded.ToString();
         }
 
-        private void GenerateLineSpectrum()
+        private void GenerateLineSpectrum(PictureBox a)
         {
-            Image image = pictureBox1.Image;
-            var newImage = _lineSpectrum.CreateSpectrumLine(pictureBox1.Size, Color.Green, Color.Red, Color.White, true);
+            Image image = a.Image;
+            var newImage = _lineSpectrum.CreateSpectrumLine(a.Size, Color.Green, Color.Red, Color.White, true);
             if (newImage != null)
             {
-                pictureBox1.Image = newImage;
+                a.Image = newImage;
                 if (image != null)
                     image.Dispose();
             }
+        }
+
+
+        private void PlayFileAudio()
+        {
+            ISampleSource source = CodecFactory.Instance.GetCodec(pathtoFile).ToSampleSource();
+            SetupSampleSource(source);
+
+            //play the audio
+            _soundOut = new WasapiOut();
+            _soundOut.Initialize(_source);
+            _soundOut.Play();
+            TimeSpan xxx = _source.GetLength();
+            trackBar1.Maximum = (int)xxx.TotalMilliseconds;
+            timer1.Start();
         }
 
         /*
@@ -301,17 +306,23 @@ namespace SMProjekt
                 }
             };
             form.Controls.Add(trackBar);
-
             form.ShowDialog();
-
             form.Dispose();
         }
         */
-        private void Form1_Load(object sender, EventArgs e)
-        {
 
+        //przycisk przełączający na okno odtwarzania
+        private void buttonZmiana_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPage2;
+            pictureBox2.Image = null;
         }
 
-       
+        //przycisk przełączający na okno nagrywania
+        private void button2_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPage1;
+            pictureBox1.Image = null;
+        }
     }
 }
