@@ -35,6 +35,7 @@ namespace SMProjekt
             this.playButton = new System.Windows.Forms.Button();
             this.recordButton = new System.Windows.Forms.Button();
             this.stopButton = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -81,11 +82,21 @@ namespace SMProjekt
             this.stopButton.UseVisualStyleBackColor = true;
             this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(470, 415);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.stopButton);
             this.Controls.Add(this.recordButton);
             this.Controls.Add(this.playButton);
@@ -105,6 +116,7 @@ namespace SMProjekt
         private System.Windows.Forms.Button playButton;
         private System.Windows.Forms.Button recordButton;
         private System.Windows.Forms.Button stopButton;
+        private System.Windows.Forms.Button button1;
     }
 }
 

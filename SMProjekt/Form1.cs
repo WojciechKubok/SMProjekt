@@ -51,7 +51,6 @@ namespace SMProjekt
                 _soundOut = new WasapiOut();
                 _soundOut.Initialize(_source);
                 _soundOut.Play();
-
                 timer1.Start();
 
                 
@@ -75,6 +74,7 @@ namespace SMProjekt
                 _soundIn = new WasapiCapture();   
                 _soundIn.Device = MMDeviceEnumerator.DefaultAudioEndpoint(DataFlow.Capture, Role.Console);
                 _soundIn.Initialize();
+                
 
                 var soundInSource = new SoundInSource(_soundIn);
                 ISampleSource source = soundInSource.ToSampleSource();
@@ -189,6 +189,7 @@ namespace SMProjekt
             }
         }
 
+        /*
         private void pitchShiftToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form form = new Form()
@@ -219,7 +220,7 @@ namespace SMProjekt
 
             form.Dispose();
         }
-
+        */
         private void Form1_Load(object sender, EventArgs e)
         {
 
