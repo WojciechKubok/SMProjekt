@@ -24,7 +24,10 @@ namespace SMProjekt
         private LineSpectrum _lineSpectrum;
         private readonly Bitmap _bitmap = new Bitmap(2000, 600);
         private WaveWriter writer;
-
+        bool stop = true;
+        bool stopRecord = true;
+        private TimeSpan timer;
+        private TimeSpan timeRecorded;
         public Form1()
         {
             InitializeComponent();
@@ -47,6 +50,7 @@ namespace SMProjekt
 
                 SetupSampleSource(source);
 
+                
                 //play the audio
                 _soundOut = new WasapiOut();
                 _soundOut.Initialize(_source);
@@ -82,6 +86,7 @@ namespace SMProjekt
 
                 writer = new WaveWriter(saveFileDialog.FileName, _soundIn.WaveFormat);
 
+                
                 byte[] buffer = new byte[_source.WaveFormat.BytesPerSecond / 2];
                 soundInSource.DataAvailable += (s, aEvent) =>
                 {
@@ -93,18 +98,38 @@ namespace SMProjekt
                 //Nagraj
                 _soundIn.Start();
                 //Pokaż
-                timer1.Start();
+                timer2.Start();
             }
         }
+        //stop odtwórz button
         private void stopButton_Click(object sender, EventArgs e)
         {
             Stop();
-            if(writer != null)
-                writer.Dispose();
-            if(_soundIn != null)
-                _soundIn.Dispose();
+
+        }
+
+        private void pauzePlayButton_Click(object sender, EventArgs e)
+        {
             if (_soundOut != null)
-                _soundOut.Dispose();
+            {
+                if (stop)
+                {
+                    pauzePlayButton.Text = "Start odtwarzania";
+                    timer1.Stop();
+                    _soundOut.Stop();
+                    stop = false;
+                    return;
+                }
+                if (!stop)
+                {
+                    pauzePlayButton.Text = "Pauza odtwarzania";
+                    timer1.Start();
+                    _soundOut.Play();
+                    stop = true;
+                    return;
+                }
+            }
+
         }
 
         /// <summary>
@@ -140,6 +165,45 @@ namespace SMProjekt
 
         }
 
+        //stop nagrywania button
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            /*
+            if (_soundIn != null)
+            {
+                timer2.Stop();
+                _soundIn.Stop();
+                _soundIn.Dispose();
+            }*/
+            timer2.Stop();
+            timeRecorded = TimeSpan.Zero;
+            writer.Dispose();
+            Stop();
+        }
+
+        private void pauzeRecordButton_Click(object sender, EventArgs e)
+        {
+            if (_soundIn != null)
+            {
+                if (stopRecord)
+                {
+                    pauzeRecordButton.Text = "Start nagrywania";
+                    timer2.Stop();
+                    _soundIn.Stop();
+                    stopRecord = false;
+                    return;
+                }
+                if (!stopRecord)
+                {
+                    pauzeRecordButton.Text = "Pauza nagrywania";
+                    timer2.Start();
+                    _soundIn.Start();
+                    stopRecord = true;
+                    return;
+                }
+            }
+        }
+
         protected override void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);
@@ -149,6 +213,7 @@ namespace SMProjekt
         private void Stop()
         {
             timer1.Stop();
+            
 
             if (_soundOut != null)
             {
@@ -158,6 +223,7 @@ namespace SMProjekt
             }
             if (_soundIn != null)
             {
+
                 _soundIn.Stop();
                 _soundIn.Dispose();
                 _soundIn = null;
@@ -167,14 +233,34 @@ namespace SMProjekt
                 _source.Dispose();
                 _source = null;
             }
+            
 
+            timerLabel.Text = "00:00:00";
 
         }
 
+        //timer odtwarzania
         private void timer1_Tick_1(object sender, EventArgs e)
         {
-            //render the spectrum
+            
+            timer = _source.GetPosition();
+            string timerString = timer.ToString();
+            timerLabel.Text = timerString;
             GenerateLineSpectrum();
+
+            if(timer == _source.GetLength())
+            {
+                Stop();
+            }
+        }
+
+        //timer nagrywania
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            GenerateLineSpectrum();
+
+            timeRecorded = timeRecorded.Add(TimeSpan.FromMilliseconds(10));
+            timerLabel.Text = timeRecorded.ToString();
         }
 
         private void GenerateLineSpectrum()
@@ -226,6 +312,6 @@ namespace SMProjekt
 
         }
 
-        
+       
     }
 }
