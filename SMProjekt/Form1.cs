@@ -12,6 +12,7 @@ using CSCore.Streams.Effects;
 using CSCore.CoreAudioAPI;
 using SMProjekt.Visualization;
 using CSCore.Codecs.WAV;
+using System.IO;
 
 namespace SMProjekt
 {
@@ -29,6 +30,8 @@ namespace SMProjekt
         private TimeSpan timer;
         private TimeSpan timeRecorded;
         private string pathtoFile;
+        private string pathtoMergeFile1;
+        private string pathtoMergeFile2;
         private bool endoffile = false;
 
         public Form1()
@@ -323,6 +326,54 @@ namespace SMProjekt
         {
             tabControl1.SelectedTab = tabPage1;
             pictureBox1.Image = null;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPage3;
+            pictureBox1.Image = null;
+        }
+
+        private void mergeButton1_Click(object sender, EventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog()
+            {
+                Filter = CodecFactory.SupportedFilesFilterEn,
+                Title = "Select a file..."
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Stop();
+                //open the selected file
+                pathtoMergeFile1 = openFileDialog.FileName;
+            }
+        }
+
+        private void mergeButton2_Click(object sender, EventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog()
+            {
+                Filter = CodecFactory.SupportedFilesFilterEn,
+                Title = "Select a file..."
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Stop();
+                //open the selected file
+                pathtoMergeFile2 = openFileDialog.FileName;
+            }
+        }
+
+        private void mergeButtonCommit_Click(object sender, EventArgs e)
+        {
+
+            using (var reader1 = new NAudio.Wave.AudioFileReader(pathtoMergeFile1))
+            using (var reader2 = new NAudio.Wave.AudioFileReader(pathtoMergeFile2))
+            {
+                var mixer = new NAudio.Wave.SampleProviders.MixingSampleProvider(new[] { reader1, reader2 });
+                NAudio.Wave.WaveFileWriter.CreateWaveFile16("C:\\Users\\wojte\\source\\repos\\SMProjekt\\result.wav", mixer);
+            }
+
         }
     }
 }

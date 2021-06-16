@@ -51,6 +51,9 @@ namespace SMProjekt
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.button3 = new System.Windows.Forms.Button();
+            this.mergeButton1 = new System.Windows.Forms.Button();
+            this.mergeButton2 = new System.Windows.Forms.Button();
+            this.mergeButtonCommit = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -244,6 +247,9 @@ namespace SMProjekt
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.mergeButtonCommit);
+            this.tabPage3.Controls.Add(this.mergeButton2);
+            this.tabPage3.Controls.Add(this.mergeButton1);
             this.tabPage3.Controls.Add(this.pictureBox3);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
@@ -267,8 +273,39 @@ namespace SMProjekt
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(166, 23);
             this.button3.TabIndex = 13;
-            this.button3.Text = "Odtwarzanie";
+            this.button3.Text = "Modyfikacja";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // mergeButton1
+            // 
+            this.mergeButton1.Location = new System.Drawing.Point(24, 167);
+            this.mergeButton1.Name = "mergeButton1";
+            this.mergeButton1.Size = new System.Drawing.Size(130, 23);
+            this.mergeButton1.TabIndex = 11;
+            this.mergeButton1.Text = "Wybierz pierwszy plik";
+            this.mergeButton1.UseVisualStyleBackColor = true;
+            this.mergeButton1.Click += new System.EventHandler(this.mergeButton1_Click);
+            // 
+            // mergeButton2
+            // 
+            this.mergeButton2.Location = new System.Drawing.Point(24, 196);
+            this.mergeButton2.Name = "mergeButton2";
+            this.mergeButton2.Size = new System.Drawing.Size(130, 23);
+            this.mergeButton2.TabIndex = 12;
+            this.mergeButton2.Text = "Wybierz drugi plik";
+            this.mergeButton2.UseVisualStyleBackColor = true;
+            this.mergeButton2.Click += new System.EventHandler(this.mergeButton2_Click);
+            // 
+            // mergeButtonCommit
+            // 
+            this.mergeButtonCommit.Location = new System.Drawing.Point(444, 167);
+            this.mergeButtonCommit.Name = "mergeButtonCommit";
+            this.mergeButtonCommit.Size = new System.Drawing.Size(130, 23);
+            this.mergeButtonCommit.TabIndex = 13;
+            this.mergeButtonCommit.Text = "Połącz";
+            this.mergeButtonCommit.UseVisualStyleBackColor = true;
+            this.mergeButtonCommit.Click += new System.EventHandler(this.mergeButtonCommit_Click);
             // 
             // Form1
             // 
@@ -321,6 +358,9 @@ namespace SMProjekt
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button mergeButton2;
+        private System.Windows.Forms.Button mergeButton1;
+        private System.Windows.Forms.Button mergeButtonCommit;
     }
 }
 
