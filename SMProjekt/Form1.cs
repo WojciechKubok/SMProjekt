@@ -578,7 +578,7 @@ namespace SMProjekt
             }
         }
 
-        //Zastosowanie efektów na ścieżce
+        //Zastosowanie efektu echo
 
         private void buttonEchoApply_Click(object sender, EventArgs e)
         {
@@ -689,6 +689,8 @@ namespace SMProjekt
         {
             labelDistortionUpdate();
         }
+
+        //zastosowanie efektu Chorus
 
         private void buttonChorusApply_Click(object sender, EventArgs e)
         {
