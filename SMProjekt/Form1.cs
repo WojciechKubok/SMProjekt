@@ -32,7 +32,9 @@ namespace SMProjekt
         private string pathtoFile;
         private string pathtoMergeFile1;
         private string pathtoMergeFile2;
+        private string pathtoConvert;
         private bool endoffile = false;
+        private ISampleSource source;
 
         public Form1()
         {
@@ -52,8 +54,9 @@ namespace SMProjekt
                 Stop();
                 //open the selected file
                 pathtoFile = openFileDialog.FileName;
+                PlayFileAudio();
             }
-            PlayFileAudio();
+            
         }
 
 
@@ -75,7 +78,7 @@ namespace SMProjekt
                 
 
                 var soundInSource = new SoundInSource(_soundIn);
-                ISampleSource source = soundInSource.ToSampleSource();
+                source = soundInSource.ToSampleSource();
                 SetupSampleSource(source);
 
                 writer = new WaveWriter(saveFileDialog.FileName, _soundIn.WaveFormat);
@@ -101,6 +104,7 @@ namespace SMProjekt
         {
             Stop();
             endoffile = true;
+            trackBar1.Value = 0;
         }
 
         private void pauzePlayButton_Click(object sender, EventArgs e)
@@ -271,7 +275,7 @@ namespace SMProjekt
 
         private void PlayFileAudio()
         {
-            ISampleSource source = CodecFactory.Instance.GetCodec(pathtoFile).ToSampleSource();
+            source = CodecFactory.Instance.GetCodec(pathtoFile).ToSampleSource();
             SetupSampleSource(source);
 
             //play the audio
@@ -366,14 +370,139 @@ namespace SMProjekt
 
         private void mergeButtonCommit_Click(object sender, EventArgs e)
         {
-
-            using (var reader1 = new NAudio.Wave.AudioFileReader(pathtoMergeFile1))
-            using (var reader2 = new NAudio.Wave.AudioFileReader(pathtoMergeFile2))
+            try
             {
-                var mixer = new NAudio.Wave.SampleProviders.MixingSampleProvider(new[] { reader1, reader2 });
-                NAudio.Wave.WaveFileWriter.CreateWaveFile16("C:\\Users\\wojte\\source\\repos\\SMProjekt\\result.wav", mixer);
+                using (var reader1 = new NAudio.Wave.AudioFileReader(pathtoMergeFile1))
+                using (var reader2 = new NAudio.Wave.AudioFileReader(pathtoMergeFile2))
+                {
+                    if (exportFileName.Text != "")
+                    {
+                        var mixer = new NAudio.Wave.SampleProviders.MixingSampleProvider(new[] { reader1, reader2 });
+                        NAudio.Wave.WaveFileWriter.CreateWaveFile16("Zapisane\\" + exportFileName.Text + ".wav", mixer);
+                        MessageBox.Show("Udało się połączyć pliki");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Nazwa pliku wyjściowego nie może być pusta", "Błąd nazwy pliku", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Nie wybrano pliku, bądź plik jest uszkodzony", "Błąd pliku", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
+
+        private void filetoformatchange_Click(object sender, EventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog()
+            {
+                Filter = CodecFactory.SupportedFilesFilterEn,
+                Title = "Select a file..."
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Stop();
+                pathtoConvert = openFileDialog.FileName;
+            }
+        }
+
+        private void buttonConvert_Click(object sender, EventArgs e)
+        {
+            if (exportFileName.Text != "")
+            {
+                if (radioButton1.Checked)
+                {
+                    NAudio.MediaFoundation.MediaFoundationApi.Startup();
+                    if (pathtoConvert != null)
+                    {
+                        try
+                        {
+                            using (var reader = new NAudio.Wave.WaveFileReader(pathtoConvert))
+                            {
+                                NAudio.Wave.MediaFoundationEncoder.EncodeToMp3(reader, "Zapisane\\" + exportFileName.Text + ".mp3");
+                                MessageBox.Show("Przekonwertowano do mp3");
+                            }
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Wybrano niepoprawny format pliku", "Błąd formatu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Nie wybrano pliku do konwersji");
+                    }
+                }
+                if (radioButton2.Checked)
+                {
+                    NAudio.MediaFoundation.MediaFoundationApi.Startup();
+                    if (pathtoConvert != null)
+                    {
+                        try
+                        {
+                            using (var reader = new NAudio.Wave.Mp3FileReader(pathtoConvert))
+                            {
+                                NAudio.Wave.WaveFileWriter.CreateWaveFile("Zapisane\\" + exportFileName.Text + ".wav", reader);
+                                MessageBox.Show("Przekonwertowano do wav");
+                            }
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Wybrano niepoprawny format pliku", "Błąd formatu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Nie wybrano pliku do konwersji");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nazwa pliku wyjściowego nie może być pusta", "Błąd nazwy pliku", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void exportFileName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar)
+            && !char.IsSeparator(e.KeyChar) && !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
+        }
+
+
+        private void trackBar1_MouseUp(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                _soundOut.Stop();
+                TimeSpan ts = new TimeSpan(trackBar1.Value * 10000);
+                source.SetPosition(ts);
+                SetupSampleSource(source);
+
+                //play the audio
+                _soundOut = new WasapiOut();
+                _soundOut.Initialize(_source);
+                _soundOut.Play();
+                timer1.Start();
+            }
+            catch
+            {
+                trackBar1.Value = 0;
+            }
+        }
+
+        private void trackBar1_MouseDown(object sender, MouseEventArgs e)
+        {
+            double dblValue;
+            timer1.Stop();
+            dblValue = ((double)e.X / (double)trackBar1.Width) * (trackBar1.Maximum - trackBar1.Minimum);
+            trackBar1.Value = Convert.ToInt32(dblValue);
+        }
+
+        
     }
 }

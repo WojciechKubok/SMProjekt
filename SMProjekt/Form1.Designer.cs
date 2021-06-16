@@ -46,14 +46,22 @@ namespace SMProjekt
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.exportFileName = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.buttonConvert = new System.Windows.Forms.Button();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.filetoformatchange = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.mergeButton1 = new System.Windows.Forms.Button();
+            this.mergeButtonCommit = new System.Windows.Forms.Button();
+            this.mergeButton2 = new System.Windows.Forms.Button();
             this.buttonZmiana = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.button3 = new System.Windows.Forms.Button();
-            this.mergeButton1 = new System.Windows.Forms.Button();
-            this.mergeButton2 = new System.Windows.Forms.Button();
-            this.mergeButtonCommit = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -61,7 +69,8 @@ namespace SMProjekt
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer1
@@ -224,6 +233,147 @@ namespace SMProjekt
             this.trackBar1.Size = new System.Drawing.Size(550, 45);
             this.trackBar1.TabIndex = 8;
             this.trackBar1.TickFrequency = 5;
+            this.trackBar1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trackBar1_MouseDown);
+            this.trackBar1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackBar1_MouseUp);
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.exportFileName);
+            this.tabPage3.Controls.Add(this.groupBox2);
+            this.tabPage3.Controls.Add(this.label2);
+            this.tabPage3.Controls.Add(this.groupBox1);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(596, 540);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "tabPage3";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.buttonConvert);
+            this.groupBox2.Controls.Add(this.radioButton2);
+            this.groupBox2.Controls.Add(this.radioButton1);
+            this.groupBox2.Controls.Add(this.filetoformatchange);
+            this.groupBox2.Location = new System.Drawing.Point(7, 92);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(155, 140);
+            this.groupBox2.TabIndex = 15;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Zmiana formatu pliku";
+            // 
+            // exportFileName
+            // 
+            this.exportFileName.Location = new System.Drawing.Point(143, 241);
+            this.exportFileName.MaxLength = 16;
+            this.exportFileName.Name = "exportFileName";
+            this.exportFileName.Size = new System.Drawing.Size(145, 20);
+            this.exportFileName.TabIndex = 6;
+            this.exportFileName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.exportFileName_KeyPress);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 244);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(131, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Nazwa pliku wyjściowego:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 52);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(92, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Format wyjściowy:";
+            // 
+            // buttonConvert
+            // 
+            this.buttonConvert.Location = new System.Drawing.Point(9, 95);
+            this.buttonConvert.Name = "buttonConvert";
+            this.buttonConvert.Size = new System.Drawing.Size(138, 29);
+            this.buttonConvert.TabIndex = 3;
+            this.buttonConvert.Text = "Konwertuj";
+            this.buttonConvert.UseVisualStyleBackColor = true;
+            this.buttonConvert.Click += new System.EventHandler(this.buttonConvert_Click);
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(95, 72);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(50, 17);
+            this.radioButton2.TabIndex = 2;
+            this.radioButton2.Text = "WAV";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Checked = true;
+            this.radioButton1.Location = new System.Drawing.Point(9, 72);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(47, 17);
+            this.radioButton1.TabIndex = 1;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "MP3";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // filetoformatchange
+            // 
+            this.filetoformatchange.Location = new System.Drawing.Point(6, 19);
+            this.filetoformatchange.Name = "filetoformatchange";
+            this.filetoformatchange.Size = new System.Drawing.Size(139, 23);
+            this.filetoformatchange.TabIndex = 0;
+            this.filetoformatchange.Text = "Wybierz plik do konwersji";
+            this.filetoformatchange.UseVisualStyleBackColor = true;
+            this.filetoformatchange.Click += new System.EventHandler(this.filetoformatchange_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.mergeButton1);
+            this.groupBox1.Controls.Add(this.mergeButtonCommit);
+            this.groupBox1.Controls.Add(this.mergeButton2);
+            this.groupBox1.Location = new System.Drawing.Point(6, 6);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(307, 79);
+            this.groupBox1.TabIndex = 14;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Łącznie ścieżek";
+            // 
+            // mergeButton1
+            // 
+            this.mergeButton1.Location = new System.Drawing.Point(6, 19);
+            this.mergeButton1.Name = "mergeButton1";
+            this.mergeButton1.Size = new System.Drawing.Size(130, 23);
+            this.mergeButton1.TabIndex = 11;
+            this.mergeButton1.Text = "Wybierz pierwszy plik";
+            this.mergeButton1.UseVisualStyleBackColor = true;
+            this.mergeButton1.Click += new System.EventHandler(this.mergeButton1_Click);
+            // 
+            // mergeButtonCommit
+            // 
+            this.mergeButtonCommit.Location = new System.Drawing.Point(156, 48);
+            this.mergeButtonCommit.Name = "mergeButtonCommit";
+            this.mergeButtonCommit.Size = new System.Drawing.Size(145, 23);
+            this.mergeButtonCommit.TabIndex = 13;
+            this.mergeButtonCommit.Text = "Połącz";
+            this.mergeButtonCommit.UseVisualStyleBackColor = true;
+            this.mergeButtonCommit.Click += new System.EventHandler(this.mergeButtonCommit_Click);
+            // 
+            // mergeButton2
+            // 
+            this.mergeButton2.Location = new System.Drawing.Point(6, 48);
+            this.mergeButton2.Name = "mergeButton2";
+            this.mergeButton2.Size = new System.Drawing.Size(130, 23);
+            this.mergeButton2.TabIndex = 12;
+            this.mergeButton2.Text = "Wybierz drugi plik";
+            this.mergeButton2.UseVisualStyleBackColor = true;
+            this.mergeButton2.Click += new System.EventHandler(this.mergeButton2_Click);
             // 
             // buttonZmiana
             // 
@@ -245,28 +395,6 @@ namespace SMProjekt
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.mergeButtonCommit);
-            this.tabPage3.Controls.Add(this.mergeButton2);
-            this.tabPage3.Controls.Add(this.mergeButton1);
-            this.tabPage3.Controls.Add(this.pictureBox3);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(596, 540);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "tabPage3";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Location = new System.Drawing.Point(24, 21);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(550, 125);
-            this.pictureBox3.TabIndex = 10;
-            this.pictureBox3.TabStop = false;
-            // 
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(11, 72);
@@ -276,36 +404,6 @@ namespace SMProjekt
             this.button3.Text = "Modyfikacja";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // mergeButton1
-            // 
-            this.mergeButton1.Location = new System.Drawing.Point(24, 167);
-            this.mergeButton1.Name = "mergeButton1";
-            this.mergeButton1.Size = new System.Drawing.Size(130, 23);
-            this.mergeButton1.TabIndex = 11;
-            this.mergeButton1.Text = "Wybierz pierwszy plik";
-            this.mergeButton1.UseVisualStyleBackColor = true;
-            this.mergeButton1.Click += new System.EventHandler(this.mergeButton1_Click);
-            // 
-            // mergeButton2
-            // 
-            this.mergeButton2.Location = new System.Drawing.Point(24, 196);
-            this.mergeButton2.Name = "mergeButton2";
-            this.mergeButton2.Size = new System.Drawing.Size(130, 23);
-            this.mergeButton2.TabIndex = 12;
-            this.mergeButton2.Text = "Wybierz drugi plik";
-            this.mergeButton2.UseVisualStyleBackColor = true;
-            this.mergeButton2.Click += new System.EventHandler(this.mergeButton2_Click);
-            // 
-            // mergeButtonCommit
-            // 
-            this.mergeButtonCommit.Location = new System.Drawing.Point(444, 167);
-            this.mergeButtonCommit.Name = "mergeButtonCommit";
-            this.mergeButtonCommit.Size = new System.Drawing.Size(130, 23);
-            this.mergeButtonCommit.TabIndex = 13;
-            this.mergeButtonCommit.Text = "Połącz";
-            this.mergeButtonCommit.UseVisualStyleBackColor = true;
-            this.mergeButtonCommit.Click += new System.EventHandler(this.mergeButtonCommit_Click);
             // 
             // Form1
             // 
@@ -331,7 +429,10 @@ namespace SMProjekt
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.tabPage3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            this.tabPage3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -356,11 +457,19 @@ namespace SMProjekt
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label timerLabel1;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button mergeButton2;
         private System.Windows.Forms.Button mergeButton1;
         private System.Windows.Forms.Button mergeButtonCommit;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button filetoformatchange;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.Button buttonConvert;
+        private System.Windows.Forms.TextBox exportFileName;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
     }
 }
 
