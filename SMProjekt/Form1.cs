@@ -607,8 +607,6 @@ namespace SMProjekt
             stop = true;
         }
 
-        //update labeli
-
         private void labelEchoUpdate()
         {
             labelEchoFeedback.Text = "Feedback: " + trackBarEchoFeedback.Value.ToString();
@@ -658,9 +656,6 @@ namespace SMProjekt
             _soundOut.Play();
             stop = true;
         }
-
-        //update labeli
-
         private void labelDistortionUpdate()
         {
             labelDistortionEdge.Text = "Edge: " + trackBarDistortionEdge.Value.ToString() + " %";
@@ -694,8 +689,6 @@ namespace SMProjekt
         {
             labelDistortionUpdate();
         }
-
-        //Zastosowanie efektu Chorus
 
         private void buttonChorusApply_Click(object sender, EventArgs e)
         {
@@ -745,9 +738,6 @@ namespace SMProjekt
             _soundOut.Play();
             stop = true;
         }
-
-        //update labeli
-
         private void labelChorusUpdate()
         {
             labelChorusDelay.Text = "Delay: " + trackBarChorusDelay.Value + " ms";
