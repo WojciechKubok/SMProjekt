@@ -414,11 +414,12 @@ namespace SMProjekt
             {
                 if (radioButton1.Checked)
                 {
-                    NAudio.MediaFoundation.MediaFoundationApi.Startup();
+                    
                     if (pathtoConvert != null)
                     {
                         try
                         {
+                            NAudio.MediaFoundation.MediaFoundationApi.Startup();
                             using (var reader = new NAudio.Wave.WaveFileReader(pathtoConvert))
                             {
                                 NAudio.Wave.MediaFoundationEncoder.EncodeToMp3(reader, "Zapisane\\" + exportFileName.Text + ".mp3");
@@ -438,11 +439,12 @@ namespace SMProjekt
                 }
                 if (radioButton2.Checked)
                 {
-                    NAudio.MediaFoundation.MediaFoundationApi.Startup();
+                    
                     if (pathtoConvert != null)
                     {
                         try
                         {
+                            NAudio.MediaFoundation.MediaFoundationApi.Startup();
                             using (var reader = new NAudio.Wave.Mp3FileReader(pathtoConvert))
                             {
                                 NAudio.Wave.WaveFileWriter.CreateWaveFile("Zapisane\\" + exportFileName.Text + ".wav", reader);
