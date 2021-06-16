@@ -12,6 +12,7 @@ using CSCore.Streams.Effects;
 using CSCore.CoreAudioAPI;
 using SMProjekt.Visualization;
 using CSCore.Codecs.WAV;
+using CSCore.DMO.Effects;
 using System.IO;
 
 namespace SMProjekt
@@ -503,6 +504,88 @@ namespace SMProjekt
             timer1.Stop();
             dblValue = ((double)e.X / (double)trackBar1.Width) * (trackBar1.Maximum - trackBar1.Minimum);
             trackBar1.Value = Convert.ToInt32(dblValue);
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog()
+            {
+                Filter = CodecFactory.SupportedFilesFilterEn,
+                Title = "Select a file..."
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Stop();
+                //open the selected file
+                pathtoFile = openFileDialog.FileName;
+                source = CodecFactory.Instance.GetCodec(pathtoFile).ToSampleSource();
+                SetupSampleSource(source);
+
+                _source = source.ToWaveSource();
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (_soundOut != null)
+            {
+                _soundOut.Stop();
+            }
+            _source = null;
+            _source = source.ToWaveSource();
+            var echo = new DmoEchoEffect(_source);
+            echo.Feedback = 50;         //0-100
+            echo.LeftDelay = 500;       //1-2000ms
+            echo.RightDelay = 300;      //1-2000ms
+            echo.PanDelay = true;       //true/false
+            echo.WetDryMix = 60;        //0-100
+            _soundOut = new WasapiOut();
+            _soundOut.Initialize(echo);
+            _soundOut.Play();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (_soundOut != null)
+            {
+                _soundOut.Stop();
+            }
+            _source = null;
+            _source = source.ToWaveSource();
+            var distortionEffect = new DmoDistortionEffect(_source);
+            distortionEffect.Edge = 30;         //0-100
+            distortionEffect.Gain = -20;        //-60 - 0dB
+            distortionEffect.PostEQBandwidth = 2400;        //100-8000Hz
+            distortionEffect.PostEQCenterFrequency = 2400;  //100-8000Hz
+            distortionEffect.PreLowpassCutoff = 8000;       //100-8000Hz
+            _soundOut = new WasapiOut();
+            _soundOut.Initialize(distortionEffect);
+            _soundOut.Play();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (_soundOut != null)
+            {
+                _soundOut.Stop();
+            }
+            if (source != null)
+            {
+                _source = null;
+                _source = source.ToWaveSource();
+                var chorusEffect = new DmoChorusEffect(_source);
+                chorusEffect.Delay = 16;        //0-20ms
+                chorusEffect.Depth = 60;        //0-100 
+                chorusEffect.Feedback = 25;     //-99 - 99
+                chorusEffect.Frequency = 6f;    //0-10
+                chorusEffect.Phase = ChorusPhase.Phase180; //-180/-90/zero/90/180
+                chorusEffect.Waveform = ChorusWaveform.WaveformTriangle;    //Sin / Triangle
+                chorusEffect.WetDryMix = 50;        //0-100%
+
+                _soundOut = new WasapiOut();
+                _soundOut.Initialize(chorusEffect);
+                _soundOut.Play();
+            }
         }
 
         
