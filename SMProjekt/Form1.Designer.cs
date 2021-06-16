@@ -59,14 +59,60 @@ namespace SMProjekt
             this.mergeButton1 = new System.Windows.Forms.Button();
             this.mergeButtonCommit = new System.Windows.Forms.Button();
             this.mergeButton2 = new System.Windows.Forms.Button();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.groupBoxEcho = new System.Windows.Forms.GroupBox();
+            this.labelEchoWetDry = new System.Windows.Forms.Label();
+            this.labelEchoRightDelay = new System.Windows.Forms.Label();
+            this.labelEchoLeftDelay = new System.Windows.Forms.Label();
+            this.labelEchoFeedback = new System.Windows.Forms.Label();
+            this.checkBoxEchoPanDelay = new System.Windows.Forms.CheckBox();
+            this.trackBarEchoWetDryMix = new System.Windows.Forms.TrackBar();
+            this.trackBarEchoRightDelay = new System.Windows.Forms.TrackBar();
+            this.trackBarEchoLeftDelay = new System.Windows.Forms.TrackBar();
+            this.trackBarEchoFeedback = new System.Windows.Forms.TrackBar();
+            this.buttonEchoApply = new System.Windows.Forms.Button();
+            this.buttonEchoPlayPause = new System.Windows.Forms.Button();
+            this.buttonEchoWczytaj = new System.Windows.Forms.Button();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.groupBoxDistortion = new System.Windows.Forms.GroupBox();
+            this.labelDistortionLowpass = new System.Windows.Forms.Label();
+            this.labelDistortionCenter = new System.Windows.Forms.Label();
+            this.labelDistortionBandwidth = new System.Windows.Forms.Label();
+            this.labelDistortionGain = new System.Windows.Forms.Label();
+            this.labelDistortionEdge = new System.Windows.Forms.Label();
+            this.trackBarDistortionLowpass = new System.Windows.Forms.TrackBar();
+            this.trackBarDistortionCenter = new System.Windows.Forms.TrackBar();
+            this.trackBarDistortionBandwidth = new System.Windows.Forms.TrackBar();
+            this.trackBarDistortionGain = new System.Windows.Forms.TrackBar();
+            this.trackBarDistortionEdge = new System.Windows.Forms.TrackBar();
+            this.buttonDistortionApply = new System.Windows.Forms.Button();
+            this.buttonDistortionPlayPause = new System.Windows.Forms.Button();
+            this.buttonDistortionLoad = new System.Windows.Forms.Button();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.groupBoxChorus = new System.Windows.Forms.GroupBox();
+            this.labelChorusWetDryMix = new System.Windows.Forms.Label();
+            this.labelChorusWaveform = new System.Windows.Forms.Label();
+            this.labelChorusPhase = new System.Windows.Forms.Label();
+            this.labelChorusFrequency = new System.Windows.Forms.Label();
+            this.labelChorusFeedback = new System.Windows.Forms.Label();
+            this.labelChorusDepth = new System.Windows.Forms.Label();
+            this.labelChorusDelay = new System.Windows.Forms.Label();
+            this.trackBarChorusWetDryMix = new System.Windows.Forms.TrackBar();
+            this.comboBoxChorusWaveform = new System.Windows.Forms.ComboBox();
+            this.comboBoxChorusPhase = new System.Windows.Forms.ComboBox();
+            this.trackBarChorusFrequency = new System.Windows.Forms.TrackBar();
+            this.trackBarChorusFeedback = new System.Windows.Forms.TrackBar();
+            this.trackBarChorusDepth = new System.Windows.Forms.TrackBar();
+            this.trackBarChorusDelay = new System.Windows.Forms.TrackBar();
+            this.buttonChorusApply = new System.Windows.Forms.Button();
+            this.buttonChorusPlayPause = new System.Windows.Forms.Button();
+            this.buttonChorusLoad = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.buttonZmiana = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -76,7 +122,26 @@ namespace SMProjekt
             this.tabPage3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            this.groupBoxEcho.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarEchoWetDryMix)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarEchoRightDelay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarEchoLeftDelay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarEchoFeedback)).BeginInit();
+            this.tabPage5.SuspendLayout();
+            this.groupBoxDistortion.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarDistortionLowpass)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarDistortionCenter)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarDistortionBandwidth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarDistortionGain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarDistortionEdge)).BeginInit();
+            this.tabPage6.SuspendLayout();
+            this.groupBoxChorus.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarChorusWetDryMix)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarChorusFrequency)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarChorusFeedback)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarChorusDepth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarChorusDelay)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
@@ -166,10 +231,13 @@ namespace SMProjekt
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Location = new System.Drawing.Point(183, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(604, 566);
+            this.tabControl1.Size = new System.Drawing.Size(604, 469);
             this.tabControl1.TabIndex = 10;
             // 
             // tabPage1
@@ -182,7 +250,7 @@ namespace SMProjekt
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(596, 540);
+            this.tabPage1.Size = new System.Drawing.Size(596, 443);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -218,7 +286,7 @@ namespace SMProjekt
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(596, 540);
+            this.tabPage2.Size = new System.Drawing.Size(596, 443);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -244,7 +312,6 @@ namespace SMProjekt
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.groupBox3);
             this.tabPage3.Controls.Add(this.exportFileName);
             this.tabPage3.Controls.Add(this.groupBox2);
             this.tabPage3.Controls.Add(this.label2);
@@ -252,7 +319,7 @@ namespace SMProjekt
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(596, 540);
+            this.tabPage3.Size = new System.Drawing.Size(596, 443);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "tabPage3";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -382,12 +449,557 @@ namespace SMProjekt
             this.mergeButton2.UseVisualStyleBackColor = true;
             this.mergeButton2.Click += new System.EventHandler(this.mergeButton2_Click);
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.groupBoxEcho);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(596, 443);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "tabPage4";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxEcho
+            // 
+            this.groupBoxEcho.Controls.Add(this.labelEchoWetDry);
+            this.groupBoxEcho.Controls.Add(this.labelEchoRightDelay);
+            this.groupBoxEcho.Controls.Add(this.labelEchoLeftDelay);
+            this.groupBoxEcho.Controls.Add(this.labelEchoFeedback);
+            this.groupBoxEcho.Controls.Add(this.checkBoxEchoPanDelay);
+            this.groupBoxEcho.Controls.Add(this.trackBarEchoWetDryMix);
+            this.groupBoxEcho.Controls.Add(this.trackBarEchoRightDelay);
+            this.groupBoxEcho.Controls.Add(this.trackBarEchoLeftDelay);
+            this.groupBoxEcho.Controls.Add(this.trackBarEchoFeedback);
+            this.groupBoxEcho.Controls.Add(this.buttonEchoApply);
+            this.groupBoxEcho.Controls.Add(this.buttonEchoPlayPause);
+            this.groupBoxEcho.Controls.Add(this.buttonEchoWczytaj);
+            this.groupBoxEcho.Location = new System.Drawing.Point(12, 12);
+            this.groupBoxEcho.Name = "groupBoxEcho";
+            this.groupBoxEcho.Size = new System.Drawing.Size(573, 309);
+            this.groupBoxEcho.TabIndex = 18;
+            this.groupBoxEcho.TabStop = false;
+            this.groupBoxEcho.Text = "Echo";
+            // 
+            // labelEchoWetDry
+            // 
+            this.labelEchoWetDry.AutoSize = true;
+            this.labelEchoWetDry.Location = new System.Drawing.Point(6, 216);
+            this.labelEchoWetDry.Name = "labelEchoWetDry";
+            this.labelEchoWetDry.Size = new System.Drawing.Size(62, 13);
+            this.labelEchoWetDry.TabIndex = 16;
+            this.labelEchoWetDry.Text = "WetDryMix:";
+            // 
+            // labelEchoRightDelay
+            // 
+            this.labelEchoRightDelay.AutoSize = true;
+            this.labelEchoRightDelay.Location = new System.Drawing.Point(6, 166);
+            this.labelEchoRightDelay.Name = "labelEchoRightDelay";
+            this.labelEchoRightDelay.Size = new System.Drawing.Size(65, 13);
+            this.labelEchoRightDelay.TabIndex = 15;
+            this.labelEchoRightDelay.Text = "Right Delay:";
+            // 
+            // labelEchoLeftDelay
+            // 
+            this.labelEchoLeftDelay.AutoSize = true;
+            this.labelEchoLeftDelay.Location = new System.Drawing.Point(6, 109);
+            this.labelEchoLeftDelay.Name = "labelEchoLeftDelay";
+            this.labelEchoLeftDelay.Size = new System.Drawing.Size(58, 13);
+            this.labelEchoLeftDelay.TabIndex = 14;
+            this.labelEchoLeftDelay.Text = "Left Delay:";
+            // 
+            // labelEchoFeedback
+            // 
+            this.labelEchoFeedback.AutoSize = true;
+            this.labelEchoFeedback.Location = new System.Drawing.Point(6, 67);
+            this.labelEchoFeedback.Name = "labelEchoFeedback";
+            this.labelEchoFeedback.Size = new System.Drawing.Size(61, 13);
+            this.labelEchoFeedback.TabIndex = 13;
+            this.labelEchoFeedback.Text = "Feedback: ";
+            // 
+            // checkBoxEchoPanDelay
+            // 
+            this.checkBoxEchoPanDelay.AutoSize = true;
+            this.checkBoxEchoPanDelay.Location = new System.Drawing.Point(95, 271);
+            this.checkBoxEchoPanDelay.Name = "checkBoxEchoPanDelay";
+            this.checkBoxEchoPanDelay.Size = new System.Drawing.Size(75, 17);
+            this.checkBoxEchoPanDelay.TabIndex = 12;
+            this.checkBoxEchoPanDelay.Text = "Pan Delay";
+            this.checkBoxEchoPanDelay.UseVisualStyleBackColor = true;
+            // 
+            // trackBarEchoWetDryMix
+            // 
+            this.trackBarEchoWetDryMix.Location = new System.Drawing.Point(167, 204);
+            this.trackBarEchoWetDryMix.Maximum = 100;
+            this.trackBarEchoWetDryMix.Name = "trackBarEchoWetDryMix";
+            this.trackBarEchoWetDryMix.Size = new System.Drawing.Size(366, 45);
+            this.trackBarEchoWetDryMix.TabIndex = 6;
+            this.trackBarEchoWetDryMix.Value = 50;
+            this.trackBarEchoWetDryMix.Scroll += new System.EventHandler(this.trackBarEchoWetDryMix_Scroll);
+            // 
+            // trackBarEchoRightDelay
+            // 
+            this.trackBarEchoRightDelay.Location = new System.Drawing.Point(167, 153);
+            this.trackBarEchoRightDelay.Maximum = 2000;
+            this.trackBarEchoRightDelay.Minimum = 1;
+            this.trackBarEchoRightDelay.Name = "trackBarEchoRightDelay";
+            this.trackBarEchoRightDelay.Size = new System.Drawing.Size(366, 45);
+            this.trackBarEchoRightDelay.TabIndex = 5;
+            this.trackBarEchoRightDelay.Value = 500;
+            this.trackBarEchoRightDelay.Scroll += new System.EventHandler(this.trackBarEchoRightDelay_Scroll);
+            // 
+            // trackBarEchoLeftDelay
+            // 
+            this.trackBarEchoLeftDelay.Location = new System.Drawing.Point(167, 102);
+            this.trackBarEchoLeftDelay.Maximum = 2000;
+            this.trackBarEchoLeftDelay.Minimum = 1;
+            this.trackBarEchoLeftDelay.Name = "trackBarEchoLeftDelay";
+            this.trackBarEchoLeftDelay.Size = new System.Drawing.Size(366, 45);
+            this.trackBarEchoLeftDelay.TabIndex = 4;
+            this.trackBarEchoLeftDelay.Value = 500;
+            this.trackBarEchoLeftDelay.Scroll += new System.EventHandler(this.trackBarEchoLeftDelay_Scroll);
+            // 
+            // trackBarEchoFeedback
+            // 
+            this.trackBarEchoFeedback.Location = new System.Drawing.Point(167, 49);
+            this.trackBarEchoFeedback.Maximum = 100;
+            this.trackBarEchoFeedback.Name = "trackBarEchoFeedback";
+            this.trackBarEchoFeedback.Size = new System.Drawing.Size(366, 45);
+            this.trackBarEchoFeedback.TabIndex = 3;
+            this.trackBarEchoFeedback.Value = 50;
+            this.trackBarEchoFeedback.Scroll += new System.EventHandler(this.trackBarEchoFeedback_Scroll);
+            // 
+            // buttonEchoApply
+            // 
+            this.buttonEchoApply.Location = new System.Drawing.Point(9, 267);
+            this.buttonEchoApply.Name = "buttonEchoApply";
+            this.buttonEchoApply.Size = new System.Drawing.Size(75, 23);
+            this.buttonEchoApply.TabIndex = 2;
+            this.buttonEchoApply.Text = "Zastosuj";
+            this.buttonEchoApply.UseVisualStyleBackColor = true;
+            this.buttonEchoApply.Click += new System.EventHandler(this.buttonEchoApply_Click);
+            // 
+            // buttonEchoPlayPause
+            // 
+            this.buttonEchoPlayPause.Location = new System.Drawing.Point(95, 20);
+            this.buttonEchoPlayPause.Name = "buttonEchoPlayPause";
+            this.buttonEchoPlayPause.Size = new System.Drawing.Size(75, 23);
+            this.buttonEchoPlayPause.TabIndex = 1;
+            this.buttonEchoPlayPause.Text = "Play Pause";
+            this.buttonEchoPlayPause.UseVisualStyleBackColor = true;
+            this.buttonEchoPlayPause.Click += new System.EventHandler(this.buttonEchoPlayPause_Click);
+            // 
+            // buttonEchoWczytaj
+            // 
+            this.buttonEchoWczytaj.Location = new System.Drawing.Point(9, 20);
+            this.buttonEchoWczytaj.Name = "buttonEchoWczytaj";
+            this.buttonEchoWczytaj.Size = new System.Drawing.Size(75, 23);
+            this.buttonEchoWczytaj.TabIndex = 0;
+            this.buttonEchoWczytaj.Text = "Wczytaj";
+            this.buttonEchoWczytaj.UseVisualStyleBackColor = true;
+            this.buttonEchoWczytaj.Click += new System.EventHandler(this.buttonEchoWczytaj_Click);
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.groupBoxDistortion);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(596, 443);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "tabPage5";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxDistortion
+            // 
+            this.groupBoxDistortion.Controls.Add(this.labelDistortionLowpass);
+            this.groupBoxDistortion.Controls.Add(this.labelDistortionCenter);
+            this.groupBoxDistortion.Controls.Add(this.labelDistortionBandwidth);
+            this.groupBoxDistortion.Controls.Add(this.labelDistortionGain);
+            this.groupBoxDistortion.Controls.Add(this.labelDistortionEdge);
+            this.groupBoxDistortion.Controls.Add(this.trackBarDistortionLowpass);
+            this.groupBoxDistortion.Controls.Add(this.trackBarDistortionCenter);
+            this.groupBoxDistortion.Controls.Add(this.trackBarDistortionBandwidth);
+            this.groupBoxDistortion.Controls.Add(this.trackBarDistortionGain);
+            this.groupBoxDistortion.Controls.Add(this.trackBarDistortionEdge);
+            this.groupBoxDistortion.Controls.Add(this.buttonDistortionApply);
+            this.groupBoxDistortion.Controls.Add(this.buttonDistortionPlayPause);
+            this.groupBoxDistortion.Controls.Add(this.buttonDistortionLoad);
+            this.groupBoxDistortion.Location = new System.Drawing.Point(4, 4);
+            this.groupBoxDistortion.Name = "groupBoxDistortion";
+            this.groupBoxDistortion.Size = new System.Drawing.Size(501, 361);
+            this.groupBoxDistortion.TabIndex = 0;
+            this.groupBoxDistortion.TabStop = false;
+            this.groupBoxDistortion.Text = "Distortion";
+            // 
+            // labelDistortionLowpass
+            // 
+            this.labelDistortionLowpass.AutoSize = true;
+            this.labelDistortionLowpass.Location = new System.Drawing.Point(3, 275);
+            this.labelDistortionLowpass.Name = "labelDistortionLowpass";
+            this.labelDistortionLowpass.Size = new System.Drawing.Size(102, 13);
+            this.labelDistortionLowpass.TabIndex = 19;
+            this.labelDistortionLowpass.Text = "Pre Lowpass Cutoff:";
+            // 
+            // labelDistortionCenter
+            // 
+            this.labelDistortionCenter.AutoSize = true;
+            this.labelDistortionCenter.Location = new System.Drawing.Point(3, 226);
+            this.labelDistortionCenter.Name = "labelDistortionCenter";
+            this.labelDistortionCenter.Size = new System.Drawing.Size(136, 13);
+            this.labelDistortionCenter.TabIndex = 18;
+            this.labelDistortionCenter.Text = "Post EQ Center Frequency:";
+            // 
+            // labelDistortionBandwidth
+            // 
+            this.labelDistortionBandwidth.AutoSize = true;
+            this.labelDistortionBandwidth.Location = new System.Drawing.Point(3, 173);
+            this.labelDistortionBandwidth.Name = "labelDistortionBandwidth";
+            this.labelDistortionBandwidth.Size = new System.Drawing.Size(102, 13);
+            this.labelDistortionBandwidth.TabIndex = 17;
+            this.labelDistortionBandwidth.Text = "Post EQ Bandwidth:";
+            // 
+            // labelDistortionGain
+            // 
+            this.labelDistortionGain.AutoSize = true;
+            this.labelDistortionGain.Location = new System.Drawing.Point(3, 112);
+            this.labelDistortionGain.Name = "labelDistortionGain";
+            this.labelDistortionGain.Size = new System.Drawing.Size(32, 13);
+            this.labelDistortionGain.TabIndex = 16;
+            this.labelDistortionGain.Text = "Gain:";
+            // 
+            // labelDistortionEdge
+            // 
+            this.labelDistortionEdge.AutoSize = true;
+            this.labelDistortionEdge.Location = new System.Drawing.Point(3, 75);
+            this.labelDistortionEdge.Name = "labelDistortionEdge";
+            this.labelDistortionEdge.Size = new System.Drawing.Size(35, 13);
+            this.labelDistortionEdge.TabIndex = 15;
+            this.labelDistortionEdge.Text = "Edge:";
+            // 
+            // trackBarDistortionLowpass
+            // 
+            this.trackBarDistortionLowpass.Location = new System.Drawing.Point(201, 261);
+            this.trackBarDistortionLowpass.Maximum = 8000;
+            this.trackBarDistortionLowpass.Minimum = 100;
+            this.trackBarDistortionLowpass.Name = "trackBarDistortionLowpass";
+            this.trackBarDistortionLowpass.Size = new System.Drawing.Size(294, 45);
+            this.trackBarDistortionLowpass.TabIndex = 14;
+            this.trackBarDistortionLowpass.Value = 2400;
+            this.trackBarDistortionLowpass.Scroll += new System.EventHandler(this.trackBarDistortionLowpass_Scroll);
+            // 
+            // trackBarDistortionCenter
+            // 
+            this.trackBarDistortionCenter.Location = new System.Drawing.Point(201, 209);
+            this.trackBarDistortionCenter.Maximum = 8000;
+            this.trackBarDistortionCenter.Minimum = 100;
+            this.trackBarDistortionCenter.Name = "trackBarDistortionCenter";
+            this.trackBarDistortionCenter.Size = new System.Drawing.Size(294, 45);
+            this.trackBarDistortionCenter.TabIndex = 13;
+            this.trackBarDistortionCenter.Value = 2400;
+            this.trackBarDistortionCenter.Scroll += new System.EventHandler(this.trackBarDistortionCenter_Scroll);
+            // 
+            // trackBarDistortionBandwidth
+            // 
+            this.trackBarDistortionBandwidth.Location = new System.Drawing.Point(201, 158);
+            this.trackBarDistortionBandwidth.Maximum = 8000;
+            this.trackBarDistortionBandwidth.Minimum = 100;
+            this.trackBarDistortionBandwidth.Name = "trackBarDistortionBandwidth";
+            this.trackBarDistortionBandwidth.Size = new System.Drawing.Size(294, 45);
+            this.trackBarDistortionBandwidth.TabIndex = 12;
+            this.trackBarDistortionBandwidth.Value = 2400;
+            this.trackBarDistortionBandwidth.Scroll += new System.EventHandler(this.trackBarDistortionBandwidth_Scroll);
+            // 
+            // trackBarDistortionGain
+            // 
+            this.trackBarDistortionGain.Location = new System.Drawing.Point(201, 107);
+            this.trackBarDistortionGain.Maximum = 0;
+            this.trackBarDistortionGain.Minimum = -60;
+            this.trackBarDistortionGain.Name = "trackBarDistortionGain";
+            this.trackBarDistortionGain.Size = new System.Drawing.Size(294, 45);
+            this.trackBarDistortionGain.TabIndex = 11;
+            this.trackBarDistortionGain.Value = -18;
+            this.trackBarDistortionGain.Scroll += new System.EventHandler(this.trackBarDistortionGain_Scroll);
+            // 
+            // trackBarDistortionEdge
+            // 
+            this.trackBarDistortionEdge.Location = new System.Drawing.Point(201, 53);
+            this.trackBarDistortionEdge.Maximum = 100;
+            this.trackBarDistortionEdge.Name = "trackBarDistortionEdge";
+            this.trackBarDistortionEdge.Size = new System.Drawing.Size(294, 45);
+            this.trackBarDistortionEdge.TabIndex = 10;
+            this.trackBarDistortionEdge.Value = 15;
+            this.trackBarDistortionEdge.Scroll += new System.EventHandler(this.trackBarDistortionEdge_Scroll);
+            // 
+            // buttonDistortionApply
+            // 
+            this.buttonDistortionApply.Location = new System.Drawing.Point(0, 325);
+            this.buttonDistortionApply.Name = "buttonDistortionApply";
+            this.buttonDistortionApply.Size = new System.Drawing.Size(75, 23);
+            this.buttonDistortionApply.TabIndex = 4;
+            this.buttonDistortionApply.Text = "Zastosuj";
+            this.buttonDistortionApply.UseVisualStyleBackColor = true;
+            this.buttonDistortionApply.Click += new System.EventHandler(this.buttonDistortionApply_Click);
+            // 
+            // buttonDistortionPlayPause
+            // 
+            this.buttonDistortionPlayPause.Location = new System.Drawing.Point(92, 19);
+            this.buttonDistortionPlayPause.Name = "buttonDistortionPlayPause";
+            this.buttonDistortionPlayPause.Size = new System.Drawing.Size(75, 23);
+            this.buttonDistortionPlayPause.TabIndex = 3;
+            this.buttonDistortionPlayPause.Text = "Play Pause";
+            this.buttonDistortionPlayPause.UseVisualStyleBackColor = true;
+            this.buttonDistortionPlayPause.Click += new System.EventHandler(this.buttonEchoPlayPause_Click);
+            // 
+            // buttonDistortionLoad
+            // 
+            this.buttonDistortionLoad.Location = new System.Drawing.Point(6, 19);
+            this.buttonDistortionLoad.Name = "buttonDistortionLoad";
+            this.buttonDistortionLoad.Size = new System.Drawing.Size(75, 23);
+            this.buttonDistortionLoad.TabIndex = 2;
+            this.buttonDistortionLoad.Text = "Wczytaj";
+            this.buttonDistortionLoad.UseVisualStyleBackColor = true;
+            this.buttonDistortionLoad.Click += new System.EventHandler(this.buttonEchoWczytaj_Click);
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.groupBoxChorus);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(596, 443);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "tabPage6";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxChorus
+            // 
+            this.groupBoxChorus.Controls.Add(this.labelChorusWetDryMix);
+            this.groupBoxChorus.Controls.Add(this.labelChorusWaveform);
+            this.groupBoxChorus.Controls.Add(this.labelChorusPhase);
+            this.groupBoxChorus.Controls.Add(this.labelChorusFrequency);
+            this.groupBoxChorus.Controls.Add(this.labelChorusFeedback);
+            this.groupBoxChorus.Controls.Add(this.labelChorusDepth);
+            this.groupBoxChorus.Controls.Add(this.labelChorusDelay);
+            this.groupBoxChorus.Controls.Add(this.trackBarChorusWetDryMix);
+            this.groupBoxChorus.Controls.Add(this.comboBoxChorusWaveform);
+            this.groupBoxChorus.Controls.Add(this.comboBoxChorusPhase);
+            this.groupBoxChorus.Controls.Add(this.trackBarChorusFrequency);
+            this.groupBoxChorus.Controls.Add(this.trackBarChorusFeedback);
+            this.groupBoxChorus.Controls.Add(this.trackBarChorusDepth);
+            this.groupBoxChorus.Controls.Add(this.trackBarChorusDelay);
+            this.groupBoxChorus.Controls.Add(this.buttonChorusApply);
+            this.groupBoxChorus.Controls.Add(this.buttonChorusPlayPause);
+            this.groupBoxChorus.Controls.Add(this.buttonChorusLoad);
+            this.groupBoxChorus.Location = new System.Drawing.Point(12, 12);
+            this.groupBoxChorus.Name = "groupBoxChorus";
+            this.groupBoxChorus.Size = new System.Drawing.Size(395, 422);
+            this.groupBoxChorus.TabIndex = 0;
+            this.groupBoxChorus.TabStop = false;
+            this.groupBoxChorus.Text = "Chorus";
+            // 
+            // labelChorusWetDryMix
+            // 
+            this.labelChorusWetDryMix.AutoSize = true;
+            this.labelChorusWetDryMix.Location = new System.Drawing.Point(21, 333);
+            this.labelChorusWetDryMix.Name = "labelChorusWetDryMix";
+            this.labelChorusWetDryMix.Size = new System.Drawing.Size(62, 13);
+            this.labelChorusWetDryMix.TabIndex = 20;
+            this.labelChorusWetDryMix.Text = "WetDryMix:";
+            // 
+            // labelChorusWaveform
+            // 
+            this.labelChorusWaveform.AutoSize = true;
+            this.labelChorusWaveform.Location = new System.Drawing.Point(21, 290);
+            this.labelChorusWaveform.Name = "labelChorusWaveform";
+            this.labelChorusWaveform.Size = new System.Drawing.Size(56, 13);
+            this.labelChorusWaveform.TabIndex = 19;
+            this.labelChorusWaveform.Text = "Waveform";
+            // 
+            // labelChorusPhase
+            // 
+            this.labelChorusPhase.AutoSize = true;
+            this.labelChorusPhase.Location = new System.Drawing.Point(21, 263);
+            this.labelChorusPhase.Name = "labelChorusPhase";
+            this.labelChorusPhase.Size = new System.Drawing.Size(40, 13);
+            this.labelChorusPhase.TabIndex = 18;
+            this.labelChorusPhase.Text = "Phase:";
+            // 
+            // labelChorusFrequency
+            // 
+            this.labelChorusFrequency.AutoSize = true;
+            this.labelChorusFrequency.Location = new System.Drawing.Point(21, 215);
+            this.labelChorusFrequency.Name = "labelChorusFrequency";
+            this.labelChorusFrequency.Size = new System.Drawing.Size(60, 13);
+            this.labelChorusFrequency.TabIndex = 17;
+            this.labelChorusFrequency.Text = "Frequency:";
+            // 
+            // labelChorusFeedback
+            // 
+            this.labelChorusFeedback.AutoSize = true;
+            this.labelChorusFeedback.Location = new System.Drawing.Point(21, 162);
+            this.labelChorusFeedback.Name = "labelChorusFeedback";
+            this.labelChorusFeedback.Size = new System.Drawing.Size(58, 13);
+            this.labelChorusFeedback.TabIndex = 16;
+            this.labelChorusFeedback.Text = "Feedback:";
+            // 
+            // labelChorusDepth
+            // 
+            this.labelChorusDepth.AutoSize = true;
+            this.labelChorusDepth.Location = new System.Drawing.Point(21, 109);
+            this.labelChorusDepth.Name = "labelChorusDepth";
+            this.labelChorusDepth.Size = new System.Drawing.Size(39, 13);
+            this.labelChorusDepth.TabIndex = 15;
+            this.labelChorusDepth.Text = "Depth:";
+            // 
+            // labelChorusDelay
+            // 
+            this.labelChorusDelay.AutoSize = true;
+            this.labelChorusDelay.Location = new System.Drawing.Point(21, 58);
+            this.labelChorusDelay.Name = "labelChorusDelay";
+            this.labelChorusDelay.Size = new System.Drawing.Size(37, 13);
+            this.labelChorusDelay.TabIndex = 14;
+            this.labelChorusDelay.Text = "Delay:";
+            // 
+            // trackBarChorusWetDryMix
+            // 
+            this.trackBarChorusWetDryMix.Location = new System.Drawing.Point(146, 322);
+            this.trackBarChorusWetDryMix.Maximum = 100;
+            this.trackBarChorusWetDryMix.Name = "trackBarChorusWetDryMix";
+            this.trackBarChorusWetDryMix.Size = new System.Drawing.Size(233, 45);
+            this.trackBarChorusWetDryMix.TabIndex = 13;
+            this.trackBarChorusWetDryMix.Value = 50;
+            this.trackBarChorusWetDryMix.Scroll += new System.EventHandler(this.trackBarChorusWetDryMix_Scroll);
+            // 
+            // comboBoxChorusWaveform
+            // 
+            this.comboBoxChorusWaveform.FormattingEnabled = true;
+            this.comboBoxChorusWaveform.Items.AddRange(new object[] {
+            "Sine",
+            "Triangle"});
+            this.comboBoxChorusWaveform.Location = new System.Drawing.Point(146, 282);
+            this.comboBoxChorusWaveform.Name = "comboBoxChorusWaveform";
+            this.comboBoxChorusWaveform.Size = new System.Drawing.Size(233, 21);
+            this.comboBoxChorusWaveform.TabIndex = 12;
+            // 
+            // comboBoxChorusPhase
+            // 
+            this.comboBoxChorusPhase.FormattingEnabled = true;
+            this.comboBoxChorusPhase.Items.AddRange(new object[] {
+            "-180",
+            "-90",
+            "0",
+            "90",
+            "180"});
+            this.comboBoxChorusPhase.Location = new System.Drawing.Point(146, 255);
+            this.comboBoxChorusPhase.Name = "comboBoxChorusPhase";
+            this.comboBoxChorusPhase.Size = new System.Drawing.Size(233, 21);
+            this.comboBoxChorusPhase.TabIndex = 11;
+            // 
+            // trackBarChorusFrequency
+            // 
+            this.trackBarChorusFrequency.Location = new System.Drawing.Point(144, 203);
+            this.trackBarChorusFrequency.Maximum = 100;
+            this.trackBarChorusFrequency.Name = "trackBarChorusFrequency";
+            this.trackBarChorusFrequency.Size = new System.Drawing.Size(235, 45);
+            this.trackBarChorusFrequency.TabIndex = 10;
+            this.trackBarChorusFrequency.Value = 11;
+            this.trackBarChorusFrequency.Scroll += new System.EventHandler(this.trackBarChorusFrequency_Scroll);
+            // 
+            // trackBarChorusFeedback
+            // 
+            this.trackBarChorusFeedback.Location = new System.Drawing.Point(145, 151);
+            this.trackBarChorusFeedback.Maximum = 99;
+            this.trackBarChorusFeedback.Minimum = -99;
+            this.trackBarChorusFeedback.Name = "trackBarChorusFeedback";
+            this.trackBarChorusFeedback.Size = new System.Drawing.Size(234, 45);
+            this.trackBarChorusFeedback.TabIndex = 9;
+            this.trackBarChorusFeedback.Value = 25;
+            this.trackBarChorusFeedback.Scroll += new System.EventHandler(this.trackBarChorusFeedback_Scroll);
+            // 
+            // trackBarChorusDepth
+            // 
+            this.trackBarChorusDepth.Location = new System.Drawing.Point(146, 99);
+            this.trackBarChorusDepth.Maximum = 100;
+            this.trackBarChorusDepth.Name = "trackBarChorusDepth";
+            this.trackBarChorusDepth.Size = new System.Drawing.Size(233, 45);
+            this.trackBarChorusDepth.TabIndex = 8;
+            this.trackBarChorusDepth.Value = 10;
+            this.trackBarChorusDepth.Scroll += new System.EventHandler(this.trackBarChorusDepth_Scroll);
+            // 
+            // trackBarChorusDelay
+            // 
+            this.trackBarChorusDelay.Location = new System.Drawing.Point(146, 48);
+            this.trackBarChorusDelay.Maximum = 20;
+            this.trackBarChorusDelay.Name = "trackBarChorusDelay";
+            this.trackBarChorusDelay.Size = new System.Drawing.Size(233, 45);
+            this.trackBarChorusDelay.TabIndex = 7;
+            this.trackBarChorusDelay.Value = 16;
+            this.trackBarChorusDelay.Scroll += new System.EventHandler(this.trackBarChorusDelay_Scroll);
+            // 
+            // buttonChorusApply
+            // 
+            this.buttonChorusApply.Location = new System.Drawing.Point(24, 381);
+            this.buttonChorusApply.Name = "buttonChorusApply";
+            this.buttonChorusApply.Size = new System.Drawing.Size(75, 23);
+            this.buttonChorusApply.TabIndex = 6;
+            this.buttonChorusApply.Text = "Zastosuj";
+            this.buttonChorusApply.UseVisualStyleBackColor = true;
+            this.buttonChorusApply.Click += new System.EventHandler(this.buttonChorusApply_Click);
+            // 
+            // buttonChorusPlayPause
+            // 
+            this.buttonChorusPlayPause.Location = new System.Drawing.Point(92, 19);
+            this.buttonChorusPlayPause.Name = "buttonChorusPlayPause";
+            this.buttonChorusPlayPause.Size = new System.Drawing.Size(75, 23);
+            this.buttonChorusPlayPause.TabIndex = 5;
+            this.buttonChorusPlayPause.Text = "Play Pause";
+            this.buttonChorusPlayPause.UseVisualStyleBackColor = true;
+            this.buttonChorusPlayPause.Click += new System.EventHandler(this.buttonEchoPlayPause_Click);
+            // 
+            // buttonChorusLoad
+            // 
+            this.buttonChorusLoad.Location = new System.Drawing.Point(6, 19);
+            this.buttonChorusLoad.Name = "buttonChorusLoad";
+            this.buttonChorusLoad.Size = new System.Drawing.Size(75, 23);
+            this.buttonChorusLoad.TabIndex = 4;
+            this.buttonChorusLoad.Text = "Wczytaj";
+            this.buttonChorusLoad.UseVisualStyleBackColor = true;
+            this.buttonChorusLoad.Click += new System.EventHandler(this.buttonEchoWczytaj_Click);
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(12, 162);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(165, 23);
+            this.button6.TabIndex = 5;
+            this.button6.Text = "Chorus";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(12, 133);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(165, 23);
+            this.button5.TabIndex = 4;
+            this.button5.Text = "Distortion";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(12, 101);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(165, 23);
+            this.button4.TabIndex = 3;
+            this.button4.Text = "Echo";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // buttonZmiana
             // 
             this.buttonZmiana.Location = new System.Drawing.Point(12, 43);
             this.buttonZmiana.Name = "buttonZmiana";
             this.buttonZmiana.Size = new System.Drawing.Size(166, 23);
-            this.buttonZmiana.TabIndex = 11;
+            this.buttonZmiana.TabIndex = 1;
             this.buttonZmiana.Text = "Odtwarzanie";
             this.buttonZmiana.UseVisualStyleBackColor = true;
             this.buttonZmiana.Click += new System.EventHandler(this.buttonZmiana_Click);
@@ -397,7 +1009,7 @@ namespace SMProjekt
             this.button2.Location = new System.Drawing.Point(12, 12);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(165, 23);
-            this.button2.TabIndex = 12;
+            this.button2.TabIndex = 0;
             this.button2.Text = "Nagrywanie";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -407,72 +1019,22 @@ namespace SMProjekt
             this.button3.Location = new System.Drawing.Point(11, 72);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(166, 23);
-            this.button3.TabIndex = 13;
+            this.button3.TabIndex = 2;
             this.button3.Text = "Modyfikacja";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.button7);
-            this.groupBox3.Controls.Add(this.button6);
-            this.groupBox3.Controls.Add(this.button5);
-            this.groupBox3.Controls.Add(this.button4);
-            this.groupBox3.Location = new System.Drawing.Point(178, 92);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(200, 140);
-            this.groupBox3.TabIndex = 16;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Efekty";
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(6, 47);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 0;
-            this.button4.Text = "echo";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(6, 80);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 1;
-            this.button5.Text = "Distortion";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(6, 110);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(75, 23);
-            this.button6.TabIndex = 2;
-            this.button6.Text = "Chorus";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
-            // 
-            // button7
-            // 
-            this.button7.Location = new System.Drawing.Point(7, 19);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(75, 23);
-            this.button7.TabIndex = 3;
-            this.button7.Text = "Wczytaj";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 561);
+            this.ClientSize = new System.Drawing.Size(784, 471);
             this.Controls.Add(this.button3);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.button2);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.buttonZmiana);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -493,7 +1055,29 @@ namespace SMProjekt
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
+            this.groupBoxEcho.ResumeLayout(false);
+            this.groupBoxEcho.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarEchoWetDryMix)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarEchoRightDelay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarEchoLeftDelay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarEchoFeedback)).EndInit();
+            this.tabPage5.ResumeLayout(false);
+            this.groupBoxDistortion.ResumeLayout(false);
+            this.groupBoxDistortion.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarDistortionLowpass)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarDistortionCenter)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarDistortionBandwidth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarDistortionGain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarDistortionEdge)).EndInit();
+            this.tabPage6.ResumeLayout(false);
+            this.groupBoxChorus.ResumeLayout(false);
+            this.groupBoxChorus.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarChorusWetDryMix)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarChorusFrequency)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarChorusFeedback)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarChorusDepth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarChorusDelay)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -531,11 +1115,57 @@ namespace SMProjekt
         private System.Windows.Forms.TextBox exportFileName;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.GroupBox groupBoxEcho;
+        private System.Windows.Forms.CheckBox checkBoxEchoPanDelay;
+        private System.Windows.Forms.TrackBar trackBarEchoWetDryMix;
+        private System.Windows.Forms.TrackBar trackBarEchoRightDelay;
+        private System.Windows.Forms.TrackBar trackBarEchoLeftDelay;
+        private System.Windows.Forms.TrackBar trackBarEchoFeedback;
+        private System.Windows.Forms.Button buttonEchoApply;
+        private System.Windows.Forms.Button buttonEchoPlayPause;
+        private System.Windows.Forms.Button buttonEchoWczytaj;
+        private System.Windows.Forms.Label labelEchoWetDry;
+        private System.Windows.Forms.Label labelEchoRightDelay;
+        private System.Windows.Forms.Label labelEchoLeftDelay;
+        private System.Windows.Forms.Label labelEchoFeedback;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.GroupBox groupBoxDistortion;
+        private System.Windows.Forms.Button buttonDistortionApply;
+        private System.Windows.Forms.Button buttonDistortionPlayPause;
+        private System.Windows.Forms.Button buttonDistortionLoad;
+        private System.Windows.Forms.Label labelDistortionLowpass;
+        private System.Windows.Forms.Label labelDistortionCenter;
+        private System.Windows.Forms.Label labelDistortionBandwidth;
+        private System.Windows.Forms.Label labelDistortionGain;
+        private System.Windows.Forms.Label labelDistortionEdge;
+        private System.Windows.Forms.TrackBar trackBarDistortionLowpass;
+        private System.Windows.Forms.TrackBar trackBarDistortionCenter;
+        private System.Windows.Forms.TrackBar trackBarDistortionBandwidth;
+        private System.Windows.Forms.TrackBar trackBarDistortionGain;
+        private System.Windows.Forms.TrackBar trackBarDistortionEdge;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.GroupBox groupBoxChorus;
+        private System.Windows.Forms.Button buttonChorusApply;
+        private System.Windows.Forms.Button buttonChorusPlayPause;
+        private System.Windows.Forms.Button buttonChorusLoad;
+        private System.Windows.Forms.ComboBox comboBoxChorusPhase;
+        private System.Windows.Forms.TrackBar trackBarChorusFrequency;
+        private System.Windows.Forms.TrackBar trackBarChorusFeedback;
+        private System.Windows.Forms.TrackBar trackBarChorusDepth;
+        private System.Windows.Forms.TrackBar trackBarChorusDelay;
+        private System.Windows.Forms.TrackBar trackBarChorusWetDryMix;
+        private System.Windows.Forms.ComboBox comboBoxChorusWaveform;
+        private System.Windows.Forms.Label labelChorusDelay;
+        private System.Windows.Forms.Label labelChorusWetDryMix;
+        private System.Windows.Forms.Label labelChorusWaveform;
+        private System.Windows.Forms.Label labelChorusPhase;
+        private System.Windows.Forms.Label labelChorusFrequency;
+        private System.Windows.Forms.Label labelChorusFeedback;
+        private System.Windows.Forms.Label labelChorusDepth;
     }
 }
 
