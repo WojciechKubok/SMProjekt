@@ -36,6 +36,7 @@ namespace SMProjekt
         private string pathtoConvert;
         private bool endoffile = false;
         private ISampleSource source;
+        private string dir = @"Zapisane";
 
         public Form1()
         {
@@ -46,6 +47,11 @@ namespace SMProjekt
             labelDistortionUpdate();
 
             labelChorusUpdate();
+            
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
         }
 
         //Odtwórz
