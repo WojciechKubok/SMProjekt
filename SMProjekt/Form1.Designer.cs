@@ -44,6 +44,7 @@ namespace SMProjekt
             this.timerLabel1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.trackBarVolume = new System.Windows.Forms.TrackBar();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -113,10 +114,12 @@ namespace SMProjekt
             this.buttonZmiana = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.labelVolume = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarVolume)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.tabPage3.SuspendLayout();
@@ -152,7 +155,7 @@ namespace SMProjekt
             // playButton
             // 
             this.playButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.playButton.Location = new System.Drawing.Point(152, 220);
+            this.playButton.Location = new System.Drawing.Point(28, 220);
             this.playButton.Name = "playButton";
             this.playButton.Size = new System.Drawing.Size(75, 47);
             this.playButton.TabIndex = 3;
@@ -173,7 +176,7 @@ namespace SMProjekt
             // stopButton
             // 
             this.stopButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.stopButton.Location = new System.Drawing.Point(370, 220);
+            this.stopButton.Location = new System.Drawing.Point(194, 220);
             this.stopButton.Name = "stopButton";
             this.stopButton.Size = new System.Drawing.Size(70, 47);
             this.stopButton.TabIndex = 5;
@@ -184,7 +187,7 @@ namespace SMProjekt
             // pauzePlayButton
             // 
             this.pauzePlayButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.pauzePlayButton.Location = new System.Drawing.Point(259, 220);
+            this.pauzePlayButton.Location = new System.Drawing.Point(109, 220);
             this.pauzePlayButton.Name = "pauzePlayButton";
             this.pauzePlayButton.Size = new System.Drawing.Size(79, 47);
             this.pauzePlayButton.TabIndex = 6;
@@ -277,6 +280,8 @@ namespace SMProjekt
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.labelVolume);
+            this.tabPage2.Controls.Add(this.trackBarVolume);
             this.tabPage2.Controls.Add(this.pictureBox2);
             this.tabPage2.Controls.Add(this.trackBar1);
             this.tabPage2.Controls.Add(this.playButton);
@@ -290,6 +295,16 @@ namespace SMProjekt
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // trackBarVolume
+            // 
+            this.trackBarVolume.Location = new System.Drawing.Point(350, 222);
+            this.trackBarVolume.Maximum = 100;
+            this.trackBarVolume.Name = "trackBarVolume";
+            this.trackBarVolume.Size = new System.Drawing.Size(225, 45);
+            this.trackBarVolume.TabIndex = 10;
+            this.trackBarVolume.Value = 90;
+            this.trackBarVolume.Scroll += new System.EventHandler(this.trackBarVolume_Scroll);
             // 
             // pictureBox2
             // 
@@ -1020,9 +1035,18 @@ namespace SMProjekt
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(166, 23);
             this.button3.TabIndex = 2;
-            this.button3.Text = "Modyfikacja";
+            this.button3.Text = "Konwersja/Overlap";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // labelVolume
+            // 
+            this.labelVolume.AutoSize = true;
+            this.labelVolume.Location = new System.Drawing.Point(270, 243);
+            this.labelVolume.Name = "labelVolume";
+            this.labelVolume.Size = new System.Drawing.Size(77, 13);
+            this.labelVolume.TabIndex = 11;
+            this.labelVolume.Text = "Volume: 100 %";
             // 
             // Form1
             // 
@@ -1048,6 +1072,7 @@ namespace SMProjekt
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarVolume)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.tabPage3.ResumeLayout(false);
@@ -1166,6 +1191,8 @@ namespace SMProjekt
         private System.Windows.Forms.Label labelChorusFrequency;
         private System.Windows.Forms.Label labelChorusFeedback;
         private System.Windows.Forms.Label labelChorusDepth;
+        private System.Windows.Forms.TrackBar trackBarVolume;
+        private System.Windows.Forms.Label labelVolume;
     }
 }
 

@@ -14,6 +14,7 @@ using SMProjekt.Visualization;
 using CSCore.Codecs.WAV;
 using CSCore.DMO.Effects;
 using System.IO;
+using CSCore.DirectSound;
 
 namespace SMProjekt
 {
@@ -41,6 +42,8 @@ namespace SMProjekt
         public Form1()
         {
             InitializeComponent();
+
+            labelVolume.Text = "Volume: " + trackBarVolume.Value + " %";
 
             labelEchoUpdate();
 
@@ -148,6 +151,15 @@ namespace SMProjekt
                         }
                     
                 }
+            }
+        }
+
+        private void trackBarVolume_Scroll(object sender, EventArgs e)
+        {
+            labelVolume.Text = "Volume: " + trackBarVolume.Value + " %";
+            if (_soundOut != null)
+            {
+                _soundOut.Volume = trackBarVolume.Value / 100.0f;
             }
         }
 
@@ -294,6 +306,7 @@ namespace SMProjekt
             //play the audio
             _soundOut = new WasapiOut();
             _soundOut.Initialize(_source);
+            _soundOut.Volume = trackBarVolume.Value / 100.0f;
             _soundOut.Play();
             TimeSpan xxx = _source.GetLength();
             trackBar1.Maximum = (int)xxx.TotalMilliseconds;
