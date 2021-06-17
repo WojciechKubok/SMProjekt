@@ -12,6 +12,7 @@ using CSCore.Streams.Effects;
 using CSCore.CoreAudioAPI;
 using SMProjekt.Visualization;
 using CSCore.Codecs.WAV;
+using CSCore.DMO.Effects;
 using System.IO;
 
 namespace SMProjekt
@@ -35,10 +36,22 @@ namespace SMProjekt
         private string pathtoConvert;
         private bool endoffile = false;
         private ISampleSource source;
+        private string dir = @"Zapisane";
 
         public Form1()
         {
             InitializeComponent();
+
+            labelEchoUpdate();
+
+            labelDistortionUpdate();
+
+            labelChorusUpdate();
+            
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
         }
 
         //Odtwórz
@@ -338,6 +351,19 @@ namespace SMProjekt
             pictureBox1.Image = null;
         }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPage4;
+        }
+        private void button5_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPage5;
+        }
+        private void button6_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPage6;
+        }
+
         private void mergeButton1_Click(object sender, EventArgs e)
         {
             var openFileDialog = new OpenFileDialog()
@@ -505,6 +531,253 @@ namespace SMProjekt
             trackBar1.Value = Convert.ToInt32(dblValue);
         }
 
+        //Wczytywanie pliku do efektów
+
+        private void buttonEchoWczytaj_Click(object sender, EventArgs e)
+        {
+            //ta funkcja jest wywoływana przez przycisk wczytaj w każdym groupBox z efektem
+            var openFileDialog = new OpenFileDialog()
+            {
+                Filter = CodecFactory.SupportedFilesFilterEn,
+                Title = "Select a file..."
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Stop();
+                //open the selected file
+                pathtoFile = openFileDialog.FileName;
+                PlayFileAudio();
+            }
+        }
+
+        //Pause play w efektach
+
+        private void buttonEchoPlayPause_Click(object sender, EventArgs e)
+        {
+            //ta funkcja jest wywoływana przez przycisk Play Pause w każdym groupBox z efektem
+            if (endoffile == true)
+            {
+                PlayFileAudio();
+                endoffile = false;
+            }
+            else
+            {
+                if (_soundOut != null)
+                {
+
+                    if (stop)
+                    {
+                        timer1.Stop();
+                        _soundOut.Stop();
+                        stop = false;
+                        return;
+                    }
+                    if (!stop)
+                    {
+                        timer1.Start();
+                        _soundOut.Play();
+                        stop = true;
+                        return;
+                    }
+
+                }
+            }
+        }
+
+        //Zastosowanie efektu echo
+
+        private void buttonEchoApply_Click(object sender, EventArgs e)
+        {
+            timer1.Stop();
+            _soundOut.Stop();
+            stop = false;
+
+            var echo = new DmoEchoEffect(_source);
+            echo.Feedback = trackBarEchoFeedback.Value;         //0-100
+            echo.LeftDelay = trackBarEchoLeftDelay.Value;       //1-2000ms
+            echo.RightDelay = trackBarEchoRightDelay.Value;      //1-2000ms
+            if(checkBoxEchoPanDelay.Checked == true)
+            {
+                echo.PanDelay = true;
+            }
+            else
+            {
+                echo.PanDelay = false;
+            }
+            echo.WetDryMix = trackBarEchoWetDryMix.Value;        //0-100
+            _soundOut = new WasapiOut();
+            _soundOut.Initialize(echo);
+
+            timer1.Start();
+            _soundOut.Play();
+            stop = true;
+        }
+
+        private void labelEchoUpdate()
+        {
+            labelEchoFeedback.Text = "Feedback: " + trackBarEchoFeedback.Value.ToString();
+            labelEchoLeftDelay.Text = "Left Delay: " + trackBarEchoLeftDelay.Value.ToString() + " ms";
+            labelEchoRightDelay.Text = "Right Delay" + trackBarEchoRightDelay.Value.ToString() + " ms";
+            labelEchoWetDry.Text = "WetDryMix: " + trackBarEchoWetDryMix.Value.ToString() + " %";
+        }
+
+        private void trackBarEchoFeedback_Scroll(object sender, EventArgs e)
+        {
+            labelEchoUpdate();
+        }
+
+        private void trackBarEchoLeftDelay_Scroll(object sender, EventArgs e)
+        {
+            labelEchoUpdate();
+        }
+
+        private void trackBarEchoRightDelay_Scroll(object sender, EventArgs e)
+        {
+            labelEchoUpdate();
+        }
+
+        private void trackBarEchoWetDryMix_Scroll(object sender, EventArgs e)
+        {
+            labelEchoUpdate();
+        }
+
+        //Zastosowanie efektu Distortion
+
+        private void buttonDistortionApply_Click(object sender, EventArgs e)
+        {
+            timer1.Stop();
+            _soundOut.Stop();
+            stop = false;
+
+            var distortionEffect = new DmoDistortionEffect(_source);
+            distortionEffect.Edge = trackBarDistortionEdge.Value;         //0-100
+            distortionEffect.Gain = trackBarDistortionGain.Value;        //-60 - 0dB
+            distortionEffect.PostEQBandwidth = trackBarDistortionBandwidth.Value;        //100-8000Hz
+            distortionEffect.PostEQCenterFrequency = trackBarDistortionCenter.Value;  //100-8000Hz
+            distortionEffect.PreLowpassCutoff = trackBarDistortionLowpass.Value;       //100-8000Hz
+            _soundOut = new WasapiOut();
+            _soundOut.Initialize(distortionEffect);
+
+            timer1.Start();
+            _soundOut.Play();
+            stop = true;
+        }
+        private void labelDistortionUpdate()
+        {
+            labelDistortionEdge.Text = "Edge: " + trackBarDistortionEdge.Value.ToString() + " %";
+            labelDistortionGain.Text = "Gain: " + trackBarDistortionGain.Value.ToString() + " dB";
+            labelDistortionBandwidth.Text = "Post EQ Bandwidth: " + trackBarDistortionBandwidth.Value.ToString() + " Hz";
+            labelDistortionCenter.Text = "Post EQ Center Frequency: " +trackBarDistortionCenter.Value.ToString() + " Hz";
+            labelDistortionLowpass.Text = "Pre Lowpass Cutoff: " + trackBarDistortionLowpass.Value.ToString() + " Hz";
+        }
+
+        private void trackBarDistortionEdge_Scroll(object sender, EventArgs e)
+        {
+            labelDistortionUpdate();
+        }
+
+        private void trackBarDistortionGain_Scroll(object sender, EventArgs e)
+        {
+            labelDistortionUpdate();
+        }
+
+        private void trackBarDistortionBandwidth_Scroll(object sender, EventArgs e)
+        {
+            labelDistortionUpdate();
+        }
+
+        private void trackBarDistortionCenter_Scroll(object sender, EventArgs e)
+        {
+            labelDistortionUpdate();
+        }
+
+        private void trackBarDistortionLowpass_Scroll(object sender, EventArgs e)
+        {
+            labelDistortionUpdate();
+        }
+
+        //zastosowanie efektu Chorus
+
+        private void buttonChorusApply_Click(object sender, EventArgs e)
+        {
+            timer1.Stop();
+            _soundOut.Stop();
+            stop = false;
+
+            var chorusEffect = new DmoChorusEffect(_source);
+            chorusEffect.Delay = trackBarChorusDelay.Value;        //0-20ms
+            chorusEffect.Depth = trackBarChorusDepth.Value;        //0-100 
+            chorusEffect.Feedback = trackBarChorusFeedback.Value;     //-99 - 99
+            chorusEffect.Frequency = (float)(trackBarChorusFrequency.Value / 10.00);    //0-10
+            switch(comboBoxChorusPhase.Text)
+            {
+                case "-180":
+                    chorusEffect.Phase = ChorusPhase.PhaseNegative180;
+                    break;
+                case "-90":
+                    chorusEffect.Phase = ChorusPhase.PhaseNegative90;
+                    break;
+                case "0":
+                    chorusEffect.Phase = ChorusPhase.PhaseZero;
+                    break;
+                case "90":
+                    chorusEffect.Phase = ChorusPhase.Phase90;
+                    break;
+                case "180":
+                    chorusEffect.Phase = ChorusPhase.Phase180;
+                    break;
+            }
+            switch(comboBoxChorusWaveform.Text)
+            {
+                case "Sine":
+                    chorusEffect.Waveform = ChorusWaveform.WaveformSin;
+                    break;
+                case "Triangle":
+                    chorusEffect.Waveform = ChorusWaveform.WaveformTriangle;
+                    break;
+
+            }
+            chorusEffect.WetDryMix = trackBarChorusWetDryMix.Value;        //0-100%
+
+            _soundOut = new WasapiOut();
+            _soundOut.Initialize(chorusEffect);
+
+            timer1.Start();
+            _soundOut.Play();
+            stop = true;
+        }
+        private void labelChorusUpdate()
+        {
+            labelChorusDelay.Text = "Delay: " + trackBarChorusDelay.Value + " ms";
+            labelChorusDepth.Text = "Depth: " + trackBarChorusDepth.Value;
+            labelChorusFeedback.Text = "Feedback: " + trackBarChorusFeedback.Value;
+            labelChorusFrequency.Text = "Frequency: " + (float)(trackBarChorusFrequency.Value / 10.00);
+            comboBoxChorusPhase.SelectedIndex = 3;
+            comboBoxChorusWaveform.SelectedIndex = 0;
+            labelChorusWetDryMix.Text = "WetDryMix: " + trackBarChorusWetDryMix.Value + " %";
+        }
+        private void trackBarChorusDelay_Scroll(object sender, EventArgs e)
+        {
+            labelChorusUpdate();
+        }
         
+        private void trackBarChorusDepth_Scroll(object sender, EventArgs e)
+        {
+            labelChorusUpdate();
+        }
+
+        private void trackBarChorusFeedback_Scroll(object sender, EventArgs e)
+        {
+            labelChorusUpdate();
+        }
+        private void trackBarChorusFrequency_Scroll(object sender, EventArgs e)
+        {
+            labelChorusUpdate();
+        }
+
+        private void trackBarChorusWetDryMix_Scroll(object sender, EventArgs e)
+        {
+            labelChorusUpdate();
+        }
     }
 }
