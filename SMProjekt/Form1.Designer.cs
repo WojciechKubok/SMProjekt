@@ -31,16 +31,17 @@ namespace SMProjekt
         {
             this.components = new System.ComponentModel.Container();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.playButton = new System.Windows.Forms.Button();
-            this.recordButton = new System.Windows.Forms.Button();
+            this.buttonLoadAudio = new System.Windows.Forms.Button();
+            this.buttonRecordAudio = new System.Windows.Forms.Button();
             this.stopButton = new System.Windows.Forms.Button();
             this.pauzePlayButton = new System.Windows.Forms.Button();
             this.timerLabel2 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonStopRecordAudio = new System.Windows.Forms.Button();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.pauzeRecordButton = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.buttonSaveRecordAudio = new System.Windows.Forms.Button();
             this.timerLabel1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -101,13 +102,12 @@ namespace SMProjekt
             this.labelVolume = new System.Windows.Forms.Label();
             this.trackBarVolume = new System.Windows.Forms.TrackBar();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.trackBarPlayer = new System.Windows.Forms.TrackBar();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -136,7 +136,7 @@ namespace SMProjekt
             ((System.ComponentModel.ISupportInitialize)(this.trackBarChorusDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolume)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarPlayer)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
@@ -144,26 +144,26 @@ namespace SMProjekt
             this.timer1.Interval = 10;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick_1);
             // 
-            // playButton
+            // buttonLoadAudio
             // 
-            this.playButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.playButton.Location = new System.Drawing.Point(218, 207);
-            this.playButton.Name = "playButton";
-            this.playButton.Size = new System.Drawing.Size(75, 47);
-            this.playButton.TabIndex = 3;
-            this.playButton.Text = "⏏";
-            this.playButton.UseVisualStyleBackColor = true;
-            this.playButton.Click += new System.EventHandler(this.openToolStripMenuItem_Click_1);
+            this.buttonLoadAudio.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.buttonLoadAudio.Location = new System.Drawing.Point(218, 207);
+            this.buttonLoadAudio.Name = "buttonLoadAudio";
+            this.buttonLoadAudio.Size = new System.Drawing.Size(75, 47);
+            this.buttonLoadAudio.TabIndex = 3;
+            this.buttonLoadAudio.Text = "⏏";
+            this.buttonLoadAudio.UseVisualStyleBackColor = true;
+            this.buttonLoadAudio.Click += new System.EventHandler(this.buttonLoadAudio_Click);
             // 
-            // recordButton
+            // buttonRecordAudio
             // 
-            this.recordButton.Location = new System.Drawing.Point(25, 183);
-            this.recordButton.Name = "recordButton";
-            this.recordButton.Size = new System.Drawing.Size(75, 23);
-            this.recordButton.TabIndex = 4;
-            this.recordButton.Text = "Nagraj";
-            this.recordButton.UseVisualStyleBackColor = true;
-            this.recordButton.Click += new System.EventHandler(this.button1_Click);
+            this.buttonRecordAudio.Location = new System.Drawing.Point(25, 183);
+            this.buttonRecordAudio.Name = "buttonRecordAudio";
+            this.buttonRecordAudio.Size = new System.Drawing.Size(75, 23);
+            this.buttonRecordAudio.TabIndex = 4;
+            this.buttonRecordAudio.Text = "Nagraj";
+            this.buttonRecordAudio.UseVisualStyleBackColor = true;
+            this.buttonRecordAudio.Click += new System.EventHandler(this.buttonRecordAudio_Click);
             // 
             // stopButton
             // 
@@ -196,15 +196,15 @@ namespace SMProjekt
             this.timerLabel2.TabIndex = 7;
             this.timerLabel2.Text = "00:00:00";
             // 
-            // button1
+            // buttonStopRecordAudio
             // 
-            this.button1.Location = new System.Drawing.Point(150, 212);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(119, 23);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "Stop nagrywania";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.buttonStopRecordAudio.Location = new System.Drawing.Point(150, 212);
+            this.buttonStopRecordAudio.Name = "buttonStopRecordAudio";
+            this.buttonStopRecordAudio.Size = new System.Drawing.Size(119, 23);
+            this.buttonStopRecordAudio.TabIndex = 8;
+            this.buttonStopRecordAudio.Text = "Stop nagrywania";
+            this.buttonStopRecordAudio.UseVisualStyleBackColor = true;
+            this.buttonStopRecordAudio.Click += new System.EventHandler(this.buttonStopRecordAudio_Click_);
             // 
             // timer2
             // 
@@ -238,11 +238,11 @@ namespace SMProjekt
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.button7);
+            this.tabPage1.Controls.Add(this.buttonSaveRecordAudio);
             this.tabPage1.Controls.Add(this.timerLabel1);
             this.tabPage1.Controls.Add(this.pictureBox1);
-            this.tabPage1.Controls.Add(this.recordButton);
-            this.tabPage1.Controls.Add(this.button1);
+            this.tabPage1.Controls.Add(this.buttonRecordAudio);
+            this.tabPage1.Controls.Add(this.buttonStopRecordAudio);
             this.tabPage1.Controls.Add(this.pauzeRecordButton);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
@@ -251,6 +251,17 @@ namespace SMProjekt
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // buttonSaveRecordAudio
+            // 
+            this.buttonSaveRecordAudio.Enabled = false;
+            this.buttonSaveRecordAudio.Location = new System.Drawing.Point(275, 212);
+            this.buttonSaveRecordAudio.Name = "buttonSaveRecordAudio";
+            this.buttonSaveRecordAudio.Size = new System.Drawing.Size(119, 23);
+            this.buttonSaveRecordAudio.TabIndex = 12;
+            this.buttonSaveRecordAudio.Text = "Zapisz nagranie";
+            this.buttonSaveRecordAudio.UseVisualStyleBackColor = true;
+            this.buttonSaveRecordAudio.Click += new System.EventHandler(this.buttonSaveRecordAudio_Click);
             // 
             // timerLabel1
             // 
@@ -887,16 +898,16 @@ namespace SMProjekt
             this.pictureBox2.TabIndex = 9;
             this.pictureBox2.TabStop = false;
             // 
-            // trackBar1
+            // trackBarPlayer
             // 
-            this.trackBar1.Location = new System.Drawing.Point(215, 156);
-            this.trackBar1.Maximum = 5;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(550, 45);
-            this.trackBar1.TabIndex = 8;
-            this.trackBar1.TickFrequency = 5;
-            this.trackBar1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trackBar1_MouseDown);
-            this.trackBar1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackBar1_MouseUp);
+            this.trackBarPlayer.Location = new System.Drawing.Point(215, 156);
+            this.trackBarPlayer.Maximum = 5;
+            this.trackBarPlayer.Name = "trackBarPlayer";
+            this.trackBarPlayer.Size = new System.Drawing.Size(550, 45);
+            this.trackBarPlayer.TabIndex = 8;
+            this.trackBarPlayer.TickFrequency = 5;
+            this.trackBarPlayer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trackBarPlayer_MouseDown);
+            this.trackBarPlayer.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackBarPlayer_MouseUp);
             // 
             // button6
             // 
@@ -948,16 +959,6 @@ namespace SMProjekt
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // button7
-            // 
-            this.button7.Location = new System.Drawing.Point(275, 212);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(119, 23);
-            this.button7.TabIndex = 12;
-            this.button7.Text = "Zapisz nagranie";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -968,9 +969,9 @@ namespace SMProjekt
             this.Controls.Add(this.trackBarVolume);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.trackBar1);
+            this.Controls.Add(this.trackBarPlayer);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.playButton);
+            this.Controls.Add(this.buttonLoadAudio);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.pauzePlayButton);
             this.Controls.Add(this.timerLabel2);
@@ -1017,7 +1018,7 @@ namespace SMProjekt
             ((System.ComponentModel.ISupportInitialize)(this.trackBarChorusDelay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolume)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarPlayer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1025,18 +1026,18 @@ namespace SMProjekt
 
         #endregion
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Button playButton;
-        private System.Windows.Forms.Button recordButton;
+        private System.Windows.Forms.Button buttonLoadAudio;
+        private System.Windows.Forms.Button buttonRecordAudio;
         private System.Windows.Forms.Button stopButton;
         private System.Windows.Forms.Button pauzePlayButton;
         private System.Windows.Forms.Label timerLabel2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonStopRecordAudio;
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.Button pauzeRecordButton;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.TrackBar trackBarPlayer;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label timerLabel1;
         private System.Windows.Forms.TabPage tabPage3;
@@ -1101,7 +1102,7 @@ namespace SMProjekt
         private System.Windows.Forms.TrackBar trackBarVolume;
         private System.Windows.Forms.Label labelVolume;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button buttonSaveRecordAudio;
     }
 }
 
