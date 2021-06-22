@@ -38,6 +38,11 @@ namespace SMProjekt
         private bool endoffile = false;
         private ISampleSource source;
         private string dir = @"Zapisane";
+        DmoEchoEffect echo;
+        DmoDistortionEffect distortionEffect;
+        DmoChorusEffect chorusEffect;
+        enum effect { ECHO, DISTORTION, CHORUS, NONE };
+        effect active_effect = effect.NONE;
 
         public Form1()
         {
@@ -79,13 +84,13 @@ namespace SMProjekt
         //nagraj button
         private void button1_Click(object sender, EventArgs e)
         {
-            var saveFileDialog = new SaveFileDialog()
-            {
-                Filter = CodecFactory.SupportedFilesFilterEn,
-                Title = "Select a file..."
-            };
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
+            //var saveFileDialog = new SaveFileDialog()
+            //{
+            //    Filter = CodecFactory.SupportedFilesFilterEn,
+            //    Title = "Select a file..."
+            //};
+            //if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            //{
                 Stop();
 
                 _soundIn = new WasapiCapture();   
@@ -96,8 +101,11 @@ namespace SMProjekt
                 var soundInSource = new SoundInSource(_soundIn);
                 source = soundInSource.ToSampleSource();
                 SetupSampleSource(source);
-
-                writer = new WaveWriter(saveFileDialog.FileName, _soundIn.WaveFormat);
+                if(File.Exists(@"temp_audio_file.wav"))
+                {
+                    File.Delete(@"temp_audio_file.wav");
+                }
+                writer = new WaveWriter(/*saveFileDialog.FileName*/@"temp_audio_file.wav", _soundIn.WaveFormat);
 
                 
                 byte[] buffer = new byte[_source.WaveFormat.BytesPerSecond / 2];
@@ -113,7 +121,7 @@ namespace SMProjekt
                 //Pokaż
                 timer2.Start();
             }
-        }
+        //}
 
         //stop odtwórz button
         private void stopButton_Click(object sender, EventArgs e)
@@ -203,6 +211,23 @@ namespace SMProjekt
             timeRecorded = TimeSpan.Zero;
             writer.Dispose();
             Stop();
+            pathtoFile = @"temp_audio_file.wav";
+            Stop();
+            endoffile = true;
+            trackBar1.Value = 0;
+            //PlayFileAudio();
+        }
+        private void button7_Click(object sender, EventArgs e)
+        {
+            var saveFileDialog = new SaveFileDialog()
+            {
+                Filter = CodecFactory.SupportedFilesFilterEn,
+                Title = "Select a file..."
+            };
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                File.Copy(@"temp_audio_file.wav",saveFileDialog.FileName);
+            }
         }
 
         private void pauzeRecordButton_Click(object sender, EventArgs e)
@@ -343,13 +368,6 @@ namespace SMProjekt
             form.Dispose();
         }
         */
-
-        //przycisk przełączający na okno odtwarzania
-        private void buttonZmiana_Click(object sender, EventArgs e)
-        {
-            tabControl1.SelectedTab = tabPage2;
-            pictureBox2.Image = null;
-        }
 
         //przycisk przełączający na okno nagrywania
         private void button2_Click(object sender, EventArgs e)
@@ -521,12 +539,25 @@ namespace SMProjekt
             {
                 _soundOut.Stop();
                 TimeSpan ts = new TimeSpan(trackBar1.Value * 10000);
+                switch (active_effect)
+                {
+                    case effect.ECHO:
+                        source = echo.ToSampleSource();
+                        break;
+                    case effect.DISTORTION:
+                        source = distortionEffect.ToSampleSource();
+                        break;
+                    case effect.CHORUS:
+                        source = chorusEffect.ToSampleSource();
+                        break;
+                }
                 source.SetPosition(ts);
                 SetupSampleSource(source);
 
                 //play the audio
                 _soundOut = new WasapiOut();
                 _soundOut.Initialize(_source);
+                _soundOut.Volume = trackBarVolume.Value / 100.0f;
                 _soundOut.Play();
                 timer1.Start();
             }
@@ -544,86 +575,34 @@ namespace SMProjekt
             trackBar1.Value = Convert.ToInt32(dblValue);
         }
 
-        //Wczytywanie pliku do efektów
-
-        private void buttonEchoWczytaj_Click(object sender, EventArgs e)
-        {
-            //ta funkcja jest wywoływana przez przycisk wczytaj w każdym groupBox z efektem
-            var openFileDialog = new OpenFileDialog()
-            {
-                Filter = CodecFactory.SupportedFilesFilterEn,
-                Title = "Select a file..."
-            };
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                Stop();
-                //open the selected file
-                pathtoFile = openFileDialog.FileName;
-                PlayFileAudio();
-            }
-        }
-
-        //Pause play w efektach
-
-        private void buttonEchoPlayPause_Click(object sender, EventArgs e)
-        {
-            //ta funkcja jest wywoływana przez przycisk Play Pause w każdym groupBox z efektem
-            if (endoffile == true)
-            {
-                PlayFileAudio();
-                endoffile = false;
-            }
-            else
-            {
-                if (_soundOut != null)
-                {
-
-                    if (stop)
-                    {
-                        timer1.Stop();
-                        _soundOut.Stop();
-                        stop = false;
-                        return;
-                    }
-                    if (!stop)
-                    {
-                        timer1.Start();
-                        _soundOut.Play();
-                        stop = true;
-                        return;
-                    }
-
-                }
-            }
-        }
-
         //Zastosowanie efektu echo
 
         private void buttonEchoApply_Click(object sender, EventArgs e)
         {
-            timer1.Stop();
-            _soundOut.Stop();
-            stop = false;
-
-            var echo = new DmoEchoEffect(_source);
-            echo.Feedback = trackBarEchoFeedback.Value;         //0-100
-            echo.LeftDelay = trackBarEchoLeftDelay.Value;       //1-2000ms
-            echo.RightDelay = trackBarEchoRightDelay.Value;      //1-2000ms
-            if(checkBoxEchoPanDelay.Checked == true)
+            if (_source != null)
             {
-                echo.PanDelay = true;
-            }
-            else
-            {
-                echo.PanDelay = false;
-            }
-            echo.WetDryMix = trackBarEchoWetDryMix.Value;        //0-100
-            _soundOut = new WasapiOut();
-            _soundOut.Initialize(echo);
+                pauzePlayButton_Click(null, EventArgs.Empty);
 
-            timer1.Start();
-            _soundOut.Play();
-            stop = true;
+                active_effect = effect.ECHO;
+                echo = new DmoEchoEffect(_source);
+                echo.Feedback = trackBarEchoFeedback.Value;         //0-100
+                echo.LeftDelay = trackBarEchoLeftDelay.Value;       //1-2000ms
+                echo.RightDelay = trackBarEchoRightDelay.Value;      //1-2000ms
+                if (checkBoxEchoPanDelay.Checked == true)
+                {
+                    echo.PanDelay = true;
+                }
+                else
+                {
+                    echo.PanDelay = false;
+                }
+                echo.WetDryMix = trackBarEchoWetDryMix.Value;        //0-100
+                _soundOut = new WasapiOut();
+                _soundOut.Initialize(echo);
+                _soundOut.Volume = trackBarVolume.Value / 100.0f;
+
+                pauzePlayButton_Click(null, EventArgs.Empty);
+            }
         }
 
         private void labelEchoUpdate()
@@ -658,22 +637,23 @@ namespace SMProjekt
 
         private void buttonDistortionApply_Click(object sender, EventArgs e)
         {
-            timer1.Stop();
-            _soundOut.Stop();
-            stop = false;
+            if (_source != null)
+            {
+                pauzePlayButton_Click(null, EventArgs.Empty);
 
-            var distortionEffect = new DmoDistortionEffect(_source);
-            distortionEffect.Edge = trackBarDistortionEdge.Value;         //0-100
-            distortionEffect.Gain = trackBarDistortionGain.Value;        //-60 - 0dB
-            distortionEffect.PostEQBandwidth = trackBarDistortionBandwidth.Value;        //100-8000Hz
-            distortionEffect.PostEQCenterFrequency = trackBarDistortionCenter.Value;  //100-8000Hz
-            distortionEffect.PreLowpassCutoff = trackBarDistortionLowpass.Value;       //100-8000Hz
-            _soundOut = new WasapiOut();
-            _soundOut.Initialize(distortionEffect);
+                active_effect = effect.ECHO;
+                distortionEffect = new DmoDistortionEffect(_source);
+                distortionEffect.Edge = trackBarDistortionEdge.Value;         //0-100
+                distortionEffect.Gain = trackBarDistortionGain.Value;        //-60 - 0dB
+                distortionEffect.PostEQBandwidth = trackBarDistortionBandwidth.Value;        //100-8000Hz
+                distortionEffect.PostEQCenterFrequency = trackBarDistortionCenter.Value;  //100-8000Hz
+                distortionEffect.PreLowpassCutoff = trackBarDistortionLowpass.Value;       //100-8000Hz
+                _soundOut = new WasapiOut();
+                _soundOut.Initialize(distortionEffect);
+                _soundOut.Volume = trackBarVolume.Value / 100.0f;
 
-            timer1.Start();
-            _soundOut.Play();
-            stop = true;
+                pauzePlayButton_Click(null, EventArgs.Empty);
+            }
         }
         private void labelDistortionUpdate()
         {
@@ -713,51 +693,52 @@ namespace SMProjekt
 
         private void buttonChorusApply_Click(object sender, EventArgs e)
         {
-            timer1.Stop();
-            _soundOut.Stop();
-            stop = false;
-
-            var chorusEffect = new DmoChorusEffect(_source);
-            chorusEffect.Delay = trackBarChorusDelay.Value;        //0-20ms
-            chorusEffect.Depth = trackBarChorusDepth.Value;        //0-100 
-            chorusEffect.Feedback = trackBarChorusFeedback.Value;     //-99 - 99
-            chorusEffect.Frequency = (float)(trackBarChorusFrequency.Value / 10.00);    //0-10
-            switch(comboBoxChorusPhase.Text)
+            if (_source != null)
             {
-                case "-180":
-                    chorusEffect.Phase = ChorusPhase.PhaseNegative180;
-                    break;
-                case "-90":
-                    chorusEffect.Phase = ChorusPhase.PhaseNegative90;
-                    break;
-                case "0":
-                    chorusEffect.Phase = ChorusPhase.PhaseZero;
-                    break;
-                case "90":
-                    chorusEffect.Phase = ChorusPhase.Phase90;
-                    break;
-                case "180":
-                    chorusEffect.Phase = ChorusPhase.Phase180;
-                    break;
+                pauzePlayButton_Click(null, EventArgs.Empty);
+
+                active_effect = effect.CHORUS;
+                chorusEffect = new DmoChorusEffect(_source);
+                chorusEffect.Delay = trackBarChorusDelay.Value;        //0-20ms
+                chorusEffect.Depth = trackBarChorusDepth.Value;        //0-100 
+                chorusEffect.Feedback = trackBarChorusFeedback.Value;     //-99 - 99
+                chorusEffect.Frequency = (float)(trackBarChorusFrequency.Value / 10.00);    //0-10
+                switch (comboBoxChorusPhase.Text)
+                {
+                    case "-180":
+                        chorusEffect.Phase = ChorusPhase.PhaseNegative180;
+                        break;
+                    case "-90":
+                        chorusEffect.Phase = ChorusPhase.PhaseNegative90;
+                        break;
+                    case "0":
+                        chorusEffect.Phase = ChorusPhase.PhaseZero;
+                        break;
+                    case "90":
+                        chorusEffect.Phase = ChorusPhase.Phase90;
+                        break;
+                    case "180":
+                        chorusEffect.Phase = ChorusPhase.Phase180;
+                        break;
+                }
+                switch (comboBoxChorusWaveform.Text)
+                {
+                    case "Sine":
+                        chorusEffect.Waveform = ChorusWaveform.WaveformSin;
+                        break;
+                    case "Triangle":
+                        chorusEffect.Waveform = ChorusWaveform.WaveformTriangle;
+                        break;
+
+                }
+                chorusEffect.WetDryMix = trackBarChorusWetDryMix.Value;        //0-100%
+
+                _soundOut = new WasapiOut();
+                _soundOut.Initialize(chorusEffect);
+                _soundOut.Volume = trackBarVolume.Value / 100.0f;
+
+                pauzePlayButton_Click(null, EventArgs.Empty);
             }
-            switch(comboBoxChorusWaveform.Text)
-            {
-                case "Sine":
-                    chorusEffect.Waveform = ChorusWaveform.WaveformSin;
-                    break;
-                case "Triangle":
-                    chorusEffect.Waveform = ChorusWaveform.WaveformTriangle;
-                    break;
-
-            }
-            chorusEffect.WetDryMix = trackBarChorusWetDryMix.Value;        //0-100%
-
-            _soundOut = new WasapiOut();
-            _soundOut.Initialize(chorusEffect);
-
-            timer1.Start();
-            _soundOut.Play();
-            stop = true;
         }
         private void labelChorusUpdate()
         {
