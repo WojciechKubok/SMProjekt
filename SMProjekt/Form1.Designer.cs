@@ -41,6 +41,7 @@ namespace SMProjekt
             this.pauzeRecordButton = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.buttonSaveRecordAudio = new System.Windows.Forms.Button();
             this.timerLabel1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -108,7 +109,8 @@ namespace SMProjekt
             this.button4 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -138,6 +140,7 @@ namespace SMProjekt
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolume)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPlayer)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer1
@@ -147,6 +150,8 @@ namespace SMProjekt
             // 
             // buttonLoadAudio
             // 
+            this.buttonLoadAudio.FlatAppearance.BorderSize = 0;
+            this.buttonLoadAudio.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonLoadAudio.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.buttonLoadAudio.Location = new System.Drawing.Point(218, 207);
             this.buttonLoadAudio.Name = "buttonLoadAudio";
@@ -158,6 +163,9 @@ namespace SMProjekt
             // 
             // buttonRecordAudio
             // 
+            this.buttonRecordAudio.FlatAppearance.BorderSize = 0;
+            this.buttonRecordAudio.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonRecordAudio.ForeColor = System.Drawing.Color.White;
             this.buttonRecordAudio.Location = new System.Drawing.Point(25, 183);
             this.buttonRecordAudio.Name = "buttonRecordAudio";
             this.buttonRecordAudio.Size = new System.Drawing.Size(75, 23);
@@ -168,6 +176,8 @@ namespace SMProjekt
             // 
             // stopButton
             // 
+            this.stopButton.FlatAppearance.BorderSize = 0;
+            this.stopButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.stopButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.stopButton.Location = new System.Drawing.Point(384, 207);
             this.stopButton.Name = "stopButton";
@@ -179,6 +189,8 @@ namespace SMProjekt
             // 
             // pauzePlayButton
             // 
+            this.pauzePlayButton.FlatAppearance.BorderSize = 0;
+            this.pauzePlayButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.pauzePlayButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.pauzePlayButton.Location = new System.Drawing.Point(299, 207);
             this.pauzePlayButton.Name = "pauzePlayButton";
@@ -199,6 +211,9 @@ namespace SMProjekt
             // 
             // buttonStopRecordAudio
             // 
+            this.buttonStopRecordAudio.FlatAppearance.BorderSize = 0;
+            this.buttonStopRecordAudio.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonStopRecordAudio.ForeColor = System.Drawing.Color.White;
             this.buttonStopRecordAudio.Location = new System.Drawing.Point(150, 212);
             this.buttonStopRecordAudio.Name = "buttonStopRecordAudio";
             this.buttonStopRecordAudio.Size = new System.Drawing.Size(119, 23);
@@ -214,6 +229,9 @@ namespace SMProjekt
             // 
             // pauzeRecordButton
             // 
+            this.pauzeRecordButton.FlatAppearance.BorderSize = 0;
+            this.pauzeRecordButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.pauzeRecordButton.ForeColor = System.Drawing.Color.White;
             this.pauzeRecordButton.Location = new System.Drawing.Point(25, 212);
             this.pauzeRecordButton.Name = "pauzeRecordButton";
             this.pauzeRecordButton.Size = new System.Drawing.Size(119, 23);
@@ -230,10 +248,11 @@ namespace SMProjekt
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage6);
-            this.tabControl1.Location = new System.Drawing.Point(190, 260);
+            this.tabControl1.Location = new System.Drawing.Point(202, 275);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(607, 418);
+            this.tabControl1.Size = new System.Drawing.Size(620, 426);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.tabControl1.TabIndex = 10;
             // 
@@ -249,14 +268,27 @@ namespace SMProjekt
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(599, 389);
+            this.tabPage1.Size = new System.Drawing.Size(612, 397);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(105, 187);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(67, 17);
+            this.checkBox1.TabIndex = 13;
+            this.checkBox1.Text = "Odsłuch";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // buttonSaveRecordAudio
             // 
             this.buttonSaveRecordAudio.Enabled = false;
+            this.buttonSaveRecordAudio.FlatAppearance.BorderSize = 0;
+            this.buttonSaveRecordAudio.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonSaveRecordAudio.ForeColor = System.Drawing.Color.White;
             this.buttonSaveRecordAudio.Location = new System.Drawing.Point(275, 212);
             this.buttonSaveRecordAudio.Name = "buttonSaveRecordAudio";
             this.buttonSaveRecordAudio.Size = new System.Drawing.Size(119, 23);
@@ -294,7 +326,7 @@ namespace SMProjekt
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(599, 389);
+            this.tabPage3.Size = new System.Drawing.Size(612, 397);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "tabPage3";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -429,7 +461,7 @@ namespace SMProjekt
             this.tabPage4.Controls.Add(this.groupBoxEcho);
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(599, 389);
+            this.tabPage4.Size = new System.Drawing.Size(612, 397);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "tabPage4";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -556,7 +588,7 @@ namespace SMProjekt
             this.tabPage5.Controls.Add(this.groupBoxDistortion);
             this.tabPage5.Location = new System.Drawing.Point(4, 25);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(599, 389);
+            this.tabPage5.Size = new System.Drawing.Size(612, 397);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "tabPage5";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -695,7 +727,7 @@ namespace SMProjekt
             this.tabPage6.Controls.Add(this.groupBoxChorus);
             this.tabPage6.Location = new System.Drawing.Point(4, 25);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(599, 389);
+            this.tabPage6.Size = new System.Drawing.Size(612, 397);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "tabPage6";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -717,6 +749,7 @@ namespace SMProjekt
             this.groupBoxChorus.Controls.Add(this.trackBarChorusDepth);
             this.groupBoxChorus.Controls.Add(this.trackBarChorusDelay);
             this.groupBoxChorus.Controls.Add(this.buttonChorusApply);
+            this.groupBoxChorus.ForeColor = System.Drawing.SystemColors.ControlText;
             this.groupBoxChorus.Location = new System.Drawing.Point(12, 12);
             this.groupBoxChorus.Name = "groupBoxChorus";
             this.groupBoxChorus.Size = new System.Drawing.Size(575, 372);
@@ -799,6 +832,7 @@ namespace SMProjekt
             // 
             // comboBoxChorusWaveform
             // 
+            this.comboBoxChorusWaveform.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxChorusWaveform.FormattingEnabled = true;
             this.comboBoxChorusWaveform.Items.AddRange(new object[] {
             "Sine",
@@ -810,6 +844,7 @@ namespace SMProjekt
             // 
             // comboBoxChorusPhase
             // 
+            this.comboBoxChorusPhase.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxChorusPhase.FormattingEnabled = true;
             this.comboBoxChorusPhase.Items.AddRange(new object[] {
             "-180",
@@ -908,14 +943,18 @@ namespace SMProjekt
             this.trackBarPlayer.Size = new System.Drawing.Size(550, 45);
             this.trackBarPlayer.TabIndex = 8;
             this.trackBarPlayer.TickFrequency = 5;
+            this.trackBarPlayer.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBarPlayer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trackBarPlayer_MouseDown);
             this.trackBarPlayer.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackBarPlayer_MouseUp);
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(13, 131);
+            this.button6.FlatAppearance.BorderSize = 0;
+            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button6.Location = new System.Drawing.Point(0, 160);
+            this.button6.Margin = new System.Windows.Forms.Padding(0);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(165, 23);
+            this.button6.Size = new System.Drawing.Size(189, 40);
             this.button6.TabIndex = 5;
             this.button6.Text = "Chorus";
             this.button6.UseVisualStyleBackColor = true;
@@ -923,9 +962,12 @@ namespace SMProjekt
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(13, 102);
+            this.button5.FlatAppearance.BorderSize = 0;
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button5.Location = new System.Drawing.Point(0, 120);
+            this.button5.Margin = new System.Windows.Forms.Padding(0);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(165, 23);
+            this.button5.Size = new System.Drawing.Size(189, 40);
             this.button5.TabIndex = 4;
             this.button5.Text = "Distortion";
             this.button5.UseVisualStyleBackColor = true;
@@ -933,9 +975,12 @@ namespace SMProjekt
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(13, 70);
+            this.button4.FlatAppearance.BorderSize = 0;
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.Location = new System.Drawing.Point(0, 80);
+            this.button4.Margin = new System.Windows.Forms.Padding(0);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(165, 23);
+            this.button4.Size = new System.Drawing.Size(189, 40);
             this.button4.TabIndex = 3;
             this.button4.Text = "Echo";
             this.button4.UseVisualStyleBackColor = true;
@@ -943,9 +988,12 @@ namespace SMProjekt
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(12, 12);
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Location = new System.Drawing.Point(0, 0);
+            this.button2.Margin = new System.Windows.Forms.Padding(0);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(165, 23);
+            this.button2.Size = new System.Drawing.Size(189, 40);
             this.button2.TabIndex = 0;
             this.button2.Text = "Nagrywanie";
             this.button2.UseVisualStyleBackColor = true;
@@ -953,43 +1001,53 @@ namespace SMProjekt
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(12, 41);
+            this.button3.FlatAppearance.BorderSize = 0;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Location = new System.Drawing.Point(0, 40);
+            this.button3.Margin = new System.Windows.Forms.Padding(0);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(166, 23);
+            this.button3.Size = new System.Drawing.Size(189, 40);
             this.button3.TabIndex = 2;
             this.button3.Text = "Konwersja/Overlap";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // checkBox1
+            // panel1
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(401, 188);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(80, 17);
-            this.checkBox1.TabIndex = 13;
-            this.checkBox1.Text = "checkBox1";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.panel1.Controls.Add(this.button6);
+            this.panel1.Controls.Add(this.button5);
+            this.panel1.Controls.Add(this.button4);
+            this.panel1.Controls.Add(this.button3);
+            this.panel1.Controls.Add(this.button2);
+            this.panel1.Location = new System.Drawing.Point(-1, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(189, 698);
+            this.panel1.TabIndex = 12;
+            // 
+            // panel2
+            // 
+            this.panel2.Location = new System.Drawing.Point(211, 303);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(603, 388);
+            this.panel2.TabIndex = 0;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(809, 685);
+            this.BackColor = System.Drawing.Color.Gray;
+            this.ClientSize = new System.Drawing.Size(824, 700);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.labelVolume);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.trackBarVolume);
-            this.Controls.Add(this.button6);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.trackBarPlayer);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.buttonLoadAudio);
-            this.Controls.Add(this.button5);
             this.Controls.Add(this.pauzePlayButton);
             this.Controls.Add(this.timerLabel2);
-            this.Controls.Add(this.button4);
             this.Controls.Add(this.stopButton);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Form1";
@@ -1031,6 +1089,7 @@ namespace SMProjekt
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolume)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPlayer)).EndInit();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1116,6 +1175,8 @@ namespace SMProjekt
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button buttonSaveRecordAudio;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
     }
 }
 

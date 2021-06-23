@@ -15,6 +15,8 @@ using CSCore.Codecs.WAV;
 using CSCore.DMO.Effects;
 using System.IO;
 using CSCore.DirectSound;
+using System.Media;
+using System.Linq;
 
 namespace SMProjekt
 {
@@ -45,11 +47,71 @@ namespace SMProjekt
         effect active_effect = effect.NONE;
         bool isRecording = false;
 
+        
+
+            
+
         public Form1()
         {
             InitializeComponent();
-
+            SetLabelWhite(this);
             labelVolume.Text = "Volume: " + trackBarVolume.Value + " %";
+
+
+            pictureBox1.BackColor = Color.FromArgb(24, 30, 54);
+            pictureBox2.BackColor = Color.FromArgb(24, 30, 54);
+            this.BackColor = Color.FromArgb(24, 30, 54);
+            panel1.BackColor = Color.FromArgb(12, 15, 27);
+            this.Text = "CoolName"; //Nazwa do zmiany XD
+            tabPage1.BackColor = Color.FromArgb(24, 30, 54);
+            tabPage3.BackColor = Color.FromArgb(24, 30, 54);
+            tabPage4.BackColor = Color.FromArgb(24, 30, 54);
+            tabPage5.BackColor = Color.FromArgb(24, 30, 54);
+            tabPage6.BackColor = Color.FromArgb(24, 30, 54);
+
+            tabPage1.BorderStyle = BorderStyle.None;
+            tabPage3.BorderStyle = BorderStyle.None;
+            tabPage4.BorderStyle = BorderStyle.None;
+            tabPage5.BorderStyle = BorderStyle.None;
+            tabPage6.BorderStyle = BorderStyle.None;
+
+            tabControl1.Appearance = TabAppearance.FlatButtons;
+            tabControl1.ItemSize = new Size(0, 1);
+            tabControl1.SizeMode = TabSizeMode.Fixed;
+
+            panel2.Controls.Add(tabControl1);
+            tabControl1.Location = new Point(-5, -5);
+
+            button2.BackColor = Color.FromArgb(12, 15, 27);
+            button3.BackColor = Color.FromArgb(12, 15, 27);
+            button4.BackColor = Color.FromArgb(12, 15, 27);
+            button5.BackColor = Color.FromArgb(12, 15, 27);
+            button6.BackColor = Color.FromArgb(12, 15, 27);
+
+            button2.ForeColor = Color.White;
+            button3.ForeColor = Color.White;
+            button4.ForeColor = Color.White;
+            button5.ForeColor = Color.White;
+            button6.ForeColor = Color.White;
+
+            button2.Font = new Font(button2.Font.FontFamily, 15);
+            button3.Font = new Font(button3.Font.FontFamily, 15);
+            button4.Font = new Font(button4.Font.FontFamily, 15);
+            button5.Font = new Font(button5.Font.FontFamily, 15);
+            button6.Font = new Font(button6.Font.FontFamily, 15);
+
+            buttonLoadAudio.ForeColor = Color.White;
+            pauzePlayButton.ForeColor = Color.White;
+            stopButton.ForeColor = Color.White;
+
+            comboBoxChorusPhase.ForeColor = Color.White;
+            comboBoxChorusWaveform.ForeColor = Color.White;
+
+            comboBoxChorusPhase.BackColor = Color.FromArgb(24, 30, 54);
+            comboBoxChorusWaveform.BackColor = Color.FromArgb(24, 30, 54);
+
+            
+
 
             LabelEchoUpdate();
 
@@ -90,18 +152,30 @@ namespace SMProjekt
             _soundIn = new WasapiCapture();   
             _soundIn.Device = MMDeviceEnumerator.DefaultAudioEndpoint(DataFlow.Capture, Role.Console);
             _soundIn.Initialize();
-                
 
+            
             var soundInSource = new SoundInSource(_soundIn);
             source = soundInSource.ToSampleSource();
             SetupSampleSource(source);
+
+
             if(File.Exists(@"temp_audio_file.wav"))
             {
                 File.Delete(@"temp_audio_file.wav");
             }
             writer = new WaveWriter(/*saveFileDialog.FileName*/@"temp_audio_file.wav", _soundIn.WaveFormat);
 
-                
+           
+           byte[] buffer = new byte[_source.WaveFormat.BytesPerSecond / 2];
+           soundInSource.DataAvailable += (s, aEvent) =>
+           {
+               int read;
+               while ((read = _source.Read(buffer, 0, buffer.Length)) > 0) ;
+               writer.Write(aEvent.Data, aEvent.Offset, aEvent.ByteCount);
+           };
+
+
+            /* oryginalne nagrywanie
             byte[] buffer = new byte[_source.WaveFormat.BytesPerSecond / 2];
             soundInSource.DataAvailable += (s, aEvent) =>
             {
@@ -109,11 +183,14 @@ namespace SMProjekt
                 while ((read = _source.Read(buffer, 0, buffer.Length)) > 0) ;
                 writer.Write(aEvent.Data, aEvent.Offset, aEvent.ByteCount);
             };
+            */
 
             //Nagraj
             _soundIn.Start();
             //Pokaż
             timer2.Start();
+            
+            
         }
         
         //stop odtwórz button
@@ -189,7 +266,8 @@ namespace SMProjekt
                 IsXLogScale = true,
                 ScalingStrategy = ScalingStrategy.Decibel
             };
-           
+
+            
 
             //the SingleBlockNotificationStream is used to intercept the played samples
             var notificationSource = new SingleBlockNotificationStream(aSampleSource);
@@ -372,7 +450,12 @@ namespace SMProjekt
         private void GenerateLineSpectrum(PictureBox a)
         {
             Image image = a.Image;
-            var newImage = _lineSpectrum.CreateSpectrumLine(a.Size, Color.Green, Color.Red, Color.White, true);
+
+
+            
+
+
+            var newImage = _lineSpectrum.CreateSpectrumLine(a.Size, Color.Red, Color.White, Color.FromArgb(24, 30, 54), true);
             if (newImage != null)
             {
                 a.Image = newImage;
@@ -416,13 +499,13 @@ namespace SMProjekt
         private void button2_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedTab = tabPage1;
-            pictureBox1.Image = null;
+            //pictureBox1.Image = null;
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedTab = tabPage3;
-            pictureBox1.Image = null;
+            //pictureBox1.Image = null;
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -868,5 +951,57 @@ namespace SMProjekt
         {
             LabelChorusUpdate();
         }
+
+        private void SetLabelWhite(Control ctrl)
+        {
+            foreach (Control c in ctrl.Controls)
+            {
+                Label l = c as Label;
+                if (l != null)
+                {
+                    l.ForeColor = Color.White;
+                }
+                else
+                {
+                    SetLabelWhite(c);
+                }
+
+                GroupBox gb = c as GroupBox;
+                if(gb != null)
+                {
+                    gb.ForeColor = Color.White;
+                }
+                else
+                {
+                    SetLabelWhite(c);
+                }
+
+                Button b = c as Button;
+                if (b != null)
+                {
+                    b.FlatAppearance.BorderSize = 0;
+                    b.FlatStyle = FlatStyle.Flat;
+                    b.BackColor = Color.FromArgb(28, 34, 58);
+                }
+                else
+                {
+                    SetLabelWhite(c);
+                }
+
+                TrackBar tb = c as TrackBar;
+                if (tb != null)
+                {
+                    tb.TickStyle = TickStyle.None;
+                    
+                }
+                else
+                {
+                    SetLabelWhite(c);
+                }
+            }
+
+        }
     }
+
+    
 }
