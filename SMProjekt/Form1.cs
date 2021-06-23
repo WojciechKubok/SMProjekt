@@ -40,16 +40,15 @@ namespace SMProjekt
         private bool endoffile = false;
         private ISampleSource source;
         private string dir = @"Zapisane";
-        DmoEchoEffect echo;
-        DmoDistortionEffect distortionEffect;
-        DmoChorusEffect chorusEffect;
-        enum effect { ECHO, DISTORTION, CHORUS, NONE };
-        effect active_effect = effect.NONE;
-        bool isRecording = false;
+        private DmoEchoEffect echo;
+        private DmoDistortionEffect distortionEffect;
+        private DmoChorusEffect chorusEffect;
+        private DmoFlangerEffect flangerEffect;
+        private DmoGargleEffect gargleEffect;
+        private enum effect { ECHO, DISTORTION, CHORUS, FLANGER, GARGLE, NONE };
+        private effect active_effect = effect.NONE;
+        private bool isRecording = false;
 
-        
-
-            
 
         public Form1()
         {
@@ -68,12 +67,16 @@ namespace SMProjekt
             tabPage4.BackColor = Color.FromArgb(24, 30, 54);
             tabPage5.BackColor = Color.FromArgb(24, 30, 54);
             tabPage6.BackColor = Color.FromArgb(24, 30, 54);
+            tabPage2.BackColor = Color.FromArgb(24, 30, 54);
+            tabPage7.BackColor = Color.FromArgb(24, 30, 54);
 
             tabPage1.BorderStyle = BorderStyle.None;
             tabPage3.BorderStyle = BorderStyle.None;
             tabPage4.BorderStyle = BorderStyle.None;
             tabPage5.BorderStyle = BorderStyle.None;
             tabPage6.BorderStyle = BorderStyle.None;
+            tabPage2.BorderStyle = BorderStyle.None;
+            tabPage7.BorderStyle = BorderStyle.None;
 
             tabControl1.Appearance = TabAppearance.FlatButtons;
             tabControl1.ItemSize = new Size(0, 1);
@@ -81,24 +84,31 @@ namespace SMProjekt
 
             panel2.Controls.Add(tabControl1);
             tabControl1.Location = new Point(-5, -5);
+            panel2.Location = new Point(211, 303);
 
             button2.BackColor = Color.FromArgb(12, 15, 27);
             button3.BackColor = Color.FromArgb(12, 15, 27);
             button4.BackColor = Color.FromArgb(12, 15, 27);
             button5.BackColor = Color.FromArgb(12, 15, 27);
             button6.BackColor = Color.FromArgb(12, 15, 27);
+            button7.BackColor = Color.FromArgb(12, 15, 27);
+            button8.BackColor = Color.FromArgb(12, 15, 27);
 
             button2.ForeColor = Color.White;
             button3.ForeColor = Color.White;
             button4.ForeColor = Color.White;
             button5.ForeColor = Color.White;
             button6.ForeColor = Color.White;
+            button7.ForeColor = Color.White;
+            button8.ForeColor = Color.White;
 
             button2.Font = new Font(button2.Font.FontFamily, 15);
             button3.Font = new Font(button3.Font.FontFamily, 15);
             button4.Font = new Font(button4.Font.FontFamily, 15);
             button5.Font = new Font(button5.Font.FontFamily, 15);
             button6.Font = new Font(button6.Font.FontFamily, 15);
+            button7.Font = new Font(button6.Font.FontFamily, 15);
+            button8.Font = new Font(button6.Font.FontFamily, 15);
 
             buttonLoadAudio.ForeColor = Color.White;
             pauzePlayButton.ForeColor = Color.White;
@@ -107,10 +117,18 @@ namespace SMProjekt
             comboBoxChorusPhase.ForeColor = Color.White;
             comboBoxChorusWaveform.ForeColor = Color.White;
 
+            comboBoxFlangerPhase.ForeColor = Color.White;
+            comboBoxFlangerWaveform.ForeColor = Color.White;
+
+            comboBoxGargleWaveshape.ForeColor = Color.White;
+
             comboBoxChorusPhase.BackColor = Color.FromArgb(24, 30, 54);
             comboBoxChorusWaveform.BackColor = Color.FromArgb(24, 30, 54);
 
-            
+            comboBoxFlangerPhase.BackColor = Color.FromArgb(24, 30, 54);
+            comboBoxFlangerWaveform.BackColor = Color.FromArgb(24, 30, 54);
+
+            comboBoxGargleWaveshape.BackColor = Color.FromArgb(24, 30, 54);
 
 
             LabelEchoUpdate();
@@ -118,7 +136,12 @@ namespace SMProjekt
             LabelDistortionUpdate();
 
             LabelChorusUpdate();
-            
+
+            LabelFlangerUpdate();
+
+            LabelGargleUpdate();
+
+
             if (!Directory.Exists(dir))
             {
                 Directory.CreateDirectory(dir);
@@ -408,6 +431,14 @@ namespace SMProjekt
                         ChorusInit();
                         _soundOut.Initialize(chorusEffect);
                         break;
+                    case effect.FLANGER:
+                        FlangerInit();
+                        _soundOut.Initialize(flangerEffect);
+                        break;
+                    case effect.GARGLE:
+                        GargleInit();
+                        _soundOut.Initialize(gargleEffect);
+                        break;
                     default:
                         _soundOut.Initialize(_source);
                         break;
@@ -520,7 +551,14 @@ namespace SMProjekt
         {
             tabControl1.SelectedTab = tabPage6;
         }
-
+        private void button7_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPage2;
+        }
+        private void button8_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPage7;
+        }
         private void mergeButton1_Click(object sender, EventArgs e)
         {
             var openFileDialog = new OpenFileDialog()
@@ -674,6 +712,12 @@ namespace SMProjekt
                         break;
                     case effect.CHORUS:
                         source = chorusEffect.ToSampleSource();
+                        break;
+                    case effect.FLANGER:
+                        source = flangerEffect.ToSampleSource();
+                        break;
+                    case effect.GARGLE:
+                        source = gargleEffect.ToSampleSource();
                         break;
                 }
                 source.SetPosition(ts);
@@ -951,7 +995,104 @@ namespace SMProjekt
         {
             LabelChorusUpdate();
         }
+        private void buttonFlangerApply_Click(object sender, EventArgs e)
+        {
+            if (_source == null)
+            {
+                pauzePlayButton_Click(null, null);
+            }
+            if (_source != null)
+            {
+                pauzePlayButton_Click(null, EventArgs.Empty);
 
+                TimeSpan position = _source.GetPosition();
+                FlangerInit();
+
+                source = flangerEffect.ToSampleSource();
+                source.SetPosition(position);
+                SetupSampleSource(source);
+
+                _soundOut = new WasapiOut();
+                _soundOut.Initialize(_source);
+                _soundOut.Volume = trackBarVolume.Value / 100.0f;
+
+                pauzePlayButton_Click(null, EventArgs.Empty);
+            }
+        }
+        private void FlangerInit()
+        {
+            ResetEffects();
+            active_effect = effect.FLANGER;
+            flangerEffect = new DmoFlangerEffect(_source);
+
+            flangerEffect.Delay = trackBarFlangerDelay.Value;    //0-4ms
+            flangerEffect.Depth = trackBarFlangerDepth.Value;  //0-100
+            flangerEffect.Feedback = trackBarFlangerFeedback.Value;   //-99 - 99
+            flangerEffect.Frequency = (float)(trackBarFlangerFrequency.Value / 10.00); //0-10
+            switch (comboBoxFlangerPhase.Text)
+            {
+                case "-180":
+                    flangerEffect.Phase = FlangerPhase.PhaseNegative180;
+                    break;
+                case "-90":
+                    flangerEffect.Phase = FlangerPhase.PhaseNegative90;
+                    break;
+                case "0":
+                    flangerEffect.Phase = FlangerPhase.PhaseZero;
+                    break;
+                case "90":
+                    flangerEffect.Phase = FlangerPhase.Phase90;
+                    break;
+                case "180":
+                    flangerEffect.Phase = FlangerPhase.Phase180;
+                    break;
+            }
+            switch (comboBoxFlangerWaveform.Text)
+            {
+                case "Sine":
+                    flangerEffect.Waveform = FlangerWaveform.Sin;
+                    break;
+                case "Triangle":
+                    flangerEffect.Waveform = FlangerWaveform.Triangle;
+                    break;
+
+            }
+            flangerEffect.WetDryMix = trackBarFlangerWetDryMix.Value;   //0-100
+        }
+        private void LabelFlangerUpdate()
+        {
+            labelFlangerDelay.Text = "Delay: " + trackBarFlangerDelay.Value + " ms";
+            labelFlangerDepth.Text = "Depth: " + trackBarFlangerDepth.Value;
+            labelFlangerFeedback.Text = "Feedback: " + trackBarFlangerFeedback.Value;
+            labelFlangerFrequency.Text = "Frequency: " + (float)(trackBarFlangerFrequency.Value / 10.00);
+            comboBoxFlangerPhase.SelectedIndex = 3;
+            comboBoxFlangerWaveform.SelectedIndex = 0;
+            labelFlangerWetDryMix.Text = "WetDryMix: " + trackBarFlangerWetDryMix.Value + " %";
+        }
+        private void trackBarFlangerDelay_Scroll(object sender, EventArgs e)
+        {
+            LabelFlangerUpdate();
+        }
+
+        private void trackBarFlangerDepth_Scroll(object sender, EventArgs e)
+        {
+            LabelFlangerUpdate();
+        }
+
+        private void trackBarFlangerFeedback_Scroll(object sender, EventArgs e)
+        {
+            LabelFlangerUpdate();
+        }
+
+        private void trackBarFlangerFrequency_Scroll(object sender, EventArgs e)
+        {
+            LabelFlangerUpdate();
+        }
+
+        private void trackBarFlangerWetDryMix_Scroll(object sender, EventArgs e)
+        {
+            LabelFlangerUpdate();
+        }
         private void SetLabelWhite(Control ctrl)
         {
             foreach (Control c in ctrl.Controls)
@@ -999,7 +1140,61 @@ namespace SMProjekt
                     SetLabelWhite(c);
                 }
             }
+        }
 
+        private void buttonGargleApply_Click(object sender, EventArgs e)
+        {
+            if (_source == null)
+            {
+                pauzePlayButton_Click(null, null);
+            }
+            if (_source != null)
+            {
+                pauzePlayButton_Click(null, EventArgs.Empty);
+
+                TimeSpan position = _source.GetPosition();
+                GargleInit();
+
+                source = gargleEffect.ToSampleSource();
+                source.SetPosition(position);
+                SetupSampleSource(source);
+
+                _soundOut = new WasapiOut();
+                _soundOut.Initialize(_source);
+                _soundOut.Volume = trackBarVolume.Value / 100.0f;
+
+                pauzePlayButton_Click(null, EventArgs.Empty);
+            }
+        }
+        private void GargleInit()
+        {
+            ResetEffects();
+            active_effect = effect.GARGLE;
+            gargleEffect = new DmoGargleEffect(_source);
+
+            gargleEffect.RateHz = trackBarGargleRateHz.Value;
+            switch(comboBoxGargleWaveshape.SelectedItem)
+            {
+                case "Square":
+                    gargleEffect.WaveShape = GargleWaveShape.Square;
+                    break;
+                case "Triangle":
+                    gargleEffect.WaveShape = GargleWaveShape.Triangle;
+                    break;
+                default:
+                    gargleEffect.WaveShape = GargleWaveShape.Square;
+                    break;
+            }
+        }
+        private void LabelGargleUpdate()
+        {
+            labelGargleRateHz.Text = "RateHz: " + trackBarGargleRateHz.Value + " Hz";
+            comboBoxGargleWaveshape.SelectedIndex = 0;
+        }
+
+        private void trackBarGargleRateHz_Scroll(object sender, EventArgs e)
+        {
+            LabelGargleUpdate();
         }
     }
 
