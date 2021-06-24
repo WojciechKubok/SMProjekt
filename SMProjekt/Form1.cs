@@ -15,11 +15,14 @@ using CSCore.Codecs.WAV;
 using CSCore.DMO.Effects;
 using System.IO;
 using CSCore.DirectSound;
+using System.Media;
+using System.Linq;
 
 namespace SMProjekt
 {
     public partial class Form1 : Form
     {
+        private string FileFilter = "Pliki audio| *.mp3;*.wav;";
         private WasapiCapture _soundIn;
         private ISoundOut _soundOut;
         private IWaveSource _source;
@@ -38,24 +41,112 @@ namespace SMProjekt
         private bool endoffile = false;
         private ISampleSource source;
         private string dir = @"Zapisane";
-        DmoEchoEffect echo;
-        DmoDistortionEffect distortionEffect;
-        DmoChorusEffect chorusEffect;
-        enum effect { ECHO, DISTORTION, CHORUS, NONE };
-        effect active_effect = effect.NONE;
+        private DmoEchoEffect echo;
+        private DmoDistortionEffect distortionEffect;
+        private DmoChorusEffect chorusEffect;
+        private DmoFlangerEffect flangerEffect;
+        private DmoGargleEffect gargleEffect;
+        private enum effect { ECHO, DISTORTION, CHORUS, FLANGER, GARGLE, NONE };
+        private effect active_effect = effect.NONE;
+        private bool isRecording = false;
+
 
         public Form1()
         {
             InitializeComponent();
+            SetLabelWhite(this);
+
+            ToolTip toolTip1 = new ToolTip();
+            toolTip1.SetToolTip(this.pictureBox2, "Oś X: Hz \nOś Y: dB");
 
             labelVolume.Text = "Volume: " + trackBarVolume.Value + " %";
 
-            labelEchoUpdate();
 
-            labelDistortionUpdate();
+            pictureBox1.BackColor = Color.FromArgb(24, 30, 54);
+            pictureBox2.BackColor = Color.FromArgb(24, 30, 54);
+            this.BackColor = Color.FromArgb(24, 30, 54);
+            panel1.BackColor = Color.FromArgb(12, 15, 27);
+            this.Text = "CoolName"; //Nazwa do zmiany XD
+            tabPage1.BackColor = Color.FromArgb(24, 30, 54);
+            tabPage3.BackColor = Color.FromArgb(24, 30, 54);
+            tabPage4.BackColor = Color.FromArgb(24, 30, 54);
+            tabPage5.BackColor = Color.FromArgb(24, 30, 54);
+            tabPage6.BackColor = Color.FromArgb(24, 30, 54);
+            tabPage2.BackColor = Color.FromArgb(24, 30, 54);
+            tabPage7.BackColor = Color.FromArgb(24, 30, 54);
 
-            labelChorusUpdate();
-            
+            tabPage1.BorderStyle = BorderStyle.None;
+            tabPage3.BorderStyle = BorderStyle.None;
+            tabPage4.BorderStyle = BorderStyle.None;
+            tabPage5.BorderStyle = BorderStyle.None;
+            tabPage6.BorderStyle = BorderStyle.None;
+            tabPage2.BorderStyle = BorderStyle.None;
+            tabPage7.BorderStyle = BorderStyle.None;
+
+            tabControl1.Appearance = TabAppearance.FlatButtons;
+            tabControl1.ItemSize = new Size(0, 1);
+            tabControl1.SizeMode = TabSizeMode.Fixed;
+
+            panel2.Controls.Add(tabControl1);
+            tabControl1.Location = new Point(-5, -5);
+            panel2.Location = new Point(211, 303);
+
+            button2.BackColor = Color.FromArgb(12, 15, 27);
+            button3.BackColor = Color.FromArgb(12, 15, 27);
+            button4.BackColor = Color.FromArgb(12, 15, 27);
+            button5.BackColor = Color.FromArgb(12, 15, 27);
+            button6.BackColor = Color.FromArgb(12, 15, 27);
+            button7.BackColor = Color.FromArgb(12, 15, 27);
+            button8.BackColor = Color.FromArgb(12, 15, 27);
+
+            button2.ForeColor = Color.White;
+            button3.ForeColor = Color.White;
+            button4.ForeColor = Color.White;
+            button5.ForeColor = Color.White;
+            button6.ForeColor = Color.White;
+            button7.ForeColor = Color.White;
+            button8.ForeColor = Color.White;
+
+            button2.Font = new Font(button2.Font.FontFamily, 15);
+            button3.Font = new Font(button3.Font.FontFamily, 15);
+            button4.Font = new Font(button4.Font.FontFamily, 15);
+            button5.Font = new Font(button5.Font.FontFamily, 15);
+            button6.Font = new Font(button6.Font.FontFamily, 15);
+            button7.Font = new Font(button6.Font.FontFamily, 15);
+            button8.Font = new Font(button6.Font.FontFamily, 15);
+
+            buttonLoadAudio.ForeColor = Color.White;
+            pauzePlayButton.ForeColor = Color.White;
+            stopButton.ForeColor = Color.White;
+
+            comboBoxChorusPhase.ForeColor = Color.White;
+            comboBoxChorusWaveform.ForeColor = Color.White;
+
+            comboBoxFlangerPhase.ForeColor = Color.White;
+            comboBoxFlangerWaveform.ForeColor = Color.White;
+
+            comboBoxGargleWaveshape.ForeColor = Color.White;
+
+            comboBoxChorusPhase.BackColor = Color.FromArgb(24, 30, 54);
+            comboBoxChorusWaveform.BackColor = Color.FromArgb(24, 30, 54);
+
+            comboBoxFlangerPhase.BackColor = Color.FromArgb(24, 30, 54);
+            comboBoxFlangerWaveform.BackColor = Color.FromArgb(24, 30, 54);
+
+            comboBoxGargleWaveshape.BackColor = Color.FromArgb(24, 30, 54);
+
+
+            LabelEchoUpdate();
+
+            LabelDistortionUpdate();
+
+            LabelChorusUpdate();
+
+            LabelFlangerUpdate();
+
+            LabelGargleUpdate();
+
+
             if (!Directory.Exists(dir))
             {
                 Directory.CreateDirectory(dir);
@@ -63,11 +154,11 @@ namespace SMProjekt
         }
 
         //Odtwórz
-        private void openToolStripMenuItem_Click_1(object sender, EventArgs e)
+        private void buttonLoadAudio_Click(object sender, EventArgs e)
         {
             var openFileDialog = new OpenFileDialog()
             {
-                Filter = CodecFactory.SupportedFilesFilterEn,
+                Filter = FileFilter,
                 Title = "Select a file..."
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -77,58 +168,66 @@ namespace SMProjekt
                 pathtoFile = openFileDialog.FileName;
                 PlayFileAudio();
             }
-            
         }
 
-
         //nagraj button
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonRecordAudio_Click(object sender, EventArgs e)
         {
-            //var saveFileDialog = new SaveFileDialog()
-            //{
-            //    Filter = CodecFactory.SupportedFilesFilterEn,
-            //    Title = "Select a file..."
-            //};
-            //if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            //{
-                Stop();
+            isRecording = true;
+            buttonSaveRecordAudio.Enabled = false;
+            Stop();
 
-                _soundIn = new WasapiCapture();   
-                _soundIn.Device = MMDeviceEnumerator.DefaultAudioEndpoint(DataFlow.Capture, Role.Console);
-                _soundIn.Initialize();
-                
+            _soundIn = new WasapiCapture();   
+            _soundIn.Device = MMDeviceEnumerator.DefaultAudioEndpoint(DataFlow.Capture, Role.Console);
+            _soundIn.Initialize();
 
-                var soundInSource = new SoundInSource(_soundIn);
-                source = soundInSource.ToSampleSource();
-                SetupSampleSource(source);
-                if(File.Exists(@"temp_audio_file.wav"))
-                {
-                    File.Delete(@"temp_audio_file.wav");
-                }
-                writer = new WaveWriter(/*saveFileDialog.FileName*/@"temp_audio_file.wav", _soundIn.WaveFormat);
+            
+            var soundInSource = new SoundInSource(_soundIn);
+            source = soundInSource.ToSampleSource();
+            SetupSampleSource(source);
 
-                
-                byte[] buffer = new byte[_source.WaveFormat.BytesPerSecond / 2];
-                soundInSource.DataAvailable += (s, aEvent) =>
-                {
-                    int read;
-                    while ((read = _source.Read(buffer, 0, buffer.Length)) > 0) ;
-                    writer.Write(aEvent.Data, aEvent.Offset, aEvent.ByteCount);
-                };
 
-                //Nagraj
-                _soundIn.Start();
-                //Pokaż
-                timer2.Start();
+            if(File.Exists(@"temp_audio_file.wav"))
+            {
+                File.Delete(@"temp_audio_file.wav");
             }
-        //}
+            writer = new WaveWriter(/*saveFileDialog.FileName*/@"temp_audio_file.wav", _soundIn.WaveFormat);
 
+           
+           byte[] buffer = new byte[_source.WaveFormat.BytesPerSecond / 2];
+           soundInSource.DataAvailable += (s, aEvent) =>
+           {
+               int read;
+               while ((read = _source.Read(buffer, 0, buffer.Length)) > 0) ;
+               writer.Write(aEvent.Data, aEvent.Offset, aEvent.ByteCount);
+           };
+
+
+            /* oryginalne nagrywanie
+            byte[] buffer = new byte[_source.WaveFormat.BytesPerSecond / 2];
+            soundInSource.DataAvailable += (s, aEvent) =>
+            {
+                int read;
+                while ((read = _source.Read(buffer, 0, buffer.Length)) > 0) ;
+                writer.Write(aEvent.Data, aEvent.Offset, aEvent.ByteCount);
+            };
+            */
+
+            //Nagraj
+            _soundIn.Start();
+            //Pokaż
+            timer2.Start();
+            
+            
+        }
+        
         //stop odtwórz button
         private void stopButton_Click(object sender, EventArgs e)
         {
             Stop();
             endoffile = true;
-            trackBar1.Value = 0;
+            trackBarPlayer.Value = 0;
+            active_effect = effect.NONE;
         }
 
         private void pauzePlayButton_Click(object sender, EventArgs e)
@@ -137,12 +236,15 @@ namespace SMProjekt
             {
                 PlayFileAudio();
                 endoffile = false;
+                if(active_effect == effect.ECHO)
+                {
+                    buttonEchoApply_Click(null, null);
+                }    
             }
             else
             {
                 if (_soundOut != null)
                 {
-
                         if (stop)
                         {
                             timer1.Stop();
@@ -157,7 +259,6 @@ namespace SMProjekt
                             stop = true;
                             return;
                         }
-                    
                 }
             }
         }
@@ -191,9 +292,10 @@ namespace SMProjekt
                 BarCount = 50,
                 BarSpacing = 2,
                 IsXLogScale = true,
-                ScalingStrategy = ScalingStrategy.Sqrt
+                ScalingStrategy = ScalingStrategy.Decibel
             };
-           
+
+            
 
             //the SingleBlockNotificationStream is used to intercept the played samples
             var notificationSource = new SingleBlockNotificationStream(aSampleSource);
@@ -205,28 +307,48 @@ namespace SMProjekt
         }
 
         //stop nagrywania button
-        private void button1_Click_1(object sender, EventArgs e)
+        private void buttonStopRecordAudio_Click_(object sender, EventArgs e)
         {
-            timer2.Stop();
-            timeRecorded = TimeSpan.Zero;
-            writer.Dispose();
-            Stop();
-            pathtoFile = @"temp_audio_file.wav";
-            Stop();
-            endoffile = true;
-            trackBar1.Value = 0;
-            //PlayFileAudio();
+            if (isRecording == true)
+            {
+                isRecording = false;
+                buttonSaveRecordAudio.Enabled = true;
+                timer2.Stop();
+                timeRecorded = TimeSpan.Zero;
+                writer.Dispose();
+                Stop();
+                pathtoFile = @"temp_audio_file.wav";
+                Stop();
+                endoffile = true;
+                trackBarPlayer.Value = 0;
+                //PlayFileAudio();
+            }
         }
-        private void button7_Click(object sender, EventArgs e)
+        private void buttonSaveRecordAudio_Click(object sender, EventArgs e)
         {
-            var saveFileDialog = new SaveFileDialog()
+            if (isRecording == false)
             {
-                Filter = CodecFactory.SupportedFilesFilterEn,
-                Title = "Select a file..."
-            };
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                File.Copy(@"temp_audio_file.wav",saveFileDialog.FileName);
+                var saveFileDialog = new SaveFileDialog()
+                {
+                    //Filter = CodecFactory.SupportedFilesFilterEn,
+                    Filter = "Waveform (.wav)|*.wav",
+                    Title = "Select a file..."
+                };
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    //File.Copy(@"temp_audio_file.wav",saveFileDialog.FileName);
+                    source = CodecFactory.Instance.GetCodec(pathtoFile).ToSampleSource();
+                    SetupSampleSource(source);
+
+                    try
+                    {
+                        Extensions.WriteToFile(_source, saveFileDialog.FileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
             }
         }
 
@@ -257,6 +379,14 @@ namespace SMProjekt
         {
             base.OnClosing(e);
             Stop();
+            try
+            {
+                if (File.Exists(@"temp_audio_file.wav"))
+                {
+                    File.Delete(@"temp_audio_file.wav");
+                }
+            }
+            catch { }
         }
 
         private void Stop()
@@ -280,8 +410,51 @@ namespace SMProjekt
                 _source.Dispose();
                 _source = null;
             }
-            timerLabel2.Text = "00:00:00";
+            timerLabel2.Text = "00:00:00.00";
 
+        }
+        private void PlayFileAudio()
+        {
+            if (pathtoFile != null)
+            {
+                source = CodecFactory.Instance.GetCodec(pathtoFile).ToSampleSource();
+                SetupSampleSource(source);
+
+                //play the audio
+                _soundOut = new WasapiOut();
+                switch (active_effect)
+                {
+                    case effect.ECHO:
+                        EchoInit();
+                        _soundOut.Initialize(echo);
+                        break;
+                    case effect.DISTORTION:
+                        DistortionInit();
+                        _soundOut.Initialize(distortionEffect);
+                        break;
+                    case effect.CHORUS:
+                        ChorusInit();
+                        _soundOut.Initialize(chorusEffect);
+                        break;
+                    case effect.FLANGER:
+                        FlangerInit();
+                        _soundOut.Initialize(flangerEffect);
+                        break;
+                    case effect.GARGLE:
+                        GargleInit();
+                        _soundOut.Initialize(gargleEffect);
+                        break;
+                    default:
+                        _soundOut.Initialize(_source);
+                        break;
+                }
+
+                _soundOut.Volume = trackBarVolume.Value / 100.0f;
+                _soundOut.Play();
+                TimeSpan xxx = _source.GetLength();
+                trackBarPlayer.Maximum = (int)xxx.TotalMilliseconds;
+                timer1.Start();
+            }
         }
 
         //timer odtwarzania
@@ -290,12 +463,12 @@ namespace SMProjekt
             
             timer = _source.GetPosition();
             string timerString = timer.ToString();
-            timerLabel2.Text = timerString;
+            if(timerString.Length > 11) timerLabel2.Text = timerString.Remove(11);
+
 
             GenerateLineSpectrum(pictureBox2);
-            trackBar1.Value = (int)timer.TotalMilliseconds;
-
-            if(timer == _source.GetLength())
+            if((int)timer.TotalMilliseconds < trackBarPlayer.Maximum ) trackBarPlayer.Value = (int)timer.TotalMilliseconds;
+            if (timer == _source.GetLength())
             {
                 Stop();
                 endoffile = true;
@@ -313,29 +486,18 @@ namespace SMProjekt
         private void GenerateLineSpectrum(PictureBox a)
         {
             Image image = a.Image;
-            var newImage = _lineSpectrum.CreateSpectrumLine(a.Size, Color.Green, Color.Red, Color.White, true);
+
+
+            
+
+
+            var newImage = _lineSpectrum.CreateSpectrumLine(a.Size, Color.Red, Color.White, Color.FromArgb(24, 30, 54), true);
             if (newImage != null)
             {
                 a.Image = newImage;
                 if (image != null)
                     image.Dispose();
             }
-        }
-
-
-        private void PlayFileAudio()
-        {
-            source = CodecFactory.Instance.GetCodec(pathtoFile).ToSampleSource();
-            SetupSampleSource(source);
-
-            //play the audio
-            _soundOut = new WasapiOut();
-            _soundOut.Initialize(_source);
-            _soundOut.Volume = trackBarVolume.Value / 100.0f;
-            _soundOut.Play();
-            TimeSpan xxx = _source.GetLength();
-            trackBar1.Maximum = (int)xxx.TotalMilliseconds;
-            timer1.Start();
         }
 
         /*
@@ -373,13 +535,13 @@ namespace SMProjekt
         private void button2_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedTab = tabPage1;
-            pictureBox1.Image = null;
+            //pictureBox1.Image = null;
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedTab = tabPage3;
-            pictureBox1.Image = null;
+            //pictureBox1.Image = null;
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -394,12 +556,19 @@ namespace SMProjekt
         {
             tabControl1.SelectedTab = tabPage6;
         }
-
+        private void button7_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPage2;
+        }
+        private void button8_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPage7;
+        }
         private void mergeButton1_Click(object sender, EventArgs e)
         {
             var openFileDialog = new OpenFileDialog()
             {
-                Filter = CodecFactory.SupportedFilesFilterEn,
+                Filter = FileFilter,
                 Title = "Select a file..."
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -414,7 +583,7 @@ namespace SMProjekt
         {
             var openFileDialog = new OpenFileDialog()
             {
-                Filter = CodecFactory.SupportedFilesFilterEn,
+                Filter = FileFilter,
                 Title = "Select a file..."
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -455,7 +624,7 @@ namespace SMProjekt
         {
             var openFileDialog = new OpenFileDialog()
             {
-                Filter = CodecFactory.SupportedFilesFilterEn,
+                Filter = FileFilter,
                 Title = "Select a file..."
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -532,13 +701,12 @@ namespace SMProjekt
             && !char.IsSeparator(e.KeyChar) && !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
         }
 
-
-        private void trackBar1_MouseUp(object sender, MouseEventArgs e)
+        private void trackBarPlayer_MouseUp(object sender, MouseEventArgs e)
         {
             try
             {
                 _soundOut.Stop();
-                TimeSpan ts = new TimeSpan(trackBar1.Value * 10000);
+                TimeSpan ts = new TimeSpan(trackBarPlayer.Value * 10000);
                 switch (active_effect)
                 {
                     case effect.ECHO:
@@ -549,6 +717,12 @@ namespace SMProjekt
                         break;
                     case effect.CHORUS:
                         source = chorusEffect.ToSampleSource();
+                        break;
+                    case effect.FLANGER:
+                        source = flangerEffect.ToSampleSource();
+                        break;
+                    case effect.GARGLE:
+                        source = gargleEffect.ToSampleSource();
                         break;
                 }
                 source.SetPosition(ts);
@@ -563,26 +737,56 @@ namespace SMProjekt
             }
             catch
             {
-                trackBar1.Value = 0;
+                trackBarPlayer.Value = 0;
             }
         }
 
-        private void trackBar1_MouseDown(object sender, MouseEventArgs e)
+        private void trackBarPlayer_MouseDown(object sender, MouseEventArgs e)
         {
             double dblValue;
             timer1.Stop();
-            dblValue = ((double)e.X / (double)trackBar1.Width) * (trackBar1.Maximum - trackBar1.Minimum);
-            trackBar1.Value = Convert.ToInt32(dblValue);
+            dblValue = ((double)e.X / (double)trackBarPlayer.Width) * (trackBarPlayer.Maximum - trackBarPlayer.Minimum);
+            trackBarPlayer.Value = Convert.ToInt32(dblValue);
+        }
+
+        private void ResetEffects()
+        {
+            TimeSpan _position = _source.GetPosition();
+            source = CodecFactory.Instance.GetCodec(pathtoFile).ToSampleSource();
+            SetupSampleSource(source);
+            _source.SetPosition(_position);
         }
 
         //Zastosowanie efektu echo
 
         private void buttonEchoApply_Click(object sender, EventArgs e)
         {
+            if(_source == null)
+            {
+                pauzePlayButton_Click(null, null);
+            }
             if (_source != null)
             {
-                pauzePlayButton_Click(null, EventArgs.Empty);
+                pauzePlayButton_Click(null, null);
 
+                TimeSpan position = _source.GetPosition();
+                EchoInit();
+
+                source = echo.ToSampleSource();
+                source.SetPosition(position);
+                SetupSampleSource(source);
+
+                _soundOut = new WasapiOut();
+                _soundOut.Initialize(_source);
+                _soundOut.Volume = trackBarVolume.Value / 100.0f;
+                pauzePlayButton_Click(null, null);
+            }
+        }
+        private void EchoInit()
+        {
+            if (_source != null)
+            {
+                ResetEffects();
                 active_effect = effect.ECHO;
                 echo = new DmoEchoEffect(_source);
                 echo.Feedback = trackBarEchoFeedback.Value;         //0-100
@@ -597,15 +801,9 @@ namespace SMProjekt
                     echo.PanDelay = false;
                 }
                 echo.WetDryMix = trackBarEchoWetDryMix.Value;        //0-100
-                _soundOut = new WasapiOut();
-                _soundOut.Initialize(echo);
-                _soundOut.Volume = trackBarVolume.Value / 100.0f;
-
-                pauzePlayButton_Click(null, EventArgs.Empty);
             }
         }
-
-        private void labelEchoUpdate()
+        private void LabelEchoUpdate()
         {
             labelEchoFeedback.Text = "Feedback: " + trackBarEchoFeedback.Value.ToString();
             labelEchoLeftDelay.Text = "Left Delay: " + trackBarEchoLeftDelay.Value.ToString() + " ms";
@@ -615,47 +813,62 @@ namespace SMProjekt
 
         private void trackBarEchoFeedback_Scroll(object sender, EventArgs e)
         {
-            labelEchoUpdate();
+            LabelEchoUpdate();
         }
 
         private void trackBarEchoLeftDelay_Scroll(object sender, EventArgs e)
         {
-            labelEchoUpdate();
+            LabelEchoUpdate();
         }
 
         private void trackBarEchoRightDelay_Scroll(object sender, EventArgs e)
         {
-            labelEchoUpdate();
+            LabelEchoUpdate();
         }
 
         private void trackBarEchoWetDryMix_Scroll(object sender, EventArgs e)
         {
-            labelEchoUpdate();
+            LabelEchoUpdate();
         }
 
         //Zastosowanie efektu Distortion
 
         private void buttonDistortionApply_Click(object sender, EventArgs e)
         {
+            if (_source == null)
+            {
+                pauzePlayButton_Click(null, null);
+            }
             if (_source != null)
             {
                 pauzePlayButton_Click(null, EventArgs.Empty);
 
-                active_effect = effect.ECHO;
-                distortionEffect = new DmoDistortionEffect(_source);
-                distortionEffect.Edge = trackBarDistortionEdge.Value;         //0-100
-                distortionEffect.Gain = trackBarDistortionGain.Value;        //-60 - 0dB
-                distortionEffect.PostEQBandwidth = trackBarDistortionBandwidth.Value;        //100-8000Hz
-                distortionEffect.PostEQCenterFrequency = trackBarDistortionCenter.Value;  //100-8000Hz
-                distortionEffect.PreLowpassCutoff = trackBarDistortionLowpass.Value;       //100-8000Hz
+                TimeSpan position = _source.GetPosition();
+                DistortionInit();
+
+                source = distortionEffect.ToSampleSource();
+                source.SetPosition(position);
+                SetupSampleSource(source);
+
                 _soundOut = new WasapiOut();
-                _soundOut.Initialize(distortionEffect);
+                _soundOut.Initialize(_source);
                 _soundOut.Volume = trackBarVolume.Value / 100.0f;
 
                 pauzePlayButton_Click(null, EventArgs.Empty);
             }
         }
-        private void labelDistortionUpdate()
+        private void DistortionInit()
+        {
+            ResetEffects();
+            active_effect = effect.DISTORTION;
+            distortionEffect = new DmoDistortionEffect(_source);
+            distortionEffect.Edge = trackBarDistortionEdge.Value;         //0-100
+            distortionEffect.Gain = trackBarDistortionGain.Value;        //-60 - 0dB
+            distortionEffect.PostEQBandwidth = trackBarDistortionBandwidth.Value;        //100-8000Hz
+            distortionEffect.PostEQCenterFrequency = trackBarDistortionCenter.Value;  //100-8000Hz
+            distortionEffect.PreLowpassCutoff = trackBarDistortionLowpass.Value;       //100-8000Hz
+        }
+        private void LabelDistortionUpdate()
         {
             labelDistortionEdge.Text = "Edge: " + trackBarDistortionEdge.Value.ToString() + " %";
             labelDistortionGain.Text = "Gain: " + trackBarDistortionGain.Value.ToString() + " dB";
@@ -666,81 +879,95 @@ namespace SMProjekt
 
         private void trackBarDistortionEdge_Scroll(object sender, EventArgs e)
         {
-            labelDistortionUpdate();
+            LabelDistortionUpdate();
         }
 
         private void trackBarDistortionGain_Scroll(object sender, EventArgs e)
         {
-            labelDistortionUpdate();
+            LabelDistortionUpdate();
         }
 
         private void trackBarDistortionBandwidth_Scroll(object sender, EventArgs e)
         {
-            labelDistortionUpdate();
+            LabelDistortionUpdate();
         }
 
         private void trackBarDistortionCenter_Scroll(object sender, EventArgs e)
         {
-            labelDistortionUpdate();
+            LabelDistortionUpdate();
         }
 
         private void trackBarDistortionLowpass_Scroll(object sender, EventArgs e)
         {
-            labelDistortionUpdate();
+            LabelDistortionUpdate();
         }
 
         //zastosowanie efektu Chorus
 
         private void buttonChorusApply_Click(object sender, EventArgs e)
         {
+            if (_source == null)
+            {
+                pauzePlayButton_Click(null, null);
+            }
             if (_source != null)
             {
                 pauzePlayButton_Click(null, EventArgs.Empty);
 
-                active_effect = effect.CHORUS;
-                chorusEffect = new DmoChorusEffect(_source);
-                chorusEffect.Delay = trackBarChorusDelay.Value;        //0-20ms
-                chorusEffect.Depth = trackBarChorusDepth.Value;        //0-100 
-                chorusEffect.Feedback = trackBarChorusFeedback.Value;     //-99 - 99
-                chorusEffect.Frequency = (float)(trackBarChorusFrequency.Value / 10.00);    //0-10
-                switch (comboBoxChorusPhase.Text)
-                {
-                    case "-180":
-                        chorusEffect.Phase = ChorusPhase.PhaseNegative180;
-                        break;
-                    case "-90":
-                        chorusEffect.Phase = ChorusPhase.PhaseNegative90;
-                        break;
-                    case "0":
-                        chorusEffect.Phase = ChorusPhase.PhaseZero;
-                        break;
-                    case "90":
-                        chorusEffect.Phase = ChorusPhase.Phase90;
-                        break;
-                    case "180":
-                        chorusEffect.Phase = ChorusPhase.Phase180;
-                        break;
-                }
-                switch (comboBoxChorusWaveform.Text)
-                {
-                    case "Sine":
-                        chorusEffect.Waveform = ChorusWaveform.WaveformSin;
-                        break;
-                    case "Triangle":
-                        chorusEffect.Waveform = ChorusWaveform.WaveformTriangle;
-                        break;
+                TimeSpan position = _source.GetPosition();
+                ChorusInit();
 
-                }
-                chorusEffect.WetDryMix = trackBarChorusWetDryMix.Value;        //0-100%
+                source = chorusEffect.ToSampleSource();
+                source.SetPosition(position);
+                SetupSampleSource(source);
 
                 _soundOut = new WasapiOut();
-                _soundOut.Initialize(chorusEffect);
+                _soundOut.Initialize(_source);
                 _soundOut.Volume = trackBarVolume.Value / 100.0f;
 
                 pauzePlayButton_Click(null, EventArgs.Empty);
             }
         }
-        private void labelChorusUpdate()
+        private void ChorusInit()
+        {
+            ResetEffects();
+            active_effect = effect.CHORUS;
+            chorusEffect = new DmoChorusEffect(_source);
+            chorusEffect.Delay = trackBarChorusDelay.Value;        //0-20ms
+            chorusEffect.Depth = trackBarChorusDepth.Value;        //0-100 
+            chorusEffect.Feedback = trackBarChorusFeedback.Value;     //-99 - 99
+            chorusEffect.Frequency = (float)(trackBarChorusFrequency.Value / 10.00);    //0-10
+            switch (comboBoxChorusPhase.Text)
+            {
+                case "-180":
+                    chorusEffect.Phase = ChorusPhase.PhaseNegative180;
+                    break;
+                case "-90":
+                    chorusEffect.Phase = ChorusPhase.PhaseNegative90;
+                    break;
+                case "0":
+                    chorusEffect.Phase = ChorusPhase.PhaseZero;
+                    break;
+                case "90":
+                    chorusEffect.Phase = ChorusPhase.Phase90;
+                    break;
+                case "180":
+                    chorusEffect.Phase = ChorusPhase.Phase180;
+                    break;
+            }
+            switch (comboBoxChorusWaveform.Text)
+            {
+                case "Sine":
+                    chorusEffect.Waveform = ChorusWaveform.WaveformSin;
+                    break;
+                case "Triangle":
+                    chorusEffect.Waveform = ChorusWaveform.WaveformTriangle;
+                    break;
+
+            }
+            chorusEffect.WetDryMix = trackBarChorusWetDryMix.Value;        //0-100%
+        }
+        private void LabelChorusUpdate()
         {
             labelChorusDelay.Text = "Delay: " + trackBarChorusDelay.Value + " ms";
             labelChorusDepth.Text = "Depth: " + trackBarChorusDepth.Value;
@@ -752,26 +979,232 @@ namespace SMProjekt
         }
         private void trackBarChorusDelay_Scroll(object sender, EventArgs e)
         {
-            labelChorusUpdate();
+            LabelChorusUpdate();
         }
         
         private void trackBarChorusDepth_Scroll(object sender, EventArgs e)
         {
-            labelChorusUpdate();
+            LabelChorusUpdate();
         }
 
         private void trackBarChorusFeedback_Scroll(object sender, EventArgs e)
         {
-            labelChorusUpdate();
+            LabelChorusUpdate();
         }
         private void trackBarChorusFrequency_Scroll(object sender, EventArgs e)
         {
-            labelChorusUpdate();
+            LabelChorusUpdate();
         }
 
         private void trackBarChorusWetDryMix_Scroll(object sender, EventArgs e)
         {
-            labelChorusUpdate();
+            LabelChorusUpdate();
         }
+        private void buttonFlangerApply_Click(object sender, EventArgs e)
+        {
+            if (_source == null)
+            {
+                pauzePlayButton_Click(null, null);
+            }
+            if (_source != null)
+            {
+                pauzePlayButton_Click(null, EventArgs.Empty);
+
+                TimeSpan position = _source.GetPosition();
+                FlangerInit();
+
+                source = flangerEffect.ToSampleSource();
+                source.SetPosition(position);
+                SetupSampleSource(source);
+
+                _soundOut = new WasapiOut();
+                _soundOut.Initialize(_source);
+                _soundOut.Volume = trackBarVolume.Value / 100.0f;
+
+                pauzePlayButton_Click(null, EventArgs.Empty);
+            }
+        }
+        private void FlangerInit()
+        {
+            ResetEffects();
+            active_effect = effect.FLANGER;
+            flangerEffect = new DmoFlangerEffect(_source);
+
+            flangerEffect.Delay = trackBarFlangerDelay.Value;    //0-4ms
+            flangerEffect.Depth = trackBarFlangerDepth.Value;  //0-100
+            flangerEffect.Feedback = trackBarFlangerFeedback.Value;   //-99 - 99
+            flangerEffect.Frequency = (float)(trackBarFlangerFrequency.Value / 10.00); //0-10
+            switch (comboBoxFlangerPhase.Text)
+            {
+                case "-180":
+                    flangerEffect.Phase = FlangerPhase.PhaseNegative180;
+                    break;
+                case "-90":
+                    flangerEffect.Phase = FlangerPhase.PhaseNegative90;
+                    break;
+                case "0":
+                    flangerEffect.Phase = FlangerPhase.PhaseZero;
+                    break;
+                case "90":
+                    flangerEffect.Phase = FlangerPhase.Phase90;
+                    break;
+                case "180":
+                    flangerEffect.Phase = FlangerPhase.Phase180;
+                    break;
+            }
+            switch (comboBoxFlangerWaveform.Text)
+            {
+                case "Sine":
+                    flangerEffect.Waveform = FlangerWaveform.Sin;
+                    break;
+                case "Triangle":
+                    flangerEffect.Waveform = FlangerWaveform.Triangle;
+                    break;
+
+            }
+            flangerEffect.WetDryMix = trackBarFlangerWetDryMix.Value;   //0-100
+        }
+        private void LabelFlangerUpdate()
+        {
+            labelFlangerDelay.Text = "Delay: " + trackBarFlangerDelay.Value + " ms";
+            labelFlangerDepth.Text = "Depth: " + trackBarFlangerDepth.Value;
+            labelFlangerFeedback.Text = "Feedback: " + trackBarFlangerFeedback.Value;
+            labelFlangerFrequency.Text = "Frequency: " + (float)(trackBarFlangerFrequency.Value / 10.00);
+            comboBoxFlangerPhase.SelectedIndex = 3;
+            comboBoxFlangerWaveform.SelectedIndex = 0;
+            labelFlangerWetDryMix.Text = "WetDryMix: " + trackBarFlangerWetDryMix.Value + " %";
+        }
+        private void trackBarFlangerDelay_Scroll(object sender, EventArgs e)
+        {
+            LabelFlangerUpdate();
+        }
+
+        private void trackBarFlangerDepth_Scroll(object sender, EventArgs e)
+        {
+            LabelFlangerUpdate();
+        }
+
+        private void trackBarFlangerFeedback_Scroll(object sender, EventArgs e)
+        {
+            LabelFlangerUpdate();
+        }
+
+        private void trackBarFlangerFrequency_Scroll(object sender, EventArgs e)
+        {
+            LabelFlangerUpdate();
+        }
+
+        private void trackBarFlangerWetDryMix_Scroll(object sender, EventArgs e)
+        {
+            LabelFlangerUpdate();
+        }
+        private void SetLabelWhite(Control ctrl)
+        {
+            foreach (Control c in ctrl.Controls)
+            {
+                Label l = c as Label;
+                if (l != null)
+                {
+                    l.ForeColor = Color.White;
+                }
+                else
+                {
+                    SetLabelWhite(c);
+                }
+
+                GroupBox gb = c as GroupBox;
+                if(gb != null)
+                {
+                    gb.ForeColor = Color.White;
+                }
+                else
+                {
+                    SetLabelWhite(c);
+                }
+
+                Button b = c as Button;
+                if (b != null)
+                {
+                    b.FlatAppearance.BorderSize = 0;
+                    b.FlatStyle = FlatStyle.Flat;
+                    b.BackColor = Color.FromArgb(28, 34, 58);
+                }
+                else
+                {
+                    SetLabelWhite(c);
+                }
+
+                TrackBar tb = c as TrackBar;
+                if (tb != null)
+                {
+                    tb.TickStyle = TickStyle.None;
+                    
+                }
+                else
+                {
+                    SetLabelWhite(c);
+                }
+            }
+        }
+
+        private void buttonGargleApply_Click(object sender, EventArgs e)
+        {
+            if (_source == null)
+            {
+                pauzePlayButton_Click(null, null);
+            }
+            if (_source != null)
+            {
+                pauzePlayButton_Click(null, EventArgs.Empty);
+
+                TimeSpan position = _source.GetPosition();
+                GargleInit();
+
+                source = gargleEffect.ToSampleSource();
+                source.SetPosition(position);
+                SetupSampleSource(source);
+
+                _soundOut = new WasapiOut();
+                _soundOut.Initialize(_source);
+                _soundOut.Volume = trackBarVolume.Value / 100.0f;
+
+                pauzePlayButton_Click(null, EventArgs.Empty);
+            }
+        }
+        private void GargleInit()
+        {
+            ResetEffects();
+            active_effect = effect.GARGLE;
+            gargleEffect = new DmoGargleEffect(_source);
+
+            gargleEffect.RateHz = trackBarGargleRateHz.Value;
+            switch(comboBoxGargleWaveshape.SelectedItem)
+            {
+                case "Square":
+                    gargleEffect.WaveShape = GargleWaveShape.Square;
+                    break;
+                case "Triangle":
+                    gargleEffect.WaveShape = GargleWaveShape.Triangle;
+                    break;
+                default:
+                    gargleEffect.WaveShape = GargleWaveShape.Square;
+                    break;
+            }
+        }
+        private void LabelGargleUpdate()
+        {
+            labelGargleRateHz.Text = "RateHz: " + trackBarGargleRateHz.Value + " Hz";
+            comboBoxGargleWaveshape.SelectedIndex = 0;
+        }
+
+        private void trackBarGargleRateHz_Scroll(object sender, EventArgs e)
+        {
+            LabelGargleUpdate();
+        }
+
+
+        // todo: private void ZAPIS(){}
     }
+
+    
 }
