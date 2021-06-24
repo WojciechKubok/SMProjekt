@@ -22,6 +22,7 @@ namespace SMProjekt
 {
     public partial class Form1 : Form
     {
+        private string FileFilter = "Pliki audio| *.mp3;*.wav;";
         private WasapiCapture _soundIn;
         private ISoundOut _soundOut;
         private IWaveSource _source;
@@ -54,6 +55,10 @@ namespace SMProjekt
         {
             InitializeComponent();
             SetLabelWhite(this);
+
+            ToolTip toolTip1 = new ToolTip();
+            toolTip1.SetToolTip(this.pictureBox2, "Oś X: Hz \nOś Y: dB");
+
             labelVolume.Text = "Volume: " + trackBarVolume.Value + " %";
 
 
@@ -153,7 +158,7 @@ namespace SMProjekt
         {
             var openFileDialog = new OpenFileDialog()
             {
-                Filter = CodecFactory.SupportedFilesFilterEn,
+                Filter = FileFilter,
                 Title = "Select a file..."
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -405,7 +410,7 @@ namespace SMProjekt
                 _source.Dispose();
                 _source = null;
             }
-            timerLabel2.Text = "00:00:00";
+            timerLabel2.Text = "00:00:00.00";
 
         }
         private void PlayFileAudio()
@@ -458,12 +463,12 @@ namespace SMProjekt
             
             timer = _source.GetPosition();
             string timerString = timer.ToString();
-            timerLabel2.Text = timerString;
+            if(timerString.Length > 11) timerLabel2.Text = timerString.Remove(11);
+
 
             GenerateLineSpectrum(pictureBox2);
-            trackBarPlayer.Value = (int)timer.TotalMilliseconds;
-
-            if(timer == _source.GetLength())
+            if((int)timer.TotalMilliseconds < trackBarPlayer.Maximum ) trackBarPlayer.Value = (int)timer.TotalMilliseconds;
+            if (timer == _source.GetLength())
             {
                 Stop();
                 endoffile = true;
@@ -563,7 +568,7 @@ namespace SMProjekt
         {
             var openFileDialog = new OpenFileDialog()
             {
-                Filter = CodecFactory.SupportedFilesFilterEn,
+                Filter = FileFilter,
                 Title = "Select a file..."
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -578,7 +583,7 @@ namespace SMProjekt
         {
             var openFileDialog = new OpenFileDialog()
             {
-                Filter = CodecFactory.SupportedFilesFilterEn,
+                Filter = FileFilter,
                 Title = "Select a file..."
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -619,7 +624,7 @@ namespace SMProjekt
         {
             var openFileDialog = new OpenFileDialog()
             {
-                Filter = CodecFactory.SupportedFilesFilterEn,
+                Filter = FileFilter,
                 Title = "Select a file..."
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -1196,6 +1201,9 @@ namespace SMProjekt
         {
             LabelGargleUpdate();
         }
+
+
+        // todo: private void ZAPIS(){}
     }
 
     

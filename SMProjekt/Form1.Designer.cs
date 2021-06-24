@@ -116,6 +116,13 @@ namespace SMProjekt
             this.trackBarFlangerFeedback = new System.Windows.Forms.TrackBar();
             this.trackBarFlangerDepth = new System.Windows.Forms.TrackBar();
             this.trackBarFlangerDelay = new System.Windows.Forms.TrackBar();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.groupBoxGargle = new System.Windows.Forms.GroupBox();
+            this.buttonGargleApply = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.labelGargleRateHz = new System.Windows.Forms.Label();
+            this.comboBoxGargleWaveshape = new System.Windows.Forms.ComboBox();
+            this.trackBarGargleRateHz = new System.Windows.Forms.TrackBar();
             this.labelVolume = new System.Windows.Forms.Label();
             this.trackBarVolume = new System.Windows.Forms.TrackBar();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -126,16 +133,9 @@ namespace SMProjekt
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button8 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.tabPage7 = new System.Windows.Forms.TabPage();
-            this.groupBoxGargle = new System.Windows.Forms.GroupBox();
-            this.buttonGargleApply = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.labelGargleRateHz = new System.Windows.Forms.Label();
-            this.comboBoxGargleWaveshape = new System.Windows.Forms.ComboBox();
-            this.trackBarGargleRateHz = new System.Windows.Forms.TrackBar();
-            this.button8 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -169,13 +169,13 @@ namespace SMProjekt
             ((System.ComponentModel.ISupportInitialize)(this.trackBarFlangerFeedback)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarFlangerDepth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarFlangerDelay)).BeginInit();
+            this.tabPage7.SuspendLayout();
+            this.groupBoxGargle.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarGargleRateHz)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolume)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPlayer)).BeginInit();
             this.panel1.SuspendLayout();
-            this.tabPage7.SuspendLayout();
-            this.groupBoxGargle.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarGargleRateHz)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
@@ -238,11 +238,12 @@ namespace SMProjekt
             // timerLabel2
             // 
             this.timerLabel2.AutoSize = true;
-            this.timerLabel2.Location = new System.Drawing.Point(212, 140);
+            this.timerLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.timerLabel2.Location = new System.Drawing.Point(447, 143);
             this.timerLabel2.Name = "timerLabel2";
-            this.timerLabel2.Size = new System.Drawing.Size(49, 13);
+            this.timerLabel2.Size = new System.Drawing.Size(104, 20);
             this.timerLabel2.TabIndex = 7;
-            this.timerLabel2.Text = "00:00:00";
+            this.timerLabel2.Text = "00:00:00.00";
             // 
             // buttonStopRecordAudio
             // 
@@ -1120,6 +1121,82 @@ namespace SMProjekt
             this.trackBarFlangerDelay.Value = 2;
             this.trackBarFlangerDelay.Scroll += new System.EventHandler(this.trackBarFlangerDelay_Scroll);
             // 
+            // tabPage7
+            // 
+            this.tabPage7.Controls.Add(this.groupBoxGargle);
+            this.tabPage7.Location = new System.Drawing.Point(4, 25);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Size = new System.Drawing.Size(612, 397);
+            this.tabPage7.TabIndex = 7;
+            this.tabPage7.Text = "tabPage7";
+            this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxGargle
+            // 
+            this.groupBoxGargle.Controls.Add(this.buttonGargleApply);
+            this.groupBoxGargle.Controls.Add(this.label4);
+            this.groupBoxGargle.Controls.Add(this.labelGargleRateHz);
+            this.groupBoxGargle.Controls.Add(this.comboBoxGargleWaveshape);
+            this.groupBoxGargle.Controls.Add(this.trackBarGargleRateHz);
+            this.groupBoxGargle.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.groupBoxGargle.Location = new System.Drawing.Point(12, 12);
+            this.groupBoxGargle.Name = "groupBoxGargle";
+            this.groupBoxGargle.Size = new System.Drawing.Size(575, 372);
+            this.groupBoxGargle.TabIndex = 2;
+            this.groupBoxGargle.TabStop = false;
+            this.groupBoxGargle.Text = "Gargle";
+            // 
+            // buttonGargleApply
+            // 
+            this.buttonGargleApply.Location = new System.Drawing.Point(17, 107);
+            this.buttonGargleApply.Name = "buttonGargleApply";
+            this.buttonGargleApply.Size = new System.Drawing.Size(75, 23);
+            this.buttonGargleApply.TabIndex = 0;
+            this.buttonGargleApply.Text = "Zastosuj";
+            this.buttonGargleApply.UseVisualStyleBackColor = true;
+            this.buttonGargleApply.Click += new System.EventHandler(this.buttonGargleApply_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(17, 73);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(65, 13);
+            this.label4.TabIndex = 19;
+            this.label4.Text = "Waveshape";
+            // 
+            // labelGargleRateHz
+            // 
+            this.labelGargleRateHz.AutoSize = true;
+            this.labelGargleRateHz.Location = new System.Drawing.Point(17, 37);
+            this.labelGargleRateHz.Name = "labelGargleRateHz";
+            this.labelGargleRateHz.Size = new System.Drawing.Size(46, 13);
+            this.labelGargleRateHz.TabIndex = 14;
+            this.labelGargleRateHz.Text = "RateHz:";
+            // 
+            // comboBoxGargleWaveshape
+            // 
+            this.comboBoxGargleWaveshape.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxGargleWaveshape.FormattingEnabled = true;
+            this.comboBoxGargleWaveshape.Items.AddRange(new object[] {
+            "Square",
+            "Triangle"});
+            this.comboBoxGargleWaveshape.Location = new System.Drawing.Point(200, 70);
+            this.comboBoxGargleWaveshape.Name = "comboBoxGargleWaveshape";
+            this.comboBoxGargleWaveshape.Size = new System.Drawing.Size(233, 21);
+            this.comboBoxGargleWaveshape.TabIndex = 12;
+            // 
+            // trackBarGargleRateHz
+            // 
+            this.trackBarGargleRateHz.Location = new System.Drawing.Point(200, 19);
+            this.trackBarGargleRateHz.Maximum = 1000;
+            this.trackBarGargleRateHz.Minimum = 20;
+            this.trackBarGargleRateHz.Name = "trackBarGargleRateHz";
+            this.trackBarGargleRateHz.Size = new System.Drawing.Size(366, 45);
+            this.trackBarGargleRateHz.TabIndex = 7;
+            this.trackBarGargleRateHz.Value = 20;
+            this.trackBarGargleRateHz.Scroll += new System.EventHandler(this.trackBarGargleRateHz_Scroll);
+            // 
             // labelVolume
             // 
             this.labelVolume.AutoSize = true;
@@ -1149,7 +1226,7 @@ namespace SMProjekt
             // 
             // trackBarPlayer
             // 
-            this.trackBarPlayer.Location = new System.Drawing.Point(215, 156);
+            this.trackBarPlayer.Location = new System.Drawing.Point(215, 163);
             this.trackBarPlayer.Maximum = 5;
             this.trackBarPlayer.Name = "trackBarPlayer";
             this.trackBarPlayer.Size = new System.Drawing.Size(550, 45);
@@ -1238,6 +1315,19 @@ namespace SMProjekt
             this.panel1.Size = new System.Drawing.Size(189, 698);
             this.panel1.TabIndex = 12;
             // 
+            // button8
+            // 
+            this.button8.FlatAppearance.BorderSize = 0;
+            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button8.Location = new System.Drawing.Point(0, 240);
+            this.button8.Margin = new System.Windows.Forms.Padding(0);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(189, 40);
+            this.button8.TabIndex = 7;
+            this.button8.Text = "Gargle";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
             // button7
             // 
             this.button7.FlatAppearance.BorderSize = 0;
@@ -1253,106 +1343,17 @@ namespace SMProjekt
             // 
             // panel2
             // 
-            this.panel2.Location = new System.Drawing.Point(211, 303);
+            this.panel2.Location = new System.Drawing.Point(860, 12);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(603, 388);
             this.panel2.TabIndex = 0;
-            // 
-            // tabPage7
-            // 
-            this.tabPage7.Controls.Add(this.groupBoxGargle);
-            this.tabPage7.Location = new System.Drawing.Point(4, 25);
-            this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Size = new System.Drawing.Size(612, 397);
-            this.tabPage7.TabIndex = 7;
-            this.tabPage7.Text = "tabPage7";
-            this.tabPage7.UseVisualStyleBackColor = true;
-            // 
-            // groupBoxGargle
-            // 
-            this.groupBoxGargle.Controls.Add(this.buttonGargleApply);
-            this.groupBoxGargle.Controls.Add(this.label4);
-            this.groupBoxGargle.Controls.Add(this.labelGargleRateHz);
-            this.groupBoxGargle.Controls.Add(this.comboBoxGargleWaveshape);
-            this.groupBoxGargle.Controls.Add(this.trackBarGargleRateHz);
-            this.groupBoxGargle.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.groupBoxGargle.Location = new System.Drawing.Point(12, 12);
-            this.groupBoxGargle.Name = "groupBoxGargle";
-            this.groupBoxGargle.Size = new System.Drawing.Size(575, 372);
-            this.groupBoxGargle.TabIndex = 2;
-            this.groupBoxGargle.TabStop = false;
-            this.groupBoxGargle.Text = "Flanger";
-            // 
-            // buttonGargleApply
-            // 
-            this.buttonGargleApply.Location = new System.Drawing.Point(17, 107);
-            this.buttonGargleApply.Name = "buttonGargleApply";
-            this.buttonGargleApply.Size = new System.Drawing.Size(75, 23);
-            this.buttonGargleApply.TabIndex = 0;
-            this.buttonGargleApply.Text = "Zastosuj";
-            this.buttonGargleApply.UseVisualStyleBackColor = true;
-            this.buttonGargleApply.Click += new System.EventHandler(this.buttonGargleApply_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(17, 73);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(65, 13);
-            this.label4.TabIndex = 19;
-            this.label4.Text = "Waveshape";
-            // 
-            // labelGargleRateHz
-            // 
-            this.labelGargleRateHz.AutoSize = true;
-            this.labelGargleRateHz.Location = new System.Drawing.Point(17, 37);
-            this.labelGargleRateHz.Name = "labelGargleRateHz";
-            this.labelGargleRateHz.Size = new System.Drawing.Size(46, 13);
-            this.labelGargleRateHz.TabIndex = 14;
-            this.labelGargleRateHz.Text = "RateHz:";
-            // 
-            // comboBoxGargleWaveshape
-            // 
-            this.comboBoxGargleWaveshape.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.comboBoxGargleWaveshape.FormattingEnabled = true;
-            this.comboBoxGargleWaveshape.Items.AddRange(new object[] {
-            "Square",
-            "Triangle"});
-            this.comboBoxGargleWaveshape.Location = new System.Drawing.Point(200, 70);
-            this.comboBoxGargleWaveshape.Name = "comboBoxGargleWaveshape";
-            this.comboBoxGargleWaveshape.Size = new System.Drawing.Size(233, 21);
-            this.comboBoxGargleWaveshape.TabIndex = 12;
-            // 
-            // trackBarGargleRateHz
-            // 
-            this.trackBarGargleRateHz.Location = new System.Drawing.Point(200, 19);
-            this.trackBarGargleRateHz.Maximum = 1000;
-            this.trackBarGargleRateHz.Minimum = 20;
-            this.trackBarGargleRateHz.Name = "trackBarGargleRateHz";
-            this.trackBarGargleRateHz.Size = new System.Drawing.Size(366, 45);
-            this.trackBarGargleRateHz.TabIndex = 7;
-            this.trackBarGargleRateHz.Value = 20;
-            this.trackBarGargleRateHz.Scroll += new System.EventHandler(this.trackBarGargleRateHz_Scroll);
-            // 
-            // button8
-            // 
-            this.button8.FlatAppearance.BorderSize = 0;
-            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button8.Location = new System.Drawing.Point(0, 240);
-            this.button8.Margin = new System.Windows.Forms.Padding(0);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(189, 40);
-            this.button8.TabIndex = 7;
-            this.button8.Text = "Gargle";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gray;
-            this.ClientSize = new System.Drawing.Size(829, 700);
+            this.ClientSize = new System.Drawing.Size(821, 700);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.labelVolume);
             this.Controls.Add(this.tabControl1);
@@ -1410,14 +1411,14 @@ namespace SMProjekt
             ((System.ComponentModel.ISupportInitialize)(this.trackBarFlangerFeedback)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarFlangerDepth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarFlangerDelay)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarVolume)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarPlayer)).EndInit();
-            this.panel1.ResumeLayout(false);
             this.tabPage7.ResumeLayout(false);
             this.groupBoxGargle.ResumeLayout(false);
             this.groupBoxGargle.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarGargleRateHz)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarVolume)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarPlayer)).EndInit();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1503,7 +1504,6 @@ namespace SMProjekt
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button buttonSaveRecordAudio;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button buttonFlangerApply;
@@ -1530,6 +1530,7 @@ namespace SMProjekt
         private System.Windows.Forms.ComboBox comboBoxGargleWaveshape;
         private System.Windows.Forms.TrackBar trackBarGargleRateHz;
         private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Panel panel2;
     }
 }
 
