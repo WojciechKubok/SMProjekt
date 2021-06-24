@@ -41,7 +41,6 @@ namespace SMProjekt
             this.pauzeRecordButton = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.buttonSaveRecordAudio = new System.Windows.Forms.Button();
             this.timerLabel1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -123,6 +122,7 @@ namespace SMProjekt
             this.labelGargleRateHz = new System.Windows.Forms.Label();
             this.comboBoxGargleWaveshape = new System.Windows.Forms.ComboBox();
             this.trackBarGargleRateHz = new System.Windows.Forms.TrackBar();
+            this.buttonSave = new System.Windows.Forms.Button();
             this.labelVolume = new System.Windows.Forms.Label();
             this.trackBarVolume = new System.Windows.Forms.TrackBar();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -296,7 +296,6 @@ namespace SMProjekt
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.buttonSaveRecordAudio);
             this.tabPage1.Controls.Add(this.timerLabel1);
             this.tabPage1.Controls.Add(this.pictureBox1);
             this.tabPage1.Controls.Add(this.buttonRecordAudio);
@@ -309,20 +308,6 @@ namespace SMProjekt
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // buttonSaveRecordAudio
-            // 
-            this.buttonSaveRecordAudio.Enabled = false;
-            this.buttonSaveRecordAudio.FlatAppearance.BorderSize = 0;
-            this.buttonSaveRecordAudio.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSaveRecordAudio.ForeColor = System.Drawing.Color.White;
-            this.buttonSaveRecordAudio.Location = new System.Drawing.Point(275, 212);
-            this.buttonSaveRecordAudio.Name = "buttonSaveRecordAudio";
-            this.buttonSaveRecordAudio.Size = new System.Drawing.Size(119, 23);
-            this.buttonSaveRecordAudio.TabIndex = 12;
-            this.buttonSaveRecordAudio.Text = "Zapisz nagranie";
-            this.buttonSaveRecordAudio.UseVisualStyleBackColor = true;
-            this.buttonSaveRecordAudio.Click += new System.EventHandler(this.buttonSaveRecordAudio_Click);
             // 
             // timerLabel1
             // 
@@ -1197,6 +1182,16 @@ namespace SMProjekt
             this.trackBarGargleRateHz.Value = 20;
             this.trackBarGargleRateHz.Scroll += new System.EventHandler(this.trackBarGargleRateHz_Scroll);
             // 
+            // buttonSave
+            // 
+            this.buttonSave.Location = new System.Drawing.Point(53, 590);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(75, 23);
+            this.buttonSave.TabIndex = 20;
+            this.buttonSave.Text = "Zapisz";
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonZapisz_Click);
+            // 
             // labelVolume
             // 
             this.labelVolume.AutoSize = true;
@@ -1303,6 +1298,7 @@ namespace SMProjekt
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.buttonSave);
             this.panel1.Controls.Add(this.button8);
             this.panel1.Controls.Add(this.button7);
             this.panel1.Controls.Add(this.button6);
@@ -1502,7 +1498,6 @@ namespace SMProjekt
         private System.Windows.Forms.TrackBar trackBarVolume;
         private System.Windows.Forms.Label labelVolume;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button buttonSaveRecordAudio;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Button button7;
@@ -1531,6 +1526,7 @@ namespace SMProjekt
         private System.Windows.Forms.TrackBar trackBarGargleRateHz;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button buttonSave;
     }
 }
 

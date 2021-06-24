@@ -34,7 +34,7 @@ namespace SMProjekt
         bool stopRecord = true;
         private TimeSpan timer;
         private TimeSpan timeRecorded;
-        private string pathtoFile;
+        private string pathtoFile = null;
         private string pathtoMergeFile1;
         private string pathtoMergeFile2;
         private string pathtoConvert;
@@ -156,6 +156,7 @@ namespace SMProjekt
         //Odtwórz
         private void buttonLoadAudio_Click(object sender, EventArgs e)
         {
+            active_effect = effect.NONE;
             var openFileDialog = new OpenFileDialog()
             {
                 Filter = FileFilter,
@@ -174,7 +175,6 @@ namespace SMProjekt
         private void buttonRecordAudio_Click(object sender, EventArgs e)
         {
             isRecording = true;
-            buttonSaveRecordAudio.Enabled = false;
             Stop();
 
             _soundIn = new WasapiCapture();   
@@ -186,11 +186,14 @@ namespace SMProjekt
             source = soundInSource.ToSampleSource();
             SetupSampleSource(source);
 
-
-            if(File.Exists(@"temp_audio_file.wav"))
+            try
             {
-                File.Delete(@"temp_audio_file.wav");
+                if (File.Exists(@"temp_audio_file.wav"))
+                {
+                    File.Delete(@"temp_audio_file.wav");
+                }
             }
+            catch { }
             writer = new WaveWriter(/*saveFileDialog.FileName*/@"temp_audio_file.wav", _soundIn.WaveFormat);
 
            
@@ -312,7 +315,6 @@ namespace SMProjekt
             if (isRecording == true)
             {
                 isRecording = false;
-                buttonSaveRecordAudio.Enabled = true;
                 timer2.Stop();
                 timeRecorded = TimeSpan.Zero;
                 writer.Dispose();
@@ -324,33 +326,33 @@ namespace SMProjekt
                 //PlayFileAudio();
             }
         }
-        private void buttonSaveRecordAudio_Click(object sender, EventArgs e)
-        {
-            if (isRecording == false)
-            {
-                var saveFileDialog = new SaveFileDialog()
-                {
-                    //Filter = CodecFactory.SupportedFilesFilterEn,
-                    Filter = "Waveform (.wav)|*.wav",
-                    Title = "Select a file..."
-                };
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    //File.Copy(@"temp_audio_file.wav",saveFileDialog.FileName);
-                    source = CodecFactory.Instance.GetCodec(pathtoFile).ToSampleSource();
-                    SetupSampleSource(source);
+        //private void buttonSaveRecordAudio_Click(object sender, EventArgs e)
+        //{
+        //    if (isRecording == false)
+        //    {
+        //        var saveFileDialog = new SaveFileDialog()
+        //        {
+        //            //Filter = CodecFactory.SupportedFilesFilterEn,
+        //            Filter = "Waveform (.wav)|*.wav",
+        //            Title = "Select a file..."
+        //        };
+        //        if (saveFileDialog.ShowDialog() == DialogResult.OK)
+        //        {
+        //            //File.Copy(@"temp_audio_file.wav",saveFileDialog.FileName);
+        //            source = CodecFactory.Instance.GetCodec(pathtoFile).ToSampleSource();
+        //            SetupSampleSource(source);
 
-                    try
-                    {
-                        Extensions.WriteToFile(_source, saveFileDialog.FileName);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                }
-            }
-        }
+        //            try
+        //            {
+        //                Extensions.WriteToFile(_source, saveFileDialog.FileName);
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                MessageBox.Show(ex.Message);
+        //            }
+        //        }
+        //    }
+        //}
 
         private void pauzeRecordButton_Click(object sender, EventArgs e)
         {
@@ -724,6 +726,9 @@ namespace SMProjekt
                     case effect.GARGLE:
                         source = gargleEffect.ToSampleSource();
                         break;
+                    default:
+                        source = CodecFactory.Instance.GetCodec(pathtoFile).ToSampleSource();
+                        break;
                 }
                 source.SetPosition(ts);
                 SetupSampleSource(source);
@@ -737,7 +742,7 @@ namespace SMProjekt
             }
             catch
             {
-                trackBarPlayer.Value = 0;
+                pauzePlayButton_Click(null, null);
             }
         }
 
@@ -751,7 +756,7 @@ namespace SMProjekt
 
         private void ResetEffects()
         {
-            TimeSpan _position = _source.GetPosition();
+            TimeSpan _position = TimeSpan.Zero;
             source = CodecFactory.Instance.GetCodec(pathtoFile).ToSampleSource();
             SetupSampleSource(source);
             _source.SetPosition(_position);
@@ -767,7 +772,10 @@ namespace SMProjekt
             }
             if (_source != null)
             {
-                pauzePlayButton_Click(null, null);
+                if (_soundOut != null &&_soundOut.PlaybackState == PlaybackState.Playing)
+                {
+                    pauzePlayButton_Click(null, EventArgs.Empty);
+                }
 
                 TimeSpan position = _source.GetPosition();
                 EchoInit();
@@ -784,24 +792,22 @@ namespace SMProjekt
         }
         private void EchoInit()
         {
-            if (_source != null)
+            
+            ResetEffects();
+            active_effect = effect.ECHO;
+            echo = new DmoEchoEffect(_source);
+            echo.Feedback = trackBarEchoFeedback.Value;         //0-100
+            echo.LeftDelay = trackBarEchoLeftDelay.Value;       //1-2000ms
+            echo.RightDelay = trackBarEchoRightDelay.Value;      //1-2000ms
+            if (checkBoxEchoPanDelay.Checked == true)
             {
-                ResetEffects();
-                active_effect = effect.ECHO;
-                echo = new DmoEchoEffect(_source);
-                echo.Feedback = trackBarEchoFeedback.Value;         //0-100
-                echo.LeftDelay = trackBarEchoLeftDelay.Value;       //1-2000ms
-                echo.RightDelay = trackBarEchoRightDelay.Value;      //1-2000ms
-                if (checkBoxEchoPanDelay.Checked == true)
-                {
-                    echo.PanDelay = true;
-                }
-                else
-                {
-                    echo.PanDelay = false;
-                }
-                echo.WetDryMix = trackBarEchoWetDryMix.Value;        //0-100
+                echo.PanDelay = true;
             }
+            else
+            {
+                echo.PanDelay = false;
+            }
+            echo.WetDryMix = trackBarEchoWetDryMix.Value;        //0-100
         }
         private void LabelEchoUpdate()
         {
@@ -841,7 +847,10 @@ namespace SMProjekt
             }
             if (_source != null)
             {
-                pauzePlayButton_Click(null, EventArgs.Empty);
+                if (_soundOut != null && _soundOut.PlaybackState == PlaybackState.Playing)
+                {
+                    pauzePlayButton_Click(null, EventArgs.Empty);
+                }
 
                 TimeSpan position = _source.GetPosition();
                 DistortionInit();
@@ -912,7 +921,10 @@ namespace SMProjekt
             }
             if (_source != null)
             {
-                pauzePlayButton_Click(null, EventArgs.Empty);
+                if (_soundOut != null && _soundOut.PlaybackState == PlaybackState.Playing)
+                {
+                    pauzePlayButton_Click(null, EventArgs.Empty);
+                }
 
                 TimeSpan position = _source.GetPosition();
                 ChorusInit();
@@ -1008,7 +1020,10 @@ namespace SMProjekt
             }
             if (_source != null)
             {
-                pauzePlayButton_Click(null, EventArgs.Empty);
+                if (_soundOut != null && _soundOut.PlaybackState == PlaybackState.Playing)
+                {
+                    pauzePlayButton_Click(null, EventArgs.Empty);
+                }
 
                 TimeSpan position = _source.GetPosition();
                 FlangerInit();
@@ -1155,7 +1170,10 @@ namespace SMProjekt
             }
             if (_source != null)
             {
-                pauzePlayButton_Click(null, EventArgs.Empty);
+                if (_soundOut != null && _soundOut.PlaybackState == PlaybackState.Playing)
+                {
+                    pauzePlayButton_Click(null, EventArgs.Empty);
+                }
 
                 TimeSpan position = _source.GetPosition();
                 GargleInit();
@@ -1203,7 +1221,77 @@ namespace SMProjekt
         }
 
 
-        // todo: private void ZAPIS(){}
+        private void ZAPIS(string _fileName)
+        {
+            if (pathtoFile != null)
+            {
+                switch (active_effect)
+                {
+                    case effect.ECHO:
+                        if (_source == null)
+                        {
+                            MessageBox.Show("_source == null");
+                        }
+                        EchoInit();
+                        source = echo.ToSampleSource();
+
+                        break;
+                    case effect.DISTORTION:
+                        DistortionInit();
+                        source = distortionEffect.ToSampleSource();
+                        break;
+                    case effect.CHORUS:
+                        ChorusInit();
+                        source = chorusEffect.ToSampleSource();
+                        break;
+                    case effect.FLANGER:
+                        FlangerInit();
+                        source = flangerEffect.ToSampleSource();
+                        break;
+                    case effect.GARGLE:
+                        GargleInit();
+                        source = gargleEffect.ToSampleSource();
+                        break;
+                    default:
+                        source = CodecFactory.Instance.GetCodec(pathtoFile).ToSampleSource();
+                        break;
+                    }
+                source.SetPosition(TimeSpan.Zero);
+                SetupSampleSource(source);
+
+                try
+                {
+                    Extensions.WriteToFile(_source, _fileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
+            }
+        }
+
+        private void buttonZapisz_Click(object sender, EventArgs e)
+        {
+            if (isRecording == false && pathtoFile != null)
+            {
+                var saveFileDialog = new SaveFileDialog()
+                {
+                    //Filter = CodecFactory.SupportedFilesFilterEn,
+                    Filter = "Waveform (.wav)|*.wav",
+                    Title = "Select a file..."
+                };
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    Stop();
+                    endoffile = true;
+                    trackBarPlayer.Value = 0;
+
+                    ZAPIS(saveFileDialog.FileName);
+                    Stop();
+                }
+            }
+        }
     }
 
     
