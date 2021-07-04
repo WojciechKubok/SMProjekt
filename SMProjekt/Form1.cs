@@ -12,11 +12,7 @@ using CSCore.Streams.Effects;
 using CSCore.CoreAudioAPI;
 using SMProjekt.Visualization;
 using CSCore.Codecs.WAV;
-using CSCore.DMO.Effects;
 using System.IO;
-using CSCore.DirectSound;
-using System.Media;
-using System.Linq;
 
 namespace SMProjekt
 {
@@ -153,7 +149,7 @@ namespace SMProjekt
             }
         }
 
-        //Odtwórz
+        //Otwórz
         private void buttonLoadAudio_Click(object sender, EventArgs e)
         {
             active_effect = effect.NONE;
@@ -205,25 +201,79 @@ namespace SMProjekt
                writer.Write(aEvent.Data, aEvent.Offset, aEvent.ByteCount);
            };
 
-
-            /* oryginalne nagrywanie
-            byte[] buffer = new byte[_source.WaveFormat.BytesPerSecond / 2];
-            soundInSource.DataAvailable += (s, aEvent) =>
-            {
-                int read;
-                while ((read = _source.Read(buffer, 0, buffer.Length)) > 0) ;
-                writer.Write(aEvent.Data, aEvent.Offset, aEvent.ByteCount);
-            };
-            */
-
             //Nagraj
             _soundIn.Start();
             //Pokaż
             timer2.Start();
-            
-            
         }
-        
+
+        //stop nagrywania button
+        private void buttonStopRecordAudio_Click_(object sender, EventArgs e)
+        {
+            if (isRecording == true)
+            {
+                isRecording = false;
+                timer2.Stop();
+                timeRecorded = TimeSpan.Zero;
+                writer.Dispose();
+                Stop();
+
+                var saveFileDialog = new SaveFileDialog()
+                {
+                    Filter = "Waveform (.wav)|*.wav",
+                    Title = "Select a file..."
+                };
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        if (File.Exists(saveFileDialog.FileName))
+                        {
+                            File.Delete(saveFileDialog.FileName);
+                        }
+                        File.Move(@"temp_audio_file.wav", saveFileDialog.FileName);
+                        pathtoFile = saveFileDialog.FileName;
+                    }
+                    catch (IOException ioex)
+                    {
+                        MessageBox.Show(ioex.Message);
+                    }
+                }
+                else
+                {
+                    File.Delete(@"temp_audio_file.wav");
+                }
+                Stop();
+                endoffile = true;
+                trackBarPlayer.Value = 0;
+                //PlayFileAudio();
+            }
+        }
+
+        //pauza nagrywania
+        private void pauzeRecordButton_Click(object sender, EventArgs e)
+        {
+            if (_soundIn != null)
+            {
+                if (stopRecord)
+                {
+                    pauzeRecordButton.Text = "Start nagrywania";
+                    timer2.Stop();
+                    _soundIn.Stop();
+                    stopRecord = false;
+                    return;
+                }
+                if (!stopRecord)
+                {
+                    pauzeRecordButton.Text = "Pauza nagrywania";
+                    timer2.Start();
+                    _soundIn.Start();
+                    stopRecord = true;
+                    return;
+                }
+            }
+        }
+
         //stop odtwórz button
         private void stopButton_Click(object sender, EventArgs e)
         {
@@ -233,6 +283,7 @@ namespace SMProjekt
             active_effect = effect.NONE;
         }
 
+        //odtwórz butoton
         private void pauzePlayButton_Click(object sender, EventArgs e)
         {
             if (endoffile == true)
@@ -298,8 +349,6 @@ namespace SMProjekt
                 ScalingStrategy = ScalingStrategy.Decibel
             };
 
-            
-
             //the SingleBlockNotificationStream is used to intercept the played samples
             var notificationSource = new SingleBlockNotificationStream(aSampleSource);
             //pass the intercepted samples as input data to the spectrumprovider (which will calculate a fft based on them)
@@ -309,23 +358,6 @@ namespace SMProjekt
 
         }
 
-        //stop nagrywania button
-        private void buttonStopRecordAudio_Click_(object sender, EventArgs e)
-        {
-            if (isRecording == true)
-            {
-                isRecording = false;
-                timer2.Stop();
-                timeRecorded = TimeSpan.Zero;
-                writer.Dispose();
-                Stop();
-                pathtoFile = @"temp_audio_file.wav";
-                Stop();
-                endoffile = true;
-                trackBarPlayer.Value = 0;
-                //PlayFileAudio();
-            }
-        }
         //private void buttonSaveRecordAudio_Click(object sender, EventArgs e)
         //{
         //    if (isRecording == false)
@@ -353,29 +385,6 @@ namespace SMProjekt
         //        }
         //    }
         //}
-
-        private void pauzeRecordButton_Click(object sender, EventArgs e)
-        {
-            if (_soundIn != null)
-            {
-                if (stopRecord)
-                {
-                    pauzeRecordButton.Text = "Start nagrywania";
-                    timer2.Stop();
-                    _soundIn.Stop();
-                    stopRecord = false;
-                    return;
-                }
-                if (!stopRecord)
-                {
-                    pauzeRecordButton.Text = "Pauza nagrywania";
-                    timer2.Start();
-                    _soundIn.Start();
-                    stopRecord = true;
-                    return;
-                }
-            }
-        }
 
         protected override void OnClosing(CancelEventArgs e)
         {
@@ -488,10 +497,6 @@ namespace SMProjekt
         private void GenerateLineSpectrum(PictureBox a)
         {
             Image image = a.Image;
-
-
-            
-
 
             var newImage = _lineSpectrum.CreateSpectrumLine(a.Size, Color.Red, Color.White, Color.FromArgb(24, 30, 54), true);
             if (newImage != null)
@@ -769,6 +774,7 @@ namespace SMProjekt
             if(_source == null)
             {
                 pauzePlayButton_Click(null, null);
+                pauzePlayButton_Click(null, null);
             }
             if (_source != null)
             {
@@ -844,6 +850,7 @@ namespace SMProjekt
             if (_source == null)
             {
                 pauzePlayButton_Click(null, null);
+                pauzePlayButton_Click(null, null);
             }
             if (_source != null)
             {
@@ -865,6 +872,7 @@ namespace SMProjekt
 
                 pauzePlayButton_Click(null, EventArgs.Empty);
             }
+            
         }
         private void DistortionInit()
         {
@@ -917,6 +925,7 @@ namespace SMProjekt
         {
             if (_source == null)
             {
+                pauzePlayButton_Click(null, null);
                 pauzePlayButton_Click(null, null);
             }
             if (_source != null)
@@ -1016,6 +1025,7 @@ namespace SMProjekt
         {
             if (_source == null)
             {
+                pauzePlayButton_Click(null, null);
                 pauzePlayButton_Click(null, null);
             }
             if (_source != null)
@@ -1167,6 +1177,7 @@ namespace SMProjekt
             if (_source == null)
             {
                 pauzePlayButton_Click(null, null);
+                pauzePlayButton_Click(null, null);
             }
             if (_source != null)
             {
@@ -1293,6 +1304,4 @@ namespace SMProjekt
             }
         }
     }
-
-    
 }
