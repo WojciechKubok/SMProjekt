@@ -205,7 +205,7 @@ namespace SMProjekt
             this.buttonRecordAudio.Name = "buttonRecordAudio";
             this.buttonRecordAudio.Size = new System.Drawing.Size(75, 23);
             this.buttonRecordAudio.TabIndex = 4;
-            this.buttonRecordAudio.Text = "Nagraj";
+            this.buttonRecordAudio.Text = "Record";
             this.buttonRecordAudio.UseVisualStyleBackColor = true;
             this.buttonRecordAudio.Click += new System.EventHandler(this.buttonRecordAudio_Click);
             // 
@@ -254,7 +254,7 @@ namespace SMProjekt
             this.buttonStopRecordAudio.Name = "buttonStopRecordAudio";
             this.buttonStopRecordAudio.Size = new System.Drawing.Size(119, 23);
             this.buttonStopRecordAudio.TabIndex = 8;
-            this.buttonStopRecordAudio.Text = "Stop nagrywania";
+            this.buttonStopRecordAudio.Text = "Stop recording";
             this.buttonStopRecordAudio.UseVisualStyleBackColor = true;
             this.buttonStopRecordAudio.Click += new System.EventHandler(this.buttonStopRecordAudio_Click_);
             // 
@@ -272,7 +272,7 @@ namespace SMProjekt
             this.pauzeRecordButton.Name = "pauzeRecordButton";
             this.pauzeRecordButton.Size = new System.Drawing.Size(119, 23);
             this.pauzeRecordButton.TabIndex = 9;
-            this.pauzeRecordButton.Text = "Pauza nagrywania";
+            this.pauzeRecordButton.Text = "Pause recording";
             this.pauzeRecordButton.UseVisualStyleBackColor = true;
             this.pauzeRecordButton.Click += new System.EventHandler(this.pauzeRecordButton_Click);
             // 
@@ -345,7 +345,7 @@ namespace SMProjekt
             // 
             // exportFileName
             // 
-            this.exportFileName.Location = new System.Drawing.Point(143, 241);
+            this.exportFileName.Location = new System.Drawing.Point(106, 244);
             this.exportFileName.MaxLength = 16;
             this.exportFileName.Name = "exportFileName";
             this.exportFileName.Size = new System.Drawing.Size(145, 20);
@@ -364,16 +364,16 @@ namespace SMProjekt
             this.groupBox2.Size = new System.Drawing.Size(155, 140);
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Zmiana formatu pliku";
+            this.groupBox2.Text = "Conversion";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 52);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(92, 13);
+            this.label1.Size = new System.Drawing.Size(74, 13);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Format wyjściowy:";
+            this.label1.Text = "Output format:";
             // 
             // buttonConvert
             // 
@@ -381,7 +381,7 @@ namespace SMProjekt
             this.buttonConvert.Name = "buttonConvert";
             this.buttonConvert.Size = new System.Drawing.Size(138, 29);
             this.buttonConvert.TabIndex = 3;
-            this.buttonConvert.Text = "Konwertuj";
+            this.buttonConvert.Text = "Convert";
             this.buttonConvert.UseVisualStyleBackColor = true;
             this.buttonConvert.Click += new System.EventHandler(this.buttonConvert_Click);
             // 
@@ -413,18 +413,18 @@ namespace SMProjekt
             this.filetoformatchange.Name = "filetoformatchange";
             this.filetoformatchange.Size = new System.Drawing.Size(139, 23);
             this.filetoformatchange.TabIndex = 0;
-            this.filetoformatchange.Text = "Wybierz plik do konwersji";
+            this.filetoformatchange.Text = "Chose file to convert";
             this.filetoformatchange.UseVisualStyleBackColor = true;
             this.filetoformatchange.Click += new System.EventHandler(this.filetoformatchange_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 244);
+            this.label2.Location = new System.Drawing.Point(13, 247);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(131, 13);
+            this.label2.Size = new System.Drawing.Size(87, 13);
             this.label2.TabIndex = 5;
-            this.label2.Text = "Nazwa pliku wyjściowego:";
+            this.label2.Text = "Output file name:";
             // 
             // groupBox1
             // 
@@ -436,7 +436,7 @@ namespace SMProjekt
             this.groupBox1.Size = new System.Drawing.Size(307, 79);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Łącznie ścieżek";
+            this.groupBox1.Text = "Overlap";
             // 
             // mergeButton1
             // 
@@ -444,7 +444,7 @@ namespace SMProjekt
             this.mergeButton1.Name = "mergeButton1";
             this.mergeButton1.Size = new System.Drawing.Size(130, 23);
             this.mergeButton1.TabIndex = 11;
-            this.mergeButton1.Text = "Wybierz pierwszy plik";
+            this.mergeButton1.Text = "Chose first file";
             this.mergeButton1.UseVisualStyleBackColor = true;
             this.mergeButton1.Click += new System.EventHandler(this.mergeButton1_Click);
             // 
@@ -454,7 +454,7 @@ namespace SMProjekt
             this.mergeButtonCommit.Name = "mergeButtonCommit";
             this.mergeButtonCommit.Size = new System.Drawing.Size(145, 23);
             this.mergeButtonCommit.TabIndex = 13;
-            this.mergeButtonCommit.Text = "Połącz";
+            this.mergeButtonCommit.Text = "Overlap";
             this.mergeButtonCommit.UseVisualStyleBackColor = true;
             this.mergeButtonCommit.Click += new System.EventHandler(this.mergeButtonCommit_Click);
             // 
@@ -464,7 +464,7 @@ namespace SMProjekt
             this.mergeButton2.Name = "mergeButton2";
             this.mergeButton2.Size = new System.Drawing.Size(130, 23);
             this.mergeButton2.TabIndex = 12;
-            this.mergeButton2.Text = "Wybierz drugi plik";
+            this.mergeButton2.Text = "Chose second file";
             this.mergeButton2.UseVisualStyleBackColor = true;
             this.mergeButton2.Click += new System.EventHandler(this.mergeButton2_Click);
             // 
@@ -591,7 +591,7 @@ namespace SMProjekt
             this.buttonEchoApply.Name = "buttonEchoApply";
             this.buttonEchoApply.Size = new System.Drawing.Size(75, 23);
             this.buttonEchoApply.TabIndex = 2;
-            this.buttonEchoApply.Text = "Zastosuj";
+            this.buttonEchoApply.Text = "Apply";
             this.buttonEchoApply.UseVisualStyleBackColor = true;
             this.buttonEchoApply.Click += new System.EventHandler(this.buttonEchoApply_Click);
             // 
@@ -730,7 +730,7 @@ namespace SMProjekt
             this.buttonDistortionApply.Name = "buttonDistortionApply";
             this.buttonDistortionApply.Size = new System.Drawing.Size(75, 23);
             this.buttonDistortionApply.TabIndex = 4;
-            this.buttonDistortionApply.Text = "Zastosuj";
+            this.buttonDistortionApply.Text = "Apply";
             this.buttonDistortionApply.UseVisualStyleBackColor = true;
             this.buttonDistortionApply.Click += new System.EventHandler(this.buttonDistortionApply_Click);
             // 
@@ -916,7 +916,7 @@ namespace SMProjekt
             this.buttonChorusApply.Name = "buttonChorusApply";
             this.buttonChorusApply.Size = new System.Drawing.Size(75, 23);
             this.buttonChorusApply.TabIndex = 6;
-            this.buttonChorusApply.Text = "Zastosuj";
+            this.buttonChorusApply.Text = "Apply";
             this.buttonChorusApply.UseVisualStyleBackColor = true;
             this.buttonChorusApply.Click += new System.EventHandler(this.buttonChorusApply_Click);
             // 
@@ -970,7 +970,7 @@ namespace SMProjekt
             this.buttonFlangerApply.Name = "buttonFlangerApply";
             this.buttonFlangerApply.Size = new System.Drawing.Size(75, 23);
             this.buttonFlangerApply.TabIndex = 0;
-            this.buttonFlangerApply.Text = "Zastosuj";
+            this.buttonFlangerApply.Text = "Apply";
             this.buttonFlangerApply.UseVisualStyleBackColor = true;
             this.buttonFlangerApply.Click += new System.EventHandler(this.buttonFlangerApply_Click);
             // 
@@ -1137,7 +1137,7 @@ namespace SMProjekt
             this.buttonGargleApply.Name = "buttonGargleApply";
             this.buttonGargleApply.Size = new System.Drawing.Size(75, 23);
             this.buttonGargleApply.TabIndex = 0;
-            this.buttonGargleApply.Text = "Zastosuj";
+            this.buttonGargleApply.Text = "Apply";
             this.buttonGargleApply.UseVisualStyleBackColor = true;
             this.buttonGargleApply.Click += new System.EventHandler(this.buttonGargleApply_Click);
             // 
@@ -1184,11 +1184,13 @@ namespace SMProjekt
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(53, 590);
+            this.buttonSave.FlatAppearance.BorderSize = 0;
+            this.buttonSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonSave.Location = new System.Drawing.Point(0, 590);
             this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
+            this.buttonSave.Size = new System.Drawing.Size(189, 40);
             this.buttonSave.TabIndex = 20;
-            this.buttonSave.Text = "Zapisz";
+            this.buttonSave.Text = "Save";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonZapisz_Click);
             // 
@@ -1235,7 +1237,7 @@ namespace SMProjekt
             // 
             this.button6.FlatAppearance.BorderSize = 0;
             this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button6.Location = new System.Drawing.Point(0, 160);
+            this.button6.Location = new System.Drawing.Point(0, 192);
             this.button6.Margin = new System.Windows.Forms.Padding(0);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(189, 40);
@@ -1248,7 +1250,7 @@ namespace SMProjekt
             // 
             this.button5.FlatAppearance.BorderSize = 0;
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button5.Location = new System.Drawing.Point(0, 120);
+            this.button5.Location = new System.Drawing.Point(0, 152);
             this.button5.Margin = new System.Windows.Forms.Padding(0);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(189, 40);
@@ -1261,7 +1263,7 @@ namespace SMProjekt
             // 
             this.button4.FlatAppearance.BorderSize = 0;
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Location = new System.Drawing.Point(0, 80);
+            this.button4.Location = new System.Drawing.Point(0, 112);
             this.button4.Margin = new System.Windows.Forms.Padding(0);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(189, 40);
@@ -1279,7 +1281,7 @@ namespace SMProjekt
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(189, 40);
             this.button2.TabIndex = 0;
-            this.button2.Text = "Nagrywanie";
+            this.button2.Text = "Record";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -1290,9 +1292,9 @@ namespace SMProjekt
             this.button3.Location = new System.Drawing.Point(0, 40);
             this.button3.Margin = new System.Windows.Forms.Padding(0);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(189, 40);
+            this.button3.Size = new System.Drawing.Size(189, 72);
             this.button3.TabIndex = 2;
-            this.button3.Text = "Konwersja/Overlap";
+            this.button3.Text = "Conversion / Overlap";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -1315,7 +1317,7 @@ namespace SMProjekt
             // 
             this.button8.FlatAppearance.BorderSize = 0;
             this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button8.Location = new System.Drawing.Point(0, 240);
+            this.button8.Location = new System.Drawing.Point(0, 272);
             this.button8.Margin = new System.Windows.Forms.Padding(0);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(189, 40);
@@ -1328,7 +1330,7 @@ namespace SMProjekt
             // 
             this.button7.FlatAppearance.BorderSize = 0;
             this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button7.Location = new System.Drawing.Point(0, 200);
+            this.button7.Location = new System.Drawing.Point(0, 232);
             this.button7.Margin = new System.Windows.Forms.Padding(0);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(189, 40);

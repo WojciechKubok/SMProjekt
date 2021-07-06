@@ -94,6 +94,7 @@ namespace SMProjekt
             button6.BackColor = Color.FromArgb(12, 15, 27);
             button7.BackColor = Color.FromArgb(12, 15, 27);
             button8.BackColor = Color.FromArgb(12, 15, 27);
+            buttonSave.BackColor = Color.FromArgb(12, 15, 27);
 
             button2.ForeColor = Color.White;
             button3.ForeColor = Color.White;
@@ -102,6 +103,7 @@ namespace SMProjekt
             button6.ForeColor = Color.White;
             button7.ForeColor = Color.White;
             button8.ForeColor = Color.White;
+            buttonSave.ForeColor = Color.White;
 
             button2.Font = new Font(button2.Font.FontFamily, 15);
             button3.Font = new Font(button3.Font.FontFamily, 15);
@@ -110,6 +112,7 @@ namespace SMProjekt
             button6.Font = new Font(button6.Font.FontFamily, 15);
             button7.Font = new Font(button6.Font.FontFamily, 15);
             button8.Font = new Font(button6.Font.FontFamily, 15);
+            buttonSave.Font = new Font(button6.Font.FontFamily, 15);
 
             buttonLoadAudio.ForeColor = Color.White;
             pauzePlayButton.ForeColor = Color.White;
