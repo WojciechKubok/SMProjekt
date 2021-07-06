@@ -260,7 +260,7 @@ namespace SMProjekt
             {
                 if (stopRecord)
                 {
-                    pauzeRecordButton.Text = "Start nagrywania";
+                    pauzeRecordButton.Text = "Start recording";
                     timer2.Stop();
                     _soundIn.Stop();
                     stopRecord = false;
@@ -268,7 +268,7 @@ namespace SMProjekt
                 }
                 if (!stopRecord)
                 {
-                    pauzeRecordButton.Text = "Pauza nagrywania";
+                    pauzeRecordButton.Text = "Pause recording";
                     timer2.Start();
                     _soundIn.Start();
                     stopRecord = true;
