@@ -62,7 +62,7 @@ namespace SMProjekt
             pictureBox2.BackColor = Color.FromArgb(24, 30, 54);
             this.BackColor = Color.FromArgb(24, 30, 54);
             panel1.BackColor = Color.FromArgb(12, 15, 27);
-            this.Text = "CoolName"; //Nazwa do zmiany XD
+            this.Text = "Nagrywanie i modyfikacja dźwięku";
             tabPage1.BackColor = Color.FromArgb(24, 30, 54);
             tabPage3.BackColor = Color.FromArgb(24, 30, 54);
             tabPage4.BackColor = Color.FromArgb(24, 30, 54);
@@ -494,7 +494,9 @@ namespace SMProjekt
         {
             GenerateLineSpectrum(pictureBox1);
             timeRecorded = timeRecorded.Add(TimeSpan.FromMilliseconds(10));
-            timerLabel1.Text = timeRecorded.ToString();
+            string nagrano = timeRecorded.ToString();
+            if (nagrano.Length > 11) nagrano = nagrano.Remove(11);
+            timerLabel1.Text = nagrano;
         }
 
         private void GenerateLineSpectrum(PictureBox a)
