@@ -173,41 +173,44 @@ namespace SMProjekt
         //nagraj button
         private void buttonRecordAudio_Click(object sender, EventArgs e)
         {
-            isRecording = true;
-            Stop();
-
-            _soundIn = new WasapiCapture();   
-            _soundIn.Device = MMDeviceEnumerator.DefaultAudioEndpoint(DataFlow.Capture, Role.Console);
-            _soundIn.Initialize();
-
-            
-            var soundInSource = new SoundInSource(_soundIn);
-            source = soundInSource.ToSampleSource();
-            SetupSampleSource(source);
-
-            try
+            if (!isRecording)
             {
-                if (File.Exists(@"temp_audio_file.wav"))
+                isRecording = true;
+                Stop();
+
+                _soundIn = new WasapiCapture();
+                _soundIn.Device = MMDeviceEnumerator.DefaultAudioEndpoint(DataFlow.Capture, Role.Console);
+                _soundIn.Initialize();
+
+
+                var soundInSource = new SoundInSource(_soundIn);
+                source = soundInSource.ToSampleSource();
+                SetupSampleSource(source);
+
+                try
                 {
-                    File.Delete(@"temp_audio_file.wav");
+                    if (File.Exists(@"temp_audio_file.wav"))
+                    {
+                        File.Delete(@"temp_audio_file.wav");
+                    }
                 }
+                catch { }
+                writer = new WaveWriter(/*saveFileDialog.FileName*/@"temp_audio_file.wav", _soundIn.WaveFormat);
+
+
+                byte[] buffer = new byte[_source.WaveFormat.BytesPerSecond / 2];
+                soundInSource.DataAvailable += (s, aEvent) =>
+                {
+                    int read;
+                    while ((read = _source.Read(buffer, 0, buffer.Length)) > 0) ;
+                    writer.Write(aEvent.Data, aEvent.Offset, aEvent.ByteCount);
+                };
+
+                //Nagraj
+                _soundIn.Start();
+                //Pokaż
+                timer2.Start();
             }
-            catch { }
-            writer = new WaveWriter(/*saveFileDialog.FileName*/@"temp_audio_file.wav", _soundIn.WaveFormat);
-
-           
-           byte[] buffer = new byte[_source.WaveFormat.BytesPerSecond / 2];
-           soundInSource.DataAvailable += (s, aEvent) =>
-           {
-               int read;
-               while ((read = _source.Read(buffer, 0, buffer.Length)) > 0) ;
-               writer.Write(aEvent.Data, aEvent.Offset, aEvent.ByteCount);
-           };
-
-            //Nagraj
-            _soundIn.Start();
-            //Pokaż
-            timer2.Start();
         }
 
         //stop nagrywania button
