@@ -12,11 +12,7 @@ using CSCore.Streams.Effects;
 using CSCore.CoreAudioAPI;
 using SMProjekt.Visualization;
 using CSCore.Codecs.WAV;
-using CSCore.DMO.Effects;
 using System.IO;
-using CSCore.DirectSound;
-using System.Media;
-using System.Linq;
 
 namespace SMProjekt
 {
@@ -34,7 +30,7 @@ namespace SMProjekt
         bool stopRecord = true;
         private TimeSpan timer;
         private TimeSpan timeRecorded;
-        private string pathtoFile;
+        private string pathtoFile = null;
         private string pathtoMergeFile1;
         private string pathtoMergeFile2;
         private string pathtoConvert;
@@ -98,6 +94,7 @@ namespace SMProjekt
             button6.BackColor = Color.FromArgb(12, 15, 27);
             button7.BackColor = Color.FromArgb(12, 15, 27);
             button8.BackColor = Color.FromArgb(12, 15, 27);
+            buttonSave.BackColor = Color.FromArgb(12, 15, 27);
 
             button2.ForeColor = Color.White;
             button3.ForeColor = Color.White;
@@ -106,6 +103,7 @@ namespace SMProjekt
             button6.ForeColor = Color.White;
             button7.ForeColor = Color.White;
             button8.ForeColor = Color.White;
+            buttonSave.ForeColor = Color.White;
 
             button2.Font = new Font(button2.Font.FontFamily, 15);
             button3.Font = new Font(button3.Font.FontFamily, 15);
@@ -114,6 +112,7 @@ namespace SMProjekt
             button6.Font = new Font(button6.Font.FontFamily, 15);
             button7.Font = new Font(button6.Font.FontFamily, 15);
             button8.Font = new Font(button6.Font.FontFamily, 15);
+            buttonSave.Font = new Font(button6.Font.FontFamily, 15);
 
             buttonLoadAudio.ForeColor = Color.White;
             pauzePlayButton.ForeColor = Color.White;
@@ -153,9 +152,10 @@ namespace SMProjekt
             }
         }
 
-        //Odtwórz
+        //Otwórz
         private void buttonLoadAudio_Click(object sender, EventArgs e)
         {
+            active_effect = effect.NONE;
             var openFileDialog = new OpenFileDialog()
             {
                 Filter = FileFilter,
@@ -174,7 +174,6 @@ namespace SMProjekt
         private void buttonRecordAudio_Click(object sender, EventArgs e)
         {
             isRecording = true;
-            buttonSaveRecordAudio.Enabled = false;
             Stop();
 
             _soundIn = new WasapiCapture();   
@@ -186,11 +185,14 @@ namespace SMProjekt
             source = soundInSource.ToSampleSource();
             SetupSampleSource(source);
 
-
-            if(File.Exists(@"temp_audio_file.wav"))
+            try
             {
-                File.Delete(@"temp_audio_file.wav");
+                if (File.Exists(@"temp_audio_file.wav"))
+                {
+                    File.Delete(@"temp_audio_file.wav");
+                }
             }
+            catch { }
             writer = new WaveWriter(/*saveFileDialog.FileName*/@"temp_audio_file.wav", _soundIn.WaveFormat);
 
            
@@ -202,25 +204,79 @@ namespace SMProjekt
                writer.Write(aEvent.Data, aEvent.Offset, aEvent.ByteCount);
            };
 
-
-            /* oryginalne nagrywanie
-            byte[] buffer = new byte[_source.WaveFormat.BytesPerSecond / 2];
-            soundInSource.DataAvailable += (s, aEvent) =>
-            {
-                int read;
-                while ((read = _source.Read(buffer, 0, buffer.Length)) > 0) ;
-                writer.Write(aEvent.Data, aEvent.Offset, aEvent.ByteCount);
-            };
-            */
-
             //Nagraj
             _soundIn.Start();
             //Pokaż
             timer2.Start();
-            
-            
         }
-        
+
+        //stop nagrywania button
+        private void buttonStopRecordAudio_Click_(object sender, EventArgs e)
+        {
+            if (isRecording == true)
+            {
+                isRecording = false;
+                timer2.Stop();
+                timeRecorded = TimeSpan.Zero;
+                writer.Dispose();
+                Stop();
+
+                var saveFileDialog = new SaveFileDialog()
+                {
+                    Filter = "Waveform (.wav)|*.wav",
+                    Title = "Select a file..."
+                };
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        if (File.Exists(saveFileDialog.FileName))
+                        {
+                            File.Delete(saveFileDialog.FileName);
+                        }
+                        File.Move(@"temp_audio_file.wav", saveFileDialog.FileName);
+                        pathtoFile = saveFileDialog.FileName;
+                    }
+                    catch (IOException ioex)
+                    {
+                        MessageBox.Show(ioex.Message);
+                    }
+                }
+                else
+                {
+                    File.Delete(@"temp_audio_file.wav");
+                }
+                Stop();
+                endoffile = true;
+                trackBarPlayer.Value = 0;
+                //PlayFileAudio();
+            }
+        }
+
+        //pauza nagrywania
+        private void pauzeRecordButton_Click(object sender, EventArgs e)
+        {
+            if (_soundIn != null)
+            {
+                if (stopRecord)
+                {
+                    pauzeRecordButton.Text = "Start nagrywania";
+                    timer2.Stop();
+                    _soundIn.Stop();
+                    stopRecord = false;
+                    return;
+                }
+                if (!stopRecord)
+                {
+                    pauzeRecordButton.Text = "Pauza nagrywania";
+                    timer2.Start();
+                    _soundIn.Start();
+                    stopRecord = true;
+                    return;
+                }
+            }
+        }
+
         //stop odtwórz button
         private void stopButton_Click(object sender, EventArgs e)
         {
@@ -230,6 +286,7 @@ namespace SMProjekt
             active_effect = effect.NONE;
         }
 
+        //odtwórz butoton
         private void pauzePlayButton_Click(object sender, EventArgs e)
         {
             if (endoffile == true)
@@ -295,8 +352,6 @@ namespace SMProjekt
                 ScalingStrategy = ScalingStrategy.Decibel
             };
 
-            
-
             //the SingleBlockNotificationStream is used to intercept the played samples
             var notificationSource = new SingleBlockNotificationStream(aSampleSource);
             //pass the intercepted samples as input data to the spectrumprovider (which will calculate a fft based on them)
@@ -306,74 +361,33 @@ namespace SMProjekt
 
         }
 
-        //stop nagrywania button
-        private void buttonStopRecordAudio_Click_(object sender, EventArgs e)
-        {
-            if (isRecording == true)
-            {
-                isRecording = false;
-                buttonSaveRecordAudio.Enabled = true;
-                timer2.Stop();
-                timeRecorded = TimeSpan.Zero;
-                writer.Dispose();
-                Stop();
-                pathtoFile = @"temp_audio_file.wav";
-                Stop();
-                endoffile = true;
-                trackBarPlayer.Value = 0;
-                //PlayFileAudio();
-            }
-        }
-        private void buttonSaveRecordAudio_Click(object sender, EventArgs e)
-        {
-            if (isRecording == false)
-            {
-                var saveFileDialog = new SaveFileDialog()
-                {
-                    //Filter = CodecFactory.SupportedFilesFilterEn,
-                    Filter = "Waveform (.wav)|*.wav",
-                    Title = "Select a file..."
-                };
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    //File.Copy(@"temp_audio_file.wav",saveFileDialog.FileName);
-                    source = CodecFactory.Instance.GetCodec(pathtoFile).ToSampleSource();
-                    SetupSampleSource(source);
+        //private void buttonSaveRecordAudio_Click(object sender, EventArgs e)
+        //{
+        //    if (isRecording == false)
+        //    {
+        //        var saveFileDialog = new SaveFileDialog()
+        //        {
+        //            //Filter = CodecFactory.SupportedFilesFilterEn,
+        //            Filter = "Waveform (.wav)|*.wav",
+        //            Title = "Select a file..."
+        //        };
+        //        if (saveFileDialog.ShowDialog() == DialogResult.OK)
+        //        {
+        //            //File.Copy(@"temp_audio_file.wav",saveFileDialog.FileName);
+        //            source = CodecFactory.Instance.GetCodec(pathtoFile).ToSampleSource();
+        //            SetupSampleSource(source);
 
-                    try
-                    {
-                        Extensions.WriteToFile(_source, saveFileDialog.FileName);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                }
-            }
-        }
-
-        private void pauzeRecordButton_Click(object sender, EventArgs e)
-        {
-            if (_soundIn != null)
-            {
-                if (stopRecord)
-                {
-                    pauzeRecordButton.Text = "Start nagrywania";
-                    timer2.Stop();
-                    _soundIn.Stop();
-                    stopRecord = false;
-                    return;
-                }
-                if (!stopRecord)
-                {
-                    pauzeRecordButton.Text = "Pauza nagrywania";
-                    timer2.Start();
-                    _soundIn.Start();
-                    stopRecord = true;
-                    return;
-                }
-            }
-        }
+        //            try
+        //            {
+        //                Extensions.WriteToFile(_source, saveFileDialog.FileName);
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                MessageBox.Show(ex.Message);
+        //            }
+        //        }
+        //    }
+        //}
 
         protected override void OnClosing(CancelEventArgs e)
         {
@@ -486,10 +500,6 @@ namespace SMProjekt
         private void GenerateLineSpectrum(PictureBox a)
         {
             Image image = a.Image;
-
-
-            
-
 
             var newImage = _lineSpectrum.CreateSpectrumLine(a.Size, Color.Red, Color.White, Color.FromArgb(24, 30, 54), true);
             if (newImage != null)
@@ -724,6 +734,9 @@ namespace SMProjekt
                     case effect.GARGLE:
                         source = gargleEffect.ToSampleSource();
                         break;
+                    default:
+                        source = CodecFactory.Instance.GetCodec(pathtoFile).ToSampleSource();
+                        break;
                 }
                 source.SetPosition(ts);
                 SetupSampleSource(source);
@@ -737,7 +750,7 @@ namespace SMProjekt
             }
             catch
             {
-                trackBarPlayer.Value = 0;
+                pauzePlayButton_Click(null, null);
             }
         }
 
@@ -751,7 +764,7 @@ namespace SMProjekt
 
         private void ResetEffects()
         {
-            TimeSpan _position = _source.GetPosition();
+            TimeSpan _position = TimeSpan.Zero;
             source = CodecFactory.Instance.GetCodec(pathtoFile).ToSampleSource();
             SetupSampleSource(source);
             _source.SetPosition(_position);
@@ -764,10 +777,14 @@ namespace SMProjekt
             if(_source == null)
             {
                 pauzePlayButton_Click(null, null);
+                pauzePlayButton_Click(null, null);
             }
             if (_source != null)
             {
-                pauzePlayButton_Click(null, null);
+                if (_soundOut != null &&_soundOut.PlaybackState == PlaybackState.Playing)
+                {
+                    pauzePlayButton_Click(null, EventArgs.Empty);
+                }
 
                 TimeSpan position = _source.GetPosition();
                 EchoInit();
@@ -784,24 +801,22 @@ namespace SMProjekt
         }
         private void EchoInit()
         {
-            if (_source != null)
+            
+            ResetEffects();
+            active_effect = effect.ECHO;
+            echo = new DmoEchoEffect(_source);
+            echo.Feedback = trackBarEchoFeedback.Value;         //0-100
+            echo.LeftDelay = trackBarEchoLeftDelay.Value;       //1-2000ms
+            echo.RightDelay = trackBarEchoRightDelay.Value;      //1-2000ms
+            if (checkBoxEchoPanDelay.Checked == true)
             {
-                ResetEffects();
-                active_effect = effect.ECHO;
-                echo = new DmoEchoEffect(_source);
-                echo.Feedback = trackBarEchoFeedback.Value;         //0-100
-                echo.LeftDelay = trackBarEchoLeftDelay.Value;       //1-2000ms
-                echo.RightDelay = trackBarEchoRightDelay.Value;      //1-2000ms
-                if (checkBoxEchoPanDelay.Checked == true)
-                {
-                    echo.PanDelay = true;
-                }
-                else
-                {
-                    echo.PanDelay = false;
-                }
-                echo.WetDryMix = trackBarEchoWetDryMix.Value;        //0-100
+                echo.PanDelay = true;
             }
+            else
+            {
+                echo.PanDelay = false;
+            }
+            echo.WetDryMix = trackBarEchoWetDryMix.Value;        //0-100
         }
         private void LabelEchoUpdate()
         {
@@ -838,10 +853,14 @@ namespace SMProjekt
             if (_source == null)
             {
                 pauzePlayButton_Click(null, null);
+                pauzePlayButton_Click(null, null);
             }
             if (_source != null)
             {
-                pauzePlayButton_Click(null, EventArgs.Empty);
+                if (_soundOut != null && _soundOut.PlaybackState == PlaybackState.Playing)
+                {
+                    pauzePlayButton_Click(null, EventArgs.Empty);
+                }
 
                 TimeSpan position = _source.GetPosition();
                 DistortionInit();
@@ -856,6 +875,7 @@ namespace SMProjekt
 
                 pauzePlayButton_Click(null, EventArgs.Empty);
             }
+            
         }
         private void DistortionInit()
         {
@@ -909,10 +929,14 @@ namespace SMProjekt
             if (_source == null)
             {
                 pauzePlayButton_Click(null, null);
+                pauzePlayButton_Click(null, null);
             }
             if (_source != null)
             {
-                pauzePlayButton_Click(null, EventArgs.Empty);
+                if (_soundOut != null && _soundOut.PlaybackState == PlaybackState.Playing)
+                {
+                    pauzePlayButton_Click(null, EventArgs.Empty);
+                }
 
                 TimeSpan position = _source.GetPosition();
                 ChorusInit();
@@ -1005,10 +1029,14 @@ namespace SMProjekt
             if (_source == null)
             {
                 pauzePlayButton_Click(null, null);
+                pauzePlayButton_Click(null, null);
             }
             if (_source != null)
             {
-                pauzePlayButton_Click(null, EventArgs.Empty);
+                if (_soundOut != null && _soundOut.PlaybackState == PlaybackState.Playing)
+                {
+                    pauzePlayButton_Click(null, EventArgs.Empty);
+                }
 
                 TimeSpan position = _source.GetPosition();
                 FlangerInit();
@@ -1152,10 +1180,14 @@ namespace SMProjekt
             if (_source == null)
             {
                 pauzePlayButton_Click(null, null);
+                pauzePlayButton_Click(null, null);
             }
             if (_source != null)
             {
-                pauzePlayButton_Click(null, EventArgs.Empty);
+                if (_soundOut != null && _soundOut.PlaybackState == PlaybackState.Playing)
+                {
+                    pauzePlayButton_Click(null, EventArgs.Empty);
+                }
 
                 TimeSpan position = _source.GetPosition();
                 GargleInit();
@@ -1203,8 +1235,76 @@ namespace SMProjekt
         }
 
 
-        // todo: private void ZAPIS(){}
-    }
+        private void ZAPIS(string _fileName)
+        {
+            if (pathtoFile != null)
+            {
+                switch (active_effect)
+                {
+                    case effect.ECHO:
+                        if (_source == null)
+                        {
+                            MessageBox.Show("_source == null");
+                        }
+                        EchoInit();
+                        source = echo.ToSampleSource();
 
-    
+                        break;
+                    case effect.DISTORTION:
+                        DistortionInit();
+                        source = distortionEffect.ToSampleSource();
+                        break;
+                    case effect.CHORUS:
+                        ChorusInit();
+                        source = chorusEffect.ToSampleSource();
+                        break;
+                    case effect.FLANGER:
+                        FlangerInit();
+                        source = flangerEffect.ToSampleSource();
+                        break;
+                    case effect.GARGLE:
+                        GargleInit();
+                        source = gargleEffect.ToSampleSource();
+                        break;
+                    default:
+                        source = CodecFactory.Instance.GetCodec(pathtoFile).ToSampleSource();
+                        break;
+                    }
+                source.SetPosition(TimeSpan.Zero);
+                SetupSampleSource(source);
+
+                try
+                {
+                    Extensions.WriteToFile(_source, _fileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
+            }
+        }
+
+        private void buttonZapisz_Click(object sender, EventArgs e)
+        {
+            if (isRecording == false && pathtoFile != null)
+            {
+                var saveFileDialog = new SaveFileDialog()
+                {
+                    //Filter = CodecFactory.SupportedFilesFilterEn,
+                    Filter = "Waveform (.wav)|*.wav",
+                    Title = "Select a file..."
+                };
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    Stop();
+                    endoffile = true;
+                    trackBarPlayer.Value = 0;
+
+                    ZAPIS(saveFileDialog.FileName);
+                    Stop();
+                }
+            }
+        }
+    }
 }
